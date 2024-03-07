@@ -1,15 +1,13 @@
 package com.seosean.showspawntime.mixins;
 
-import com.seosean.showspawntime.ShowSpawnTime;
-import net.minecraft.client.Minecraft;
+import com.seosean.showspawntime.config.MainConfiguration;
+import com.seosean.showspawntime.modules.features.playerinvisibility.PlayerInvisibility;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-
-import static com.seosean.showspawntime.ShowSpawnTime.getAlpha;
 
 
 @Mixin(ModelPlayer.class)
@@ -25,13 +23,12 @@ public abstract class MixinModelPlayer extends MixinModelBiped {
     @Shadow
     public ModelRenderer bipedBodyWear;
 
-
     public void render(Entity entityIn, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float scale)
     {
         super.render(entityIn, p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, scale);
         GlStateManager.pushMatrix();
-        if(ShowSpawnTime.getInstance().PlayerInvisible && ShowSpawnTime.getInstance().isPlayerInvisible(entityIn)) {
-            GlStateManager.color(1.0F, 1.0F, 1.0F, getAlpha(entityIn));
+        if(MainConfiguration.PlayerInvisible && PlayerInvisibility.isPlayerInvisible(entityIn)) {
+            GlStateManager.color(1.0F, 1.0F, 1.0F, PlayerInvisibility.getAlpha(entityIn));
             GlStateManager.depthMask(false);
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(770, 771);
@@ -62,7 +59,7 @@ public abstract class MixinModelPlayer extends MixinModelBiped {
             this.bipedRightArmwear.render(scale);
             this.bipedBodyWear.render(scale);
         }
-        if(ShowSpawnTime.getInstance().PlayerInvisible && ShowSpawnTime.getInstance().isPlayerInvisible(entityIn)) {
+        if (MainConfiguration.PlayerInvisible && PlayerInvisibility.isPlayerInvisible(entityIn)) {
             GlStateManager.disableBlend();
             GlStateManager.alphaFunc(516, 0.1F);
             GlStateManager.depthMask(true);

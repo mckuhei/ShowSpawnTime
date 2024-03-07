@@ -1,7 +1,7 @@
 package com.seosean.showspawntime.commands;
 
-import com.seosean.showspawntime.hudposition.ConfigGui;
-import com.seosean.showspawntime.hudposition.DelayedTask;
+import com.seosean.showspawntime.config.hud.ConfigGui;
+import com.seosean.showspawntime.utils.DelayedTask;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -20,9 +20,12 @@ public class CommandSSTHUD extends CommandBase {
     }
 
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-        new DelayedTask(() -> {
-            Minecraft.getMinecraft().displayGuiScreen(new ConfigGui());
-        }, 2);
+        new DelayedTask(){
+            @Override
+            public void run() {
+                Minecraft.getMinecraft().displayGuiScreen(new ConfigGui());
+            }
+        }.runTaskLater(2);
     }
 
     public boolean canCommandSenderUseCommand(ICommandSender sender) {

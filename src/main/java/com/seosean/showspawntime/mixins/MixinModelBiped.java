@@ -1,6 +1,8 @@
 package com.seosean.showspawntime.mixins;
 
 import com.seosean.showspawntime.ShowSpawnTime;
+import com.seosean.showspawntime.config.MainConfiguration;
+import com.seosean.showspawntime.modules.features.playerinvisibility.PlayerInvisibility;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
@@ -10,7 +12,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-import static com.seosean.showspawntime.ShowSpawnTime.getAlpha;
 
 @Mixin(ModelBiped.class)
 public abstract class MixinModelBiped extends MixinModelBase {
@@ -38,8 +39,8 @@ public abstract class MixinModelBiped extends MixinModelBase {
     public void render(Entity entity, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float scale) {
         this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, scale, entity);
         GlStateManager.pushMatrix();
-        if (ShowSpawnTime.getInstance().PlayerInvisible && ShowSpawnTime.getInstance().isPlayerInvisible(entity)) {
-            GlStateManager.color(1.0F, 1.0F, 1.0F, getAlpha(entity));
+        if (MainConfiguration.PlayerInvisible && PlayerInvisibility.isPlayerInvisible(entity)) {
+            GlStateManager.color(1.0F, 1.0F, 1.0F, PlayerInvisibility.getAlpha(entity));
             GlStateManager.depthMask(false);
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(770, 771);
@@ -76,7 +77,7 @@ public abstract class MixinModelBiped extends MixinModelBase {
         }
 
 
-        if (ShowSpawnTime.getInstance().PlayerInvisible && ShowSpawnTime.getInstance().isPlayerInvisible(entity)) {
+        if (MainConfiguration.PlayerInvisible && PlayerInvisibility.isPlayerInvisible(entity)) {
             GlStateManager.disableBlend();
             GlStateManager.alphaFunc(516, 0.1F);
             GlStateManager.depthMask(true);

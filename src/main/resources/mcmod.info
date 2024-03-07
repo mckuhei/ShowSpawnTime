@@ -1,8 +1,8 @@
 [
 {
-  "modid": "ShowSpawnTime",
+  "modid": "showspawntime",
   "name": "Show Spawn Time",
-  "description": "To show when zombies spawn, please use with ZombiesAutoSplits",
+  "description": "",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",

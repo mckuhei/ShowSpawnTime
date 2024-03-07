@@ -4,12 +4,21 @@
   "compatibilityLevel": "JAVA_8",
   "verbose": true,
   "mixins": [
+    "MixinGuiIngame",
     "MixinLayerCape",
-    "MixinModelBase",
     "MixinModelBiped",
     "MixinModelPlayer",
+    "MixinNetHandlerPlayClient",
     "MixinRender",
+    "MixinWorldClient"
+  ],
+  "client": [
     "MixinGuiIngame",
+    "MixinLayerCape",
+    "MixinModelBiped",
+    "MixinModelPlayer",
+    "MixinNetHandlerPlayClient",
+    "MixinRender",
     "MixinWorldClient"
   ]
 }
