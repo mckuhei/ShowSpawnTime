@@ -21,10 +21,13 @@ public class Powerup {
     public static Map<EntityArmorStand, Powerup> powerups = new HashMap<>();
     public static List<Powerup> incPowerups = new ArrayList<>();
     public static Powerup deserialize(PowerupType powerupType, EntityArmorStand entityArmorStand) {
-        Powerup powerup = new Powerup(powerupType, entityArmorStand);
-        incPowerups.removeIf(p -> p.getPowerupType().equals(powerupType));
-        powerups.put(entityArmorStand, powerup);
-        return powerup;
+        if (!powerups.containsKey(entityArmorStand)) {
+            Powerup powerup = new Powerup(powerupType, entityArmorStand);
+            incPowerups.removeIf(p -> p.getPowerupType().equals(powerupType));
+            powerups.put(entityArmorStand, powerup);
+            return powerup;
+        }
+        return null;
     }
     public static Powerup deserialize(PowerupType powerupType) {
         Powerup powerup = new Powerup(powerupType);
@@ -83,21 +86,27 @@ public class Powerup {
         return offsetTime;
     }
     public enum PowerupType {
-        NULL(""),
-        INSTA_KILL(EnumChatFormatting.RED + "INSTA KILL"),
-        MAX_AMMO(EnumChatFormatting.BLUE + "MAKS AMMO"),
-        DOUBLE_GOLD(EnumChatFormatting.GOLD + "DOUBO GOLD"),
-        CARPENTER(EnumChatFormatting.DARK_BLUE + "CARPENTER"),
-        BONUS_GOLD(EnumChatFormatting.YELLOW + "BONUS GOLD"),
-        SHOPPING_SPREE(EnumChatFormatting.DARK_PURPLE + "SHOP SPREE");
+        NULL(EnumChatFormatting.WHITE, ""),
+        INSTA_KILL(EnumChatFormatting.RED, "INSTA KILL"),
+        MAX_AMMO(EnumChatFormatting.BLUE, "MAKS AMMO"),
+        DOUBLE_GOLD(EnumChatFormatting.GOLD, "DOUBO GOLD"),
+        CARPENTER(EnumChatFormatting.DARK_BLUE, "CARPENTER"),
+        BONUS_GOLD(EnumChatFormatting.YELLOW, "BONUS GOLD"),
+        SHOPPING_SPREE(EnumChatFormatting.DARK_PURPLE, "SHOP SPREE");
 
         private final String displayName;
-        PowerupType(String displayName) {
+        private final EnumChatFormatting enumChatFormatting;
+        PowerupType(EnumChatFormatting enumChatFormatting, String displayName) {
+            this.enumChatFormatting = enumChatFormatting;
             this.displayName = displayName;
         }
 
         public String getDisplayName() {
             return displayName;
+        }
+
+        public EnumChatFormatting getEnumChatFormatting() {
+            return enumChatFormatting;
         }
         public static PowerupType getPowerupType(String name) {
             switch (name) {

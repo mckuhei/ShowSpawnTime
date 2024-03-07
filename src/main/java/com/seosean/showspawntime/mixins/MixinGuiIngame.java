@@ -47,7 +47,8 @@ public abstract class MixinGuiIngame {
 
             int round = LanguageUtils.getRoundNumber(roundTitle);
 
-            DebugUtils.sendMessage("Debug 1: " + round);
+//            DebugUtils.sendMessage("Debug 1: " + round);
+//            DebugUtils.sendMessage("Debug 2: " + LanguageUtils.getMap());
 
             ShowSpawnTime.getSpawnTimes().setCurrentRound(round);
 

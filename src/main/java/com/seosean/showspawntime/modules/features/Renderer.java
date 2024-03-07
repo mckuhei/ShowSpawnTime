@@ -13,13 +13,14 @@ public abstract class Renderer {
     public boolean shouldRender;
 
     public Renderer() {
-        this.configuration = ShowSpawnTime.getInstance().getMainConfiguration();
+        this.configuration = ShowSpawnTime.getMainConfiguration();
         this.minecraft = Minecraft.getMinecraft();
         this.fontRenderer = minecraft.fontRendererObj;
         this.shouldRender = false;
     }
 
     public static void setShouldRender(boolean flag) {
+        ShowSpawnTime.getLRQueue().shouldRender = flag;
         ShowSpawnTime.getPowerupRenderer().shouldRender = flag;
         ShowSpawnTime.getSpawnTimeRenderer().shouldRender = flag;
     }

@@ -8,16 +8,13 @@ import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Objects;
 
 public class SpawnTimes {
 
     public SpawnTimes() {
-        this.configuration = ShowSpawnTime.getInstance().getMainConfiguration();
+        this.configuration = ShowSpawnTime.getMainConfiguration();
         this.minecraft = Minecraft.getMinecraft();
         this.fontRenderer = minecraft.fontRendererObj;
         this.shouldRender = false;

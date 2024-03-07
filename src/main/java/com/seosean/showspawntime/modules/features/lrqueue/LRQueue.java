@@ -30,9 +30,6 @@ public class LRQueue extends Renderer {
         if (p == null) {
             return;
         }
-        if (!PlayerUtils.isInZombies()) {
-            return;
-        }
 
         if (displayTime > 0) {
             displayTime --;

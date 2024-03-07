@@ -36,7 +36,7 @@ public class SpawnNotice {
 
                         minecraft.thePlayer.playSound(MainConfiguration.TheLastWave, 2, (float) MainConfiguration.TheLastWavePitch);
                     } else {
-                        DebugUtils.sendMessage(String.valueOf(tick));
+//                        DebugUtils.sendMessage(String.valueOf(tick));
                         minecraft.thePlayer.playSound(MainConfiguration.PrecededWave, 2, (float) MainConfiguration.PrecededWavePitch);
                     }
                     return;

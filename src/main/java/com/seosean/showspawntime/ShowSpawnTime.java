@@ -127,6 +127,10 @@ public class ShowSpawnTime
         return powerupRenderer;
     }
 
+    public static LRQueue getLRQueue() {
+        return lrQueue;
+    }
+
     public static SpawnTimeRenderer getSpawnTimeRenderer() {
         return spawnTimeRenderer;
     }

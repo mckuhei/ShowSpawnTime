@@ -38,7 +38,7 @@ public class UpdateDetect {
     public void checkUpdates() {
         new Thread(() -> {
             try {
-                URL url = new URL("https://raw.githubusercontent.com/Seosean/ShowSpawnTime/main/build.gradle");
+                URL url = new URL("https://raw.githubusercontent.com/Seosean/ShowSpawnTime/2.0/build.gradle");
                 URLConnection connection = url.openConnection();
                 connection.setReadTimeout(5000);
                 connection.addRequestProperty("User-Agent", "ShowSpawnTime update checker");

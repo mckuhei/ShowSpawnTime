@@ -24,7 +24,7 @@ public class LanguageUtils {
     private static List<String> MAP_DEAD_END = Arrays.asList("穷途末路", "窮途末路", "Dead End");
     private static List<String> MAP_BAD_BLOOD = Arrays.asList("坏血之宫", "壞血宮殿", "Bad Blood");
     private static List<String> MAP_ALIEN_ARCADIUM = Arrays.asList("外星游乐园", "外星遊樂園", "Alien Arcadium");
-    private static List<String> MAPS = Arrays.asList("穷途末路", "窮途末路", "Dead End", "坏血之宫", "壞血宮殿", "Bad Blood", "外星游乐园", "外星遊樂園", "Alien Arcadium");
+    private static List<String> MAPS = Arrays.asList("穷途末路", "窮途末路", "Dead End", "坏血之宫", "壞血宮殿", "Bad Blood", "外星游乐园", "外星遊樂園", "Alien Arcadium", "The Lab");
     private static Map<String, List<String>> POWERUPS_PATTERN_UPPER;
     private static Map<String, List<String>> POWERUPS_PATTERN_LOWER;
 
@@ -111,10 +111,6 @@ public class LanguageUtils {
         }
         return ZombiesMap.NULL;
     }
-
-//    public PowerupSpawnEvent.PowerupType getPowerupType(String powerupName) {
-//
-//    }
 
 
     public enum ZombiesMap {

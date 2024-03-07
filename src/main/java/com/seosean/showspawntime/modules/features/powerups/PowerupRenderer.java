@@ -34,14 +34,14 @@ public class PowerupRenderer extends Renderer {
         int queue = 0;
 
         for (Powerup powerup : new ArrayList<>(Powerup.incPowerups)) {
-            fontRenderer.drawStringWithShadow(powerup.getPowerupType().getDisplayName(), absoluteX + widthBasic, absoluteY + fontRenderer.FONT_HEIGHT * queue, 0xFFFFFF);
+            fontRenderer.drawStringWithShadow(powerup.getPowerupType().getEnumChatFormatting() + powerup.getPowerupType().getDisplayName(), absoluteX + widthBasic, absoluteY + fontRenderer.FONT_HEIGHT * queue, 0xFFFFFF);
             fontRenderer.drawStringWithShadow(textSpliterDummy + textIncoming, absoluteX + widthBasic + widthTitleDummy, absoluteY + fontRenderer.FONT_HEIGHT * queue, 0xFFFFFF);
             fontRenderer.drawStringWithShadow(textIncoming, absoluteX + widthBasic + widthSpliterDummy + widthTitleDummy, absoluteY + fontRenderer.FONT_HEIGHT * queue, 0xFF6666);
             queue ++;
         }
 
         for (Powerup entry : new ArrayList<>(Powerup.powerups.values())) {
-            fontRenderer.drawStringWithShadow(entry.getPowerupType().getDisplayName(), absoluteX + widthBasic, absoluteY + fontRenderer.FONT_HEIGHT * queue, 0xFFFFFF);
+            fontRenderer.drawStringWithShadow(((entry.getOffsetTime() / 20 <= 10 && (entry.getOffsetTime() / 20) % 2 == 0) ? EnumChatFormatting.WHITE : entry.getPowerupType().getEnumChatFormatting()) + entry.getPowerupType().getDisplayName(), absoluteX + widthBasic, absoluteY + fontRenderer.FONT_HEIGHT * queue, 0xFFFFFF);
             fontRenderer.drawStringWithShadow(textSpliterDummy, absoluteX + widthBasic + widthTitleDummy, absoluteY + fontRenderer.FONT_HEIGHT * queue, 0xFFFFFF);
             fontRenderer.drawStringWithShadow("00:" + String.format("%02d", (entry.getOffsetTime() / 20)), absoluteX + widthBasic + widthSpliterDummy + widthTitleDummy, absoluteY + fontRenderer.FONT_HEIGHT * queue, 0x99CCFF);
             queue ++;
