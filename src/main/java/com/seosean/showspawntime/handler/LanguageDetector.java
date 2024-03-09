@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
+import com.seosean.showspawntime.utils.LanguageUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -15,10 +16,13 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.URL;
 
 public class LanguageDetector {
 
+    public static String language = "EN_US";
     @SubscribeEvent
     public void onPlayerConnectHypixel(EntityJoinWorldEvent event) {
         if (!event.world.isRemote) {
@@ -29,48 +33,40 @@ public class LanguageDetector {
             return;
         }
 
-        this.get();
-
-        MinecraftForge.EVENT_BUS.unregister(this);
 
     }
-    public void get() {
-        String apiKey = "265215d0-23a5-4298-aed7-db075af88e66";
 
-        try {
-            URL url = new URL("https://api.hypixel.net/v2/player?name=" + Minecraft.getMinecraft().thePlayer.getName() + "&key=" + apiKey);
-            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+    public static void setLanguage() {
+        String zombiesLeftText = LanguageUtils.getZombiesLeftText();
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder response = new StringBuilder();
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-
-            reader.close();
-            connection.disconnect();
-
-            String language = parseLanguageFromResponse(response.toString());
-            new DelayedTask() {
-                @Override
-                public void run() {
-                    DebugUtils.sendMessage("DEBUG1: " + language);
-//                    DebugUtils.sendMessage("DEBUG2: " + response.toString());
-                }
-            }.runTaskLater(100);
-        } catch (IOException e) {
-            e.printStackTrace();
+        switch (zombiesLeftText) {
+            case "Zombies Left": language = "EN_US"; break;
+            case "剩余僵尸": language = "ZH_CN"; break;
+            case "剩下殭屍數": language = "ZH_TW"; break;
+            case "Zbývající zombie": language = "CS"; break;
+            case "Zombier tilbage": language = "DA"; break;
+            case "Zombies over": language = "NL"; break;
+            case "Zombeja jäljellä": language = "FI"; break;
+            case "Zombies restants": language = "FR"; break;
+            case "Zombies übrig": language = "DE"; break;
+            case "Ζόμπι που Απομένουν": language = "EL"; break;
+            case "Hátralévő Zombik": language = "HU"; break;
+            case "Zombi Rimanenti": language = "IT"; break;
+            case "残りゾンビ": language = "JA"; break;
+            case "남은 좀비": language = "KO"; break;
+            case "Zombier igjen": language = "NO"; break;
+            case "Pozostałe zombi": language = "PL"; break;
+            case "Zombies restantes": language = "PT_PT"; break;
+            case "Zumbis restantes": language = "PT_BR"; break;
+            case "Zombi Rămași": language = "RO"; break;
+            case "Осталось зомби": language = "RU"; break;
+            case "Zombies Restantes": language = "ES_ES"; break;
+            case "Zombier kvar": language = "SV_SE"; break;
+            case "Kalan Zombi": language = "TR"; break;
+            case "Залишилося зомбі": language = "UK"; break;
         }
     }
+    public enum Language {
 
-    private static String parseLanguageFromResponse(String response) {
-        JsonParser jsonParser = new JsonParser();
-        JsonElement jsonElement = jsonParser.parse(response);
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
-        JsonObject playerObject = jsonObject.getAsJsonObject("player");
-        return playerObject.get("userLanguage").getAsString();
     }
 }

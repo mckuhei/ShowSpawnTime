@@ -2,6 +2,7 @@ package com.seosean.showspawntime.utils;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,5 +20,14 @@ public class StringUtils {
             return Integer.parseInt(matcher.group());
         }
         return 0;
+    }
+
+    public static boolean contains(List<String> strings, String string) {
+        for (String s : strings) {
+            if (string.contains(s)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -2,8 +2,10 @@ package com.seosean.showspawntime.handler;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.seosean.showspawntime.modules.features.leftnotice.LeftNotice;
 import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
+import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import com.seosean.showspawntime.utils.StringUtils;
 import net.minecraft.client.Minecraft;
@@ -27,26 +29,11 @@ import java.util.stream.Collectors;
 public class ScoreboardManager {
     private String title;
     private List<String> content;
-    private boolean keepUpdate = false;
     private Minecraft minecraft;
-    private DelayedTask delayedTask;
     public ScoreboardManager() {
         this.minecraft = Minecraft.getMinecraft();
         this.title = "";
         this.content = new ArrayList<>();
-        this.delayedTask = new DelayedTask() {
-
-            private int count = 0;
-            @Override
-            public void run() {
-                if (keepUpdate || count == 20) {
-                    this.cancel();
-                }
-                ScoreboardManager.this.updateScoreboardContent();
-                ScoreboardManager.this.keepUpdate = PlayerUtils.isInZombiesTitle();
-                count ++;
-            }
-        };
     }
 
 
@@ -61,6 +48,11 @@ public class ScoreboardManager {
         }
 
         this.title = StringUtils.trim(sidebarObjective.getDisplayName());
+
+        if (!LanguageUtils.isZombiesTitle(title)) {
+            return;
+        }
+
         List<String> scoreboardLines = new ArrayList<>();
         Collection<Score> scores = scoreboard.getSortedScores(sidebarObjective);
         List<Score> filteredScores = scores.stream()
@@ -79,6 +71,11 @@ public class ScoreboardManager {
             scoreboardLines.add(StringUtils.trim(scoreboardLine));
         }
         this.content = scoreboardLines;
+    }
+
+    public void clear() {
+        this.title = "";
+        this.content = new ArrayList<>();
     }
 
     public String getTitle() {
@@ -103,9 +100,6 @@ public class ScoreboardManager {
     private int tick;
     @SubscribeEvent
     public void onUpdate(TickEvent.ClientTickEvent event){
-        if (!this.keepUpdate) {
-            return;
-        }
         Minecraft mc = Minecraft.getMinecraft();
         if (mc == null || mc.theWorld == null || mc.isSingleplayer()) {
             return;
@@ -123,36 +117,9 @@ public class ScoreboardManager {
 
         tick ++;
 
-        if (tick != 0 && tick % 10 == 0) {
+        if (tick != 0 && tick % 5 == 0) {
             this.updateScoreboardContent();
             tick = 0;
         }
-    }
-
-    @SubscribeEvent
-    public void onPlayerChangeWorld(EntityJoinWorldEvent event) {
-        if (!event.entity.worldObj.isRemote) {
-            return;
-        }
-        if (minecraft == null || minecraft.theWorld == null || minecraft.isSingleplayer()) {
-            return;
-        }
-        EntityPlayerSP p = minecraft.thePlayer;
-        if (p == null) {
-            return;
-        }
-        Entity entity = event.entity;
-        if (!entity.equals(p)) {
-            return;
-        }
-
-        this.startDetecting();
-    }
-
-    public void startDetecting() {
-        this.delayedTask.runTaskTimer(0, 10);
-    }
-    public void setKeepUpdate(boolean flag) {
-        this.keepUpdate = flag;
     }
 }

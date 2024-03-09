@@ -1,6 +1,8 @@
 package com.seosean.showspawntime.modules.features.powerups;
 
+import com.seosean.showspawntime.config.LanguageConfiguration;
 import com.seosean.showspawntime.utils.DelayedTask;
+import com.seosean.showspawntime.utils.LanguageUtils;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -109,24 +111,18 @@ public class Powerup {
             return enumChatFormatting;
         }
         public static PowerupType getPowerupType(String name) {
-            switch (name) {
-                case "INSTA KILL":
-                case "瞬间击杀":
-                case "一擊必殺": return INSTA_KILL;
-                case "MAX AMMO":
-                case "弹药满载":
-                case "填滿彈藥": return MAX_AMMO;
-                case "DOUBLE GOLD":
-                case "双倍金钱":
-                case "雙倍金幣": return DOUBLE_GOLD;
-                case "SHOPPING SPREE":
-                case "购物狂潮":
-                case "購物狂潮": return SHOPPING_SPREE;
-                case "CARPENTER":
-                case "木匠": return CARPENTER;
-                case "BONUS GOLD":
-                case "金钱加成":
-                case "額外金幣": return BONUS_GOLD;
+            if (LanguageUtils.equals(name, "zombies.game.instakill.upper")) {
+                return INSTA_KILL;
+            } else if (LanguageUtils.equals(name, "zombies.game.maxammo.upper")) {
+                return MAX_AMMO;
+            } else if (LanguageUtils.equals(name, "zombies.game.doublegold.upper")) {
+                return DOUBLE_GOLD;
+            } else if (LanguageUtils.equals(name, "zombies.game.bonusgold.upper")) {
+                return BONUS_GOLD;
+            } else if (LanguageUtils.equals(name, "zombies.game.carpenter.upper")) {
+                return CARPENTER;
+            } else if (LanguageUtils.equals(name, "zombies.game.shoppingspree.upper")) {
+                return SHOPPING_SPREE;
             }
             return NULL;
         }

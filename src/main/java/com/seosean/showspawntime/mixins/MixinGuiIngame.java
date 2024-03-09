@@ -5,8 +5,10 @@ import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.modules.features.Renderer;
 import com.seosean.showspawntime.modules.features.leftnotice.LeftNotice;
 import com.seosean.showspawntime.modules.features.powerups.Powerup;
+import com.seosean.showspawntime.modules.features.powerups.PowerupPredict;
 import com.seosean.showspawntime.modules.features.timerecorder.TimeRecorder;
 import com.seosean.showspawntime.utils.DebugUtils;
+import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.GameUtils;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
@@ -35,20 +37,14 @@ public abstract class MixinGuiIngame {
     @Inject(method = "displayTitle", at = @At(value = "RETURN"))
     private void displayTitle(String p_175178_1_, String p_175178_2_, int p_175178_3_, int p_175178_4_, int p_175178_5_, CallbackInfo callbackInfo){
         String roundTitle = p_175178_1_ == null ? "" : StringUtils.trim(p_175178_1_);
-        boolean flag = roundTitle.contains("Win!") || roundTitle.contains("赢") || roundTitle.contains("贏");
+        boolean flag = LanguageUtils.contains(roundTitle, "zombies.game.youwin");
 
         if (LanguageUtils.isRoundTitle(roundTitle) || flag) {
-            ShowSpawnTime.getScoreboardManager().updateScoreboardContent();
             if (!PlayerUtils.isInZombiesTitle()) {
                 return;
             }
 
-            ShowSpawnTime.getScoreboardManager().setKeepUpdate(PlayerUtils.isInZombiesTitle());
-
             int round = LanguageUtils.getRoundNumber(roundTitle);
-
-//            DebugUtils.sendMessage("Debug 1: " + round);
-//            DebugUtils.sendMessage("Debug 2: " + LanguageUtils.getMap());
 
             ShowSpawnTime.getSpawnTimes().setCurrentRound(round);
 
@@ -74,42 +70,53 @@ public abstract class MixinGuiIngame {
             TimeRecorder.recordRedundantTime(flag);
             ShowSpawnTime.getInstance().getGameTickHandler().setGameStarted(true);
             ShowSpawnTime.getInstance().getGameTickHandler().reset();
+
+            new DelayedTask() {
+                @Override
+                public void run() {
+                    PowerupPredict.detectNextPowerupRound(roundTitle);
+                }
+            }.runTaskLater(40);
         }
     }
 
     @ModifyArg(method = "renderScoreboard", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/FontRenderer;drawString(Ljava/lang/String;III)I", ordinal = 0), index = 0)
     private String modifyArgumentText(String text) {
+        String textTrimed = StringUtils.trim(text);
         if(MainConfiguration.Wave3LeftNotice) {
             if (PlayerUtils.isInZombies()) {
-                if (text.contains("Zombies Left") || text.contains("剩余僵尸") || text.contains("剩下殭屍數")) {
-                    String amount = "";
-                    if (text.contains(":")) {
-                        amount = StringUtils.trim(text.split(":")[1]);
-                    } else if(text.contains("：")) {
-                        amount = StringUtils.trim(text.split("：")[1]);
-                    }
-                    int left = LeftNotice.getLeft(ShowSpawnTime.getSpawnTimes().currentRound);
-                    boolean isCleared = Integer.parseInt(amount) <= left;
-                    if (LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.DEAD_END) || LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.BAD_BLOOD)) {
-                        return text.concat(EnumChatFormatting.WHITE + " | " + (isCleared ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + ((left == 0) ? "" : left));
+                if (textTrimed.contains(":") || textTrimed.contains("：")) {
+                    if (StringUtils.contains(LanguageUtils.ZOMBIES_LEFT, textTrimed)) {
+                        String amount = "";
+                        if (textTrimed.contains(":")) {
+                            amount = StringUtils.trim(textTrimed.split(":")[1]);
+                        } else if (textTrimed.contains("：")) {
+                            amount = StringUtils.trim(textTrimed.split("：")[1]);
+                        }
+
+                        int left = LeftNotice.getLeft(ShowSpawnTime.getSpawnTimes().currentRound);
+                        boolean isCleared = Integer.parseInt(amount) <= left;
+                        if (LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.DEAD_END) || LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.BAD_BLOOD)) {
+                            return text.concat(EnumChatFormatting.WHITE + " | " + (isCleared ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + ((left == 0) ? "" : left));
+                        }
                     }
                 }
             }
         }
+        //§
         if (MainConfiguration.PlayerHealthNotice) {
             if (PlayerUtils.isInZombies()) {
-                if (text.contains("§") && (text.contains(":") || text.contains("："))) {
+                if ((textTrimed.contains(":") || textTrimed.contains("："))) {
                     String playerName = "";
-                    if (text.contains(":")) {
-                        playerName = StringUtils.trim(text.split(":")[0]);
-                    } else if (text.contains("：")){
-                        playerName = StringUtils.trim(text.split("：")[0]);
+                    if (textTrimed.contains(":")) {
+                        playerName = StringUtils.trim(textTrimed.split(":")[0]);
+                    } else if (textTrimed.contains("：")){
+                        playerName = StringUtils.trim(textTrimed.split("：")[0]);
                     }
                     if (playerName.length() >= 2) {
                         EntityPlayer entityPlayer = getPlayerEntity(playerName);
                         if (entityPlayer != null) {
-                            String trippedText = StringUtils.trim(text);
-                            if (trippedText.contains(": REVIVE") || trippedText.contains(": QUIT") || trippedText.contains(": DEAD") || trippedText.contains(": 等待救援") || trippedText.contains("： 已退出") || trippedText.contains(": 已死亡") || trippedText.contains(": 等待復活") || trippedText.contains(": 已退出")) {
+                            if (!text.contains("§6")) {
                                 return text;
                             }
                             float health = entityPlayer.getHealth();

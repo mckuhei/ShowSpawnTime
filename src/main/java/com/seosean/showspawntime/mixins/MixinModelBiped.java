@@ -4,6 +4,7 @@ import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.modules.features.playerinvisibility.PlayerInvisibility;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -14,7 +15,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 
 @Mixin(ModelBiped.class)
-public abstract class MixinModelBiped extends MixinModelBase {
+public abstract class MixinModelBiped extends ModelBase {
     @Shadow
     public ModelRenderer bipedHead;
     @Shadow

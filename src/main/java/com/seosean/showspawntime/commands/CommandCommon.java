@@ -1,8 +1,10 @@
 package com.seosean.showspawntime.commands;
 
 import com.seosean.showspawntime.ShowSpawnTime;
+import com.seosean.showspawntime.config.LanguageConfiguration;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.modules.features.leftnotice.LeftNotice;
+import com.seosean.showspawntime.utils.DebugUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.command.CommandBase;
@@ -35,6 +37,9 @@ public class CommandCommon extends CommandBase{
     }
 
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+        if (args[0].equals("debug")) {
+            DebugUtils.sendMessage(LanguageConfiguration.translations.toString());
+        }
         if (args[0].equals("feature")) {
             if (args.length == 2 && args[1].equals("glitch")) {
                 IChatComponent configHover = new ChatComponentText(EnumChatFormatting.WHITE.toString() + "Click to reset the config.");

@@ -59,6 +59,7 @@ public abstract class MixinModelPlayer extends MixinModelBiped {
             this.bipedRightArmwear.render(scale);
             this.bipedBodyWear.render(scale);
         }
+
         if (MainConfiguration.PlayerInvisible && PlayerInvisibility.isPlayerInvisible(entityIn)) {
             GlStateManager.disableBlend();
             GlStateManager.alphaFunc(516, 0.1F);

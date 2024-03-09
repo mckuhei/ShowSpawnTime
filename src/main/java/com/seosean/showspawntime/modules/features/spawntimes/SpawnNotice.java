@@ -19,13 +19,10 @@ public class SpawnNotice {
         this.currentRoundTimes = GameUtils.getRoundTimes(round);
     }
 
-    @SubscribeEvent
-    public void onSpawn(ZombiesTickEvent event) {
+    public void onSpawn(int tick) {
         if (currentRound == 0 || currentRoundTimes.length == 0) {
             return;
         }
-
-        int tick = event.getTick();
 
         int finalWaveTime = currentRoundTimes[currentRoundTimes.length - 1];
 
@@ -33,10 +30,8 @@ public class SpawnNotice {
             for (int time : currentRoundTimes) {
                 if (time * 1000 == tick) {
                     if (finalWaveTime * 1000 == tick) {
-
                         minecraft.thePlayer.playSound(MainConfiguration.TheLastWave, 2, (float) MainConfiguration.TheLastWavePitch);
                     } else {
-//                        DebugUtils.sendMessage(String.valueOf(tick));
                         minecraft.thePlayer.playSound(MainConfiguration.PrecededWave, 2, (float) MainConfiguration.PrecededWavePitch);
                     }
                     return;

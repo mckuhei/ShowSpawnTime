@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PowerupPredict {
 
-    private void detectNextPowerupRound(String title) {
+    public static void detectNextPowerupRound(String title) {
 
         int round = ShowSpawnTime.getSpawnTimes().currentRound;
         IChatComponent basic = new ChatComponentText(EnumChatFormatting.GOLD + "[" + EnumChatFormatting.WHITE + "ShowSpawnTime" + EnumChatFormatting.GOLD + "] ");

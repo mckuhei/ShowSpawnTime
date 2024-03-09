@@ -3,6 +3,7 @@ package com.seosean.showspawntime.modules.features.lrqueue;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.modules.features.Renderer;
 import com.seosean.showspawntime.utils.GameUtils;
+import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import com.seosean.showspawntime.utils.StringUtils;
 import net.minecraft.client.Minecraft;
@@ -47,14 +48,21 @@ public class LRQueue extends Renderer {
     public static int displayTime = 0;
     @SubscribeEvent
     public void onChatReceived(ClientChatReceivedEvent event) {
-        if(!PlayerUtils.isInZombies()) {
+        if (!PlayerUtils.isInZombies()) {
             return;
         }
         String message = StringUtils.trim(event.message.getUnformattedText());
-        if(message.contains("has spawned!") || message.contains("已生成")){
-            if(!message.contains(":")){
-                lrUsings--;
-            }
+
+        if (message.contains(":")) {
+            return;
+        }
+
+        if (!message.contains("!") && !message.contains("！")) {
+            return;
+        }
+
+        if (LanguageUtils.contains(message, "zombies.game.hasspawned")) {
+            lrUsings--;
         }
     }
 

@@ -3,6 +3,8 @@ package com.seosean.showspawntime.modules.features.spawntimes;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.modules.features.Renderer;
+import com.seosean.showspawntime.utils.DebugUtils;
+import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -20,9 +22,13 @@ public class SpawnTimeRenderer extends Renderer {
         float absoluteX = (float) MainConfiguration.getXSpawnTime() * (float)scaledResolution.getScaledWidth();
         float absoluteY = (float)MainConfiguration.getYSpawnTime() * (float)scaledResolution.getScaledHeight();
         spawnTimes.getCurrentWave();
-
+        DebugUtils.sendMessage(String.valueOf(LanguageUtils.getMap()));
         int waveAmount = spawnTimes.roundTimes.length;
 
+        if (waveAmount == 0) {
+            System.out.println("ShowSpawnTime: " + "There is an exception happened to map detector!");
+            return;
+        }
         fontRenderer.drawStringWithShadow("➤ ", absoluteX, absoluteY + this.fontRenderer.FONT_HEIGHT * (5 - waveAmount + spawnTimes.getNextWave()), 0xCC00CC);
 
         for (int i = 0; i < spawnTimes.roundTimes.length; i++) {

@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class PlayerInvisibility {
 
-
     public static boolean isPlayerInvisible(Entity entity){
         boolean flag = !entity.isInvisible();
         boolean flag1 = !flag && !entity.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer);

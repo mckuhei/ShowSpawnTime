@@ -3,6 +3,7 @@ package com.seosean.showspawntime.handler;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.events.ZombiesTickEvent;
 import com.seosean.showspawntime.modules.features.Renderer;
+import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
@@ -43,11 +44,13 @@ public class GameTickHandler {
             return;
         }
         Entity entity = event.entity;
+
         if (!entity.equals(p)){
             return;
         }
 
         Renderer.setShouldRender(false);
+        ShowSpawnTime.SCOREBOARD_MANAGER.clear();
 
         zGameStarted = false;
         zGameTick = 0;
@@ -80,8 +83,8 @@ public class GameTickHandler {
                     try {
                         if (zGameStarted && PlayerUtils.isInZombies()) {
                             zGameTick += 10;
-                            if (zGameTick % 50 == 0) {
-                                FMLCommonHandler.instance().bus().post(new ZombiesTickEvent(zGameTick));
+                            if (zGameTick % 1000 == 0) {
+                                ShowSpawnTime.getSpawnNotice().onSpawn(zGameTick);
                             }
                         }
                     }

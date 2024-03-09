@@ -1,5 +1,6 @@
 package com.seosean.showspawntime;
 
+import com.google.gson.JsonObject;
 import com.seosean.showspawntime.commands.CommandCommon;
 import com.seosean.showspawntime.commands.CommandSSTConfig;
 import com.seosean.showspawntime.commands.CommandSSTHUD;
@@ -15,6 +16,9 @@ import com.seosean.showspawntime.modules.features.spawntimes.SpawnTimeRenderer;
 import com.seosean.showspawntime.modules.features.spawntimes.SpawnTimes;
 import com.seosean.showspawntime.modules.features.powerups.PowerupDetect;
 import com.seosean.showspawntime.modules.features.powerups.PowerupRenderer;
+import com.seosean.showspawntime.utils.DebugUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -24,8 +28,21 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.Sys;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 
 @Mod(modid = ShowSpawnTime.MODID, version = ShowSpawnTime.VERSION,
         guiFactory = "com.seosean.showspawntime.config.gui.ShowSpawnTimeGuiFactory"
@@ -94,9 +111,26 @@ public class ShowSpawnTime
         if (!modConfigFolder.exists()) {
             modConfigFolder.getParentFile().mkdirs();
         }
-        File mainConfig = new File(modConfigFolder, MODID + ".txt");
+        File mainConfig = new File(modConfigFolder, MODID + ".lang");
         if (!mainConfig.exists()) {
-            mainConfig.getParentFile().mkdirs();
+            try {
+                mainConfig.getParentFile().mkdirs();
+                ResourceLocation lang = new ResourceLocation("showspawntime", "lang/showspawntime.lang");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(Minecraft.getMinecraft().getResourceManager().getResource(lang).getInputStream(), StandardCharsets.UTF_8));
+                String line;
+
+                try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(mainConfig.toPath()), StandardCharsets.UTF_8))) {
+                    while ((line = reader.readLine()) != null) {
+                        writer.write(line);
+                        writer.newLine();
+//                        writer.println("\n");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         LanguageConfiguration config = new LanguageConfiguration(mainConfig);
         config.load();

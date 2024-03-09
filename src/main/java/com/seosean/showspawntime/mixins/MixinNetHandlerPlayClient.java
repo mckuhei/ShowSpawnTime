@@ -38,6 +38,7 @@ public class MixinNetHandlerPlayClient {
                             return;
                         }
                         Powerup.PowerupType powerupType = Powerup.PowerupType.getPowerupType(armorStandName);
+
                         if (powerupType.equals(Powerup.PowerupType.NULL)) {
                             return;
                         }

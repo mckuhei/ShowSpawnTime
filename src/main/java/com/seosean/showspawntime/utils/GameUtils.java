@@ -99,7 +99,7 @@ public class GameUtils {
 
     public static int[] getRoundTimes(int round) {
         LanguageUtils.ZombiesMap map = LanguageUtils.getMap();
-        if (map == null || !JavaUtils.isValidIndex(map.getTimer(), round - 1, 0)) {
+        if (map.equals(LanguageUtils.ZombiesMap.NULL) || !JavaUtils.isValidIndex(map.getTimer(), round - 1, 0)) {
             return new int[0];
         }
         return map.getTimer()[round - 1].clone();

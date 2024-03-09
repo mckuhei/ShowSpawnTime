@@ -11,14 +11,5 @@
     "MixinNetHandlerPlayClient",
     "MixinRender",
     "MixinWorldClient"
-  ],
-  "client": [
-    "MixinGuiIngame",
-    "MixinLayerCape",
-    "MixinModelBiped",
-    "MixinModelPlayer",
-    "MixinNetHandlerPlayClient",
-    "MixinRender",
-    "MixinWorldClient"
   ]
 }

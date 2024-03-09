@@ -38,6 +38,9 @@ public class SpawnTimes {
     }
 
     public int getCurrentWave() {
+        if (roundTimes.length == 0) {
+            this.roundTimes = GameUtils.getRoundTimes(currentRound);
+        }
         int[] roundTicks = roundTimes.clone();
         for (int i = 0; i < roundTicks.length; i++) {
             roundTicks[i] *= 1000;
