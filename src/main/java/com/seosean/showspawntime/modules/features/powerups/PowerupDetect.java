@@ -1,6 +1,5 @@
 package com.seosean.showspawntime.modules.features.powerups;
 
-import com.google.common.collect.Sets;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.utils.DelayedTask;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class PowerupDetect {
     public PowerupDetect(){

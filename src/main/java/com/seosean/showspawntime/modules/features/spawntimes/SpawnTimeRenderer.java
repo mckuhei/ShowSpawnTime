@@ -3,13 +3,8 @@ package com.seosean.showspawntime.modules.features.spawntimes;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.modules.features.Renderer;
-import com.seosean.showspawntime.utils.DebugUtils;
-import com.seosean.showspawntime.utils.LanguageUtils;
-import com.seosean.showspawntime.utils.PlayerUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class SpawnTimeRenderer extends Renderer {
 
@@ -22,7 +17,6 @@ public class SpawnTimeRenderer extends Renderer {
         float absoluteX = (float) MainConfiguration.getXSpawnTime() * (float)scaledResolution.getScaledWidth();
         float absoluteY = (float)MainConfiguration.getYSpawnTime() * (float)scaledResolution.getScaledHeight();
         spawnTimes.getCurrentWave();
-        DebugUtils.sendMessage(String.valueOf(LanguageUtils.getMap()));
         int waveAmount = spawnTimes.roundTimes.length;
 
         if (waveAmount == 0) {

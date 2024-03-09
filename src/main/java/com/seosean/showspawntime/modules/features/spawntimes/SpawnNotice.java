@@ -1,12 +1,9 @@
 package com.seosean.showspawntime.modules.features.spawntimes;
 
-import com.seosean.showspawntime.events.ZombiesTickEvent;
 import com.seosean.showspawntime.config.MainConfiguration;
-import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.GameUtils;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class SpawnNotice {
 
@@ -21,7 +18,12 @@ public class SpawnNotice {
 
     public void onSpawn(int tick) {
         if (currentRound == 0 || currentRoundTimes.length == 0) {
-            return;
+            if (currentRound != 0) {
+                this.currentRoundTimes = GameUtils.getRoundTimes(currentRound);
+            }
+            if (currentRoundTimes.length == 0) {
+                return;
+            }
         }
 
         int finalWaveTime = currentRoundTimes[currentRoundTimes.length - 1];

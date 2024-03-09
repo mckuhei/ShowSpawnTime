@@ -1,16 +1,11 @@
 package com.seosean.showspawntime.mixins;
 
-import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

@@ -1,17 +1,12 @@
 package com.seosean.showspawntime.modules.features.powerups;
 
-import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.modules.features.Renderer;
-import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class PowerupRenderer extends Renderer {
 

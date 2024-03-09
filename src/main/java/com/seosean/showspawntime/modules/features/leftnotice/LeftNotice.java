@@ -10,7 +10,6 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class LeftNotice {
     private static final Integer[] deNormalLeft = new Integer[]{4, 5, 3, 4, 7, 6, 5, 6, 8, 9, 7, 7, 8, 8, 8, 11, 12, 11, 14, 16, 19, 21, 18, 22, 23, 26, 25, 27, 30, 33};

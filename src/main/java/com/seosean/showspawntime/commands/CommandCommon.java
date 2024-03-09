@@ -2,18 +2,19 @@ package com.seosean.showspawntime.commands;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.LanguageConfiguration;
-import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.modules.features.leftnotice.LeftNotice;
 import com.seosean.showspawntime.utils.DebugUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.fml.common.FMLLog;
 
 import java.awt.*;

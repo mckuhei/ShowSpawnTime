@@ -1,6 +1,5 @@
 package com.seosean.showspawntime.modules.features.powerups;
 
-import com.seosean.showspawntime.config.LanguageConfiguration;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import net.minecraft.entity.item.EntityArmorStand;

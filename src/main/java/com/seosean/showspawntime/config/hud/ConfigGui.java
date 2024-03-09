@@ -16,8 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.seosean.showspawntime.ShowSpawnTime.*;
-
 public class ConfigGui extends GuiScreen {
    private int selected = -1;
    private int scroll = 0;
@@ -58,6 +56,7 @@ public class ConfigGui extends GuiScreen {
       MinecraftForge.EVENT_BUS.post(new GuiScreenEvent.InitGuiEvent.Post(this, buttonList));
       int widthTime = this.fontRendererObj.getStringWidth("➤ W2 00:00");
       int widthPowerup = this.fontRendererObj.getStringWidth("-BONUS GOLD - 00:00 ");
+      int widthDPSCounter = this.fontRendererObj.getStringWidth("DPS: INSTA KILL");
       ScaledResolution sr = new ScaledResolution(this.mc);
       this.buttonList.add(new GuiButton(1, sr.getScaledWidth() / 2 - 82, sr.getScaledHeight() - 25, 80, 20, "Done"));
       this.buttonList.add(new GuiButton(2, sr.getScaledWidth() / 2 - 82 + 85, sr.getScaledHeight() - 25, 80, 20, "Reset"));
@@ -66,22 +65,12 @@ public class ConfigGui extends GuiScreen {
       boxes.add(boxSpawnTime);
       HudCoordinate boxPowerup = new HudCoordinate(1, MainConfiguration.getXPowerup(), MainConfiguration.getYPowerup(), widthPowerup, this.fontRendererObj.FONT_HEIGHT * 6, this.width, this.height);
       boxes.add(boxPowerup);
-//      if(AutoSplitsApi.isAutoSplitsInstalled() && AutoSplitsApi.ApiManager()) {
-//         int widthSplits = this.fontRendererObj.getStringWidth("0:00:0");
-//         HudCoordinate boxSplits = new HudCoordinate(2, AutoSplitsApi.XSplitter, AutoSplitsApi.YSplitter, widthSplits, this.fontRendererObj.FONT_HEIGHT, this.width, this.height);
-//         boxes.add(boxSplits);
-//      }
+      HudCoordinate boxDPSCounter = new HudCoordinate(2, MainConfiguration.getXDPSCounter(), MainConfiguration.getYDPSCounter(), widthDPSCounter, this.fontRendererObj.FONT_HEIGHT, this.width, this.height);
+      boxes.add(boxDPSCounter);
    }
 
    protected void mouseClicked(int mouseX, int mouseY, int p_mouseClicked_3_) throws IOException {
       super.mouseClicked(mouseX, mouseY, p_mouseClicked_3_);
-//      ScaledResolution sr = new ScaledResolution(this.mc);
-//      int minY = 10 + this.fontRendererObj.FONT_HEIGHT + 10;
-//      int maxY = sr.getScaledHeight() - 25 - 10;
-//      if (mouseY >= minY && mouseY <= maxY) {
-//         int selectedRender = (mouseY - minY) / (5 + this.fontRendererObj.FONT_HEIGHT + 5);
-//         this.selected = selectedRender + this.scroll;
-//      }
    }
 
    protected void mouseReleased(int p_mouseReleased_1_, int p_mouseReleased_2_, int p_mouseReleased_3_) {
@@ -118,6 +107,11 @@ public class ConfigGui extends GuiScreen {
                   MainConfiguration.YPowerup = box.y;
                   ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "XPowerup", -1).set(box.x);
                   ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "YPowerup", -1).set(box.y);
+               } else if (box.getContents() == 2) {
+                  MainConfiguration.XDPSCounter = box.x;
+                  MainConfiguration.YDPSCounter = box.y;
+                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "XDPSCounter", -1).set(box.x);
+                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "YDPSCounter", -1).set(box.y);
                }
             }
             ShowSpawnTime.getConfig().save();
@@ -154,6 +148,22 @@ public class ConfigGui extends GuiScreen {
                         box.absoluteX = (int)(MainConfiguration.getXPowerup() * ConfigGui.this.width);
                         box.y = MainConfiguration.getYPowerup();
                         box.absoluteY = (int)(MainConfiguration.getYPowerup() * ConfigGui.this.height);
+                     }
+                  }.runTaskLater(2);
+
+
+               } else if (box.getContents() == 2) {
+                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "XDPSCounter", -1).set(-1);
+                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "YDPSCounter", -1).set(-1);
+                  MainConfiguration.XDPSCounter = -1;
+                  MainConfiguration.YDPSCounter = -1;
+                  new DelayedTask() {
+                     @Override
+                     public void run() {
+                        box.x = MainConfiguration.getXDPSCounter();
+                        box.absoluteX = (int)(MainConfiguration.getXDPSCounter() * ConfigGui.this.width);
+                        box.y = MainConfiguration.getYDPSCounter();
+                        box.absoluteY = (int)(MainConfiguration.getYDPSCounter() * ConfigGui.this.height);
                      }
                   }.runTaskLater(2);
 

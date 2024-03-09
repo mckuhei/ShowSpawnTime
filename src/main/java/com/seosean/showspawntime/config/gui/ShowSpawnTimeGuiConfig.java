@@ -28,34 +28,61 @@ public class ShowSpawnTimeGuiConfig extends GuiConfig {
     @Override
     protected void actionPerformed(GuiButton button)
     {
-        super.actionPerformed(button);
-        try
+
+        if (button.id == 2000) {
+            this.mc.displayGuiScreen(this.parentScreen);
+        }
+        else if (button.id == 2001)
         {
-            if ((configID != null || this.parentScreen == null || !(this.parentScreen instanceof GuiConfig))
-                    && (this.entryList.hasChangedEntry(true)))
-            {
+            this.entryList.setAllToDefault(this.chkApplyGlobally.isChecked());
+        }
+        else if (button.id == 2002)
+        {
+            this.entryList.undoAllChanges(this.chkApplyGlobally.isChecked());
+        }
+
+        try {
+            if ((this.entryList.hasChangedEntry(true))) {
                 boolean requiresMcRestart = this.entryList.saveConfigElements();
 
-                if (Loader.isModLoaded(modID))
-                {
+                if (Loader.isModLoaded(modID)) {
                     ConfigChangedEvent event = new ConfigChangedEvent.OnConfigChangedEvent(modID, configID, isWorldRunning, requiresMcRestart);
                     MinecraftForge.EVENT_BUS.post(event);
 
                     if (!event.getResult().equals(Event.Result.DENY)) {
                         MinecraftForge.EVENT_BUS.post(new ConfigChangedEvent.PostConfigChangedEvent(modID, configID, isWorldRunning, requiresMcRestart));
                     }
+                }
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
 
-                    if (this.parentScreen instanceof GuiConfig) {
-                        ((GuiConfig) this.parentScreen).needsRefresh = true;
+    }
+
+    @Override
+    public void onGuiClosed()
+    {
+        super.onGuiClosed();
+
+        try {
+            if ((this.entryList.hasChangedEntry(true))) {
+                boolean requiresMcRestart = this.entryList.saveConfigElements();
+
+                if (Loader.isModLoaded(modID)) {
+                    ConfigChangedEvent event = new ConfigChangedEvent.OnConfigChangedEvent(modID, configID, isWorldRunning, requiresMcRestart);
+                    MinecraftForge.EVENT_BUS.post(event);
+
+                    if (!event.getResult().equals(Event.Result.DENY)) {
+                        MinecraftForge.EVENT_BUS.post(new ConfigChangedEvent.PostConfigChangedEvent(modID, configID, isWorldRunning, requiresMcRestart));
                     }
                 }
             }
-        }
-        catch (Throwable e)
-        {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
     }
+
 
     private static List<IConfigElement> getElements() {
         List<IConfigElement> list = new ArrayList<>();

@@ -1,8 +1,6 @@
 package com.seosean.showspawntime.utils;
+
 import com.seosean.showspawntime.ShowSpawnTime;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class PlayerUtils {
     public static boolean isInZombiesTitle() {

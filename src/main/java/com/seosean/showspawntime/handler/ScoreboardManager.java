@@ -2,20 +2,14 @@ package com.seosean.showspawntime.handler;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.seosean.showspawntime.modules.features.leftnotice.LeftNotice;
-import com.seosean.showspawntime.utils.DebugUtils;
-import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
-import com.seosean.showspawntime.utils.PlayerUtils;
 import com.seosean.showspawntime.utils.StringUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.entity.Entity;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 

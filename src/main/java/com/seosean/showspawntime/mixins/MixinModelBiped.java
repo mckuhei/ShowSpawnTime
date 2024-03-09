@@ -1,15 +1,12 @@
 package com.seosean.showspawntime.mixins;
 
-import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.modules.features.playerinvisibility.PlayerInvisibility;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 

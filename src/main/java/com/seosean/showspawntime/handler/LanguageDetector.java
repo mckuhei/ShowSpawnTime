@@ -1,42 +1,12 @@
 package com.seosean.showspawntime.handler;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.seosean.showspawntime.utils.DebugUtils;
-import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
-
-import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.URL;
 
 public class LanguageDetector {
 
     public static String language = "EN_US";
-    @SubscribeEvent
-    public void onPlayerConnectHypixel(EntityJoinWorldEvent event) {
-        if (!event.world.isRemote) {
-            return;
-        }
 
-        if (!event.entity.equals(Minecraft.getMinecraft().thePlayer)) {
-            return;
-        }
-
-
-    }
-
-    public static void setLanguage() {
+    public static void detectLanguage() {
         String zombiesLeftText = LanguageUtils.getZombiesLeftText();
 
         switch (zombiesLeftText) {

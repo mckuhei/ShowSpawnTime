@@ -1,15 +1,33 @@
 package com.seosean.showspawntime.modules.features.playerinvisibility;
 
+import com.seosean.showspawntime.config.MainConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class PlayerInvisibility {
+    @SubscribeEvent
+    public void onRender(RenderPlayerEvent.Pre event) {
+        EntityPlayer player = event.entityPlayer;
+        if (player != Minecraft.getMinecraft().thePlayer && !player.isPlayerSleeping() && PlayerInvisibility.withinDistance(player)) {
+            event.setCanceled(MainConfiguration.PlayerInvisible);
+        }
+    }
+
+    private static boolean withinDistance(EntityPlayer other) {
+        return getDistance(other) < 1.4;
+    }
+
+    private static double getDistance(EntityPlayer other) {
+        return Minecraft.getMinecraft().thePlayer.getDistanceToEntity(other);
+    }
 
     public static boolean isPlayerInvisible(Entity entity){
         boolean flag = !entity.isInvisible();
         boolean flag1 = !flag && !entity.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer);
-        boolean flag2 = entity != Minecraft.getMinecraft().thePlayer && entity instanceof EntityPlayer && Minecraft.getMinecraft().thePlayer.getDistanceToEntity(entity) < 7.02F;
+        boolean flag2 = entity != Minecraft.getMinecraft().thePlayer && entity instanceof EntityPlayer && Minecraft.getMinecraft().thePlayer.getDistanceToEntity(entity) < 7.02F && !((EntityPlayer) entity).isPlayerSleeping();
         return (flag || flag1) && (flag1 || flag2);
     }
 

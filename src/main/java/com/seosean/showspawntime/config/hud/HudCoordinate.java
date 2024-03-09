@@ -58,7 +58,7 @@ public class HudCoordinate {
             this.fontRendererObj.drawStringWithShadow(" BONUS GOLD - 00:00", absoluteX, absoluteY + this.fontRendererObj.FONT_HEIGHT * 5, 0xFFFF55);
         }else if(contents == 2){
             Gui.drawRect(absoluteX, absoluteY, absoluteX + width, absoluteY + height, color);
-            this.fontRendererObj.drawStringWithShadow("0:00:0", absoluteX, absoluteY, 0xFFFFFF);
+            this.fontRendererObj.drawStringWithShadow("DPS: INSTA KILL", absoluteX, absoluteY, 0xFFFFFF);
         }
     }
 

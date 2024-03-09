@@ -3,16 +3,14 @@ package com.seosean.showspawntime.modules.features;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -23,15 +21,19 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class UpdateDetect {
+
+    private boolean triggered = false;
     @SubscribeEvent
-    public void playerConnectEvent(EntityJoinWorldEvent event) {
-        if (!(event.entity instanceof EntityPlayer)) return;
-        if (!event.entity.worldObj.isRemote) return;
+    public void playerConnectEvent(TickEvent.ClientTickEvent event) {
+        if (triggered) {
+            return;
+        }
         Minecraft mc = Minecraft.getMinecraft();
-        if (mc == null || mc.theWorld == null || mc.isSingleplayer()) return;
-        EntityPlayerSP p = mc.thePlayer;
-        if (p == null) return;
-        this.checkUpdates();
+        if (mc == null || mc.theWorld == null || mc.isSingleplayer() || mc.thePlayer == null) return;
+
+        triggered = true;
+
+        UpdateDetect.this.checkUpdates();
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 
@@ -82,6 +84,9 @@ public class UpdateDetect {
                         newVersion.setChatStyle(newVersion.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, downloadHover)).setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Seosean/ShowSpawnTime/releases")));
                         Minecraft.getMinecraft().thePlayer.addChatComponentMessage(newVersion);
                         break;
+                    } else if (newestVersionNumbers.get(i) < thisVersionNumbers.get(i)) {
+                        IChatComponent newVersion = new ChatComponentText(EnumChatFormatting.AQUA+ "ShowSpawnTime: " + EnumChatFormatting.GREEN + "You are using an advanced version, it's probably unstable and uncompleted.");
+                        Minecraft.getMinecraft().thePlayer.addChatComponentMessage(newVersion);
                     }
                 }
             } catch (Exception ex) {

@@ -2,7 +2,6 @@ package com.seosean.showspawntime.modules.features;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
-import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -23,6 +22,7 @@ public abstract class Renderer {
         ShowSpawnTime.getLRQueue().shouldRender = flag;
         ShowSpawnTime.getPowerupRenderer().shouldRender = flag;
         ShowSpawnTime.getSpawnTimeRenderer().shouldRender = flag;
+        ShowSpawnTime.getDPSCounterRenderer().shouldRender = flag;
     }
 
     public Minecraft minecraft;

@@ -2,15 +2,7 @@ package com.seosean.showspawntime.utils;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.LanguageConfiguration;
-import com.seosean.showspawntime.events.PowerupSpawnEvent;
-import com.seosean.showspawntime.handler.LanguageDetector;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -121,8 +113,6 @@ public class LanguageUtils {
         if (mapName.isEmpty()) {
             return ZombiesMap.NULL;
         }
-
-        DebugUtils.sendMessage(mapName);
 
         switch (matchedKey) {
             case "zombies.map.deadend": return cacheMap = ZombiesMap.DEAD_END;

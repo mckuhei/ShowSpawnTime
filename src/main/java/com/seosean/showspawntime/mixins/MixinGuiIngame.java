@@ -7,9 +7,7 @@ import com.seosean.showspawntime.modules.features.leftnotice.LeftNotice;
 import com.seosean.showspawntime.modules.features.powerups.Powerup;
 import com.seosean.showspawntime.modules.features.powerups.PowerupPredict;
 import com.seosean.showspawntime.modules.features.timerecorder.TimeRecorder;
-import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
-import com.seosean.showspawntime.utils.GameUtils;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import com.seosean.showspawntime.utils.StringUtils;
@@ -28,7 +26,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collectors;
 
 @Mixin(GuiIngame.class)
 public abstract class MixinGuiIngame {
@@ -38,8 +35,12 @@ public abstract class MixinGuiIngame {
     private void displayTitle(String p_175178_1_, String p_175178_2_, int p_175178_3_, int p_175178_4_, int p_175178_5_, CallbackInfo callbackInfo){
         String roundTitle = p_175178_1_ == null ? "" : StringUtils.trim(p_175178_1_);
         boolean flag = LanguageUtils.contains(roundTitle, "zombies.game.youwin");
-
         if (LanguageUtils.isRoundTitle(roundTitle) || flag) {
+            TimeRecorder.recordGameTime(roundTitle);
+            TimeRecorder.recordRedundantTime(flag);
+            ShowSpawnTime.getInstance().getGameTickHandler().setGameStarted(true);
+            ShowSpawnTime.getInstance().getGameTickHandler().reset();
+
             if (!PlayerUtils.isInZombiesTitle()) {
                 return;
             }
@@ -66,10 +67,7 @@ public abstract class MixinGuiIngame {
                 Powerup.deserialize(Powerup.PowerupType.SHOPPING_SPREE);
             }
 
-            TimeRecorder.recordGameTime(roundTitle);
-            TimeRecorder.recordRedundantTime(flag);
-            ShowSpawnTime.getInstance().getGameTickHandler().setGameStarted(true);
-            ShowSpawnTime.getInstance().getGameTickHandler().reset();
+
 
             new DelayedTask() {
                 @Override
@@ -78,6 +76,8 @@ public abstract class MixinGuiIngame {
                 }
             }.runTaskLater(40);
         }
+
+
     }
 
     @ModifyArg(method = "renderScoreboard", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/FontRenderer;drawString(Ljava/lang/String;III)I", ordinal = 0), index = 0)

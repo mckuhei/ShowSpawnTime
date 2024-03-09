@@ -1,6 +1,5 @@
 package com.seosean.showspawntime.utils;
 
-import com.seosean.showspawntime.ShowSpawnTime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;

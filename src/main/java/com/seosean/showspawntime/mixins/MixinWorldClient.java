@@ -1,7 +1,9 @@
 package com.seosean.showspawntime.mixins;
 
-import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.ShowSpawnTime;
+import com.seosean.showspawntime.config.MainConfiguration;
+import com.seosean.showspawntime.handler.LanguageDetector;
+import com.seosean.showspawntime.modules.features.dpscounter.DPSCounter;
 import com.seosean.showspawntime.modules.features.lrqueue.LRQueue;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
@@ -21,12 +23,13 @@ public class MixinWorldClient {
 
     @Inject(method = "playSound", at = @At(value = "RETURN"))
     private void playSound(double x, double y, double z, String soundName, float volume, float pitch, boolean distanceDelay, CallbackInfo callbackInfo){
-        this.detectSound(soundName, pitch);
+        this.showSpawnTime$detectSound(soundName, pitch);
     }
 
     @Unique
-    private void detectSound(String soundEffect, float pitch){
+    private void showSpawnTime$detectSound(String soundEffect, float pitch){
         if (soundEffect.equals("mob.wither.spawn") || soundEffect.equals("mob.enderdragon.end") || (soundEffect.equals("mob.guardian.curse") && !AAr10)) {
+            LanguageDetector.detectLanguage();
             AAr10 = soundEffect.equals("mob.guardian.curse");
             LRQueue.lrUsings = 0;
             ShowSpawnTime.getInstance().getGameTickHandler().setGameStarted(!soundEffect.equals("mob.enderdragon.end"));
@@ -34,6 +37,7 @@ public class MixinWorldClient {
                 LRQueue.displayTime = 100;
             }
         }
+
         if (MainConfiguration.LightningRodQueue) {
             if (PlayerUtils.isInZombies()){
                 if (LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.ALIEN_ARCADIUM)) {
@@ -47,5 +51,7 @@ public class MixinWorldClient {
                 }
             }
         }
+
+        DPSCounter.detectWeaponBehavior(soundEffect, pitch);
     }
 }

@@ -71,8 +71,12 @@ public class MainConfiguration {
 
         XSpawnTime = config.get(Configuration.CATEGORY_CLIENT, "XSpawnTime", -1, "X").getDouble();
         YSpawnTime = config.get(Configuration.CATEGORY_CLIENT, "YSpawnTime", -1, "Y").getDouble();
+
         XPowerup = config.get(Configuration.CATEGORY_CLIENT, "XPowerup", -1, "X").getDouble();
         YPowerup = config.get(Configuration.CATEGORY_CLIENT, "YPowerup", -1, "Y").getDouble();
+
+        XDPSCounter = config.get(Configuration.CATEGORY_CLIENT, "XDPSCounter", -1, "X").getDouble();
+        YDPSCounter = config.get(Configuration.CATEGORY_CLIENT, "YDPSCounter", -1, "Y").getDouble();
 
         String comment;
         String commentPlaySound;
@@ -182,8 +186,8 @@ public class MainConfiguration {
     public static double YSpawnTime;
     public static double XPowerup;
     public static double YPowerup;
-    public static double XSplitter;
-    public static double YSplitter;
+    public static double XDPSCounter;
+    public static double YDPSCounter;
 
     public static double getXSpawnTime(){
         int screenWidth = new ScaledResolution(minecraft).getScaledWidth();
@@ -219,20 +223,20 @@ public class MainConfiguration {
         return YPowerup;
     }
 
-    public double getXSplitter(){
+    public static double getXDPSCounter(){
         int screenWidth = new ScaledResolution(minecraft).getScaledWidth();
-        if(XSplitter < 0){
-            return 1 - (double)minecraft.fontRendererObj.getStringWidth("0:00:0") / (double)screenWidth;
+        if(XDPSCounter < 0){
+            return 0.75 - (double)minecraft.fontRendererObj.getStringWidth("DPS: INSTA KILL") / (double)screenWidth;
         }
-        return XSplitter;
+        return XDPSCounter;
     }
 
-    public double getYSplitter(){
+    public static double getYDPSCounter(){
         int screenHeight = new ScaledResolution(minecraft).getScaledHeight();
-        if(YSplitter < 0){
-            return 1 - minecraft.fontRendererObj.FONT_HEIGHT / (double)screenHeight;
+        if(YDPSCounter < 0){
+            return 1 - minecraft.fontRendererObj.FONT_HEIGHT * 2 / (double)screenHeight;
         }
-        return YSplitter;
+        return YDPSCounter;
     }
 
     @SubscribeEvent
