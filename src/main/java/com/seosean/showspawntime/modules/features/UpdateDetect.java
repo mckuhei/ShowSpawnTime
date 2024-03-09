@@ -2,6 +2,7 @@ package com.seosean.showspawntime.modules.features;
 
 
 import com.seosean.showspawntime.ShowSpawnTime;
+import com.seosean.showspawntime.utils.DelayedTask;
 import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
@@ -29,11 +30,21 @@ public class UpdateDetect {
             return;
         }
         Minecraft mc = Minecraft.getMinecraft();
+
         if (mc == null || mc.theWorld == null || mc.isSingleplayer() || mc.thePlayer == null) return;
 
-        triggered = true;
+        if (!mc.theWorld.isAreaLoaded(mc.thePlayer.getPosition(), 16)) {
+            return;
+        }
 
-        UpdateDetect.this.checkUpdates();
+        triggered = true;
+        new DelayedTask() {
+            @Override
+            public void run() {
+                UpdateDetect.this.checkUpdates();
+            }
+        }.runTaskLater(3 * 20);
+
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 
