@@ -128,24 +128,23 @@ public class ShowSpawnTime
 
     private static LanguageConfiguration createLangConfig() {
         File langConfig = new File(CONFIGURATION.getConfigFile().getParentFile(), MODID + ".lang");
-        if (!langConfig.exists()) {
-            try {
-                langConfig.createNewFile();
-                ResourceLocation lang = new ResourceLocation("showspawntime", "lang/showspawntime.lang");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(Minecraft.getMinecraft().getResourceManager().getResource(lang).getInputStream(), StandardCharsets.UTF_8));
-                String line;
+        langConfig.deleteOnExit();
+        try {
+            langConfig.createNewFile();
+            ResourceLocation lang = new ResourceLocation("showspawntime", "lang/showspawntime.lang");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(Minecraft.getMinecraft().getResourceManager().getResource(lang).getInputStream(), StandardCharsets.UTF_8));
+            String line;
 
-                try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(langConfig.toPath()), StandardCharsets.UTF_8))) {
-                    while ((line = reader.readLine()) != null) {
-                        writer.write(line);
-                        writer.newLine();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+            try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(langConfig.toPath()), StandardCharsets.UTF_8))) {
+                while ((line = reader.readLine()) != null) {
+                    writer.write(line);
+                    writer.newLine();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         LanguageConfiguration config = new LanguageConfiguration(langConfig);
         config.load();
