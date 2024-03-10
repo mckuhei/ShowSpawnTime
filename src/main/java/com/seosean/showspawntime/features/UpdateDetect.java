@@ -1,4 +1,4 @@
-package com.seosean.showspawntime.modules.features;
+package com.seosean.showspawntime.features;
 
 
 import com.seosean.showspawntime.ShowSpawnTime;

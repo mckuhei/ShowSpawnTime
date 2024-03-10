@@ -1,8 +1,9 @@
 package com.seosean.showspawntime.mixins;
 
 import com.seosean.showspawntime.ShowSpawnTime;
-import com.seosean.showspawntime.modules.features.powerups.Powerup;
-import com.seosean.showspawntime.modules.features.powerups.PowerupDetect;
+import com.seosean.showspawntime.features.powerups.Powerup;
+import com.seosean.showspawntime.features.powerups.PowerupDetect;
+import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.GameUtils;
 import com.seosean.showspawntime.utils.StringUtils;
 import net.minecraft.client.Minecraft;
@@ -25,7 +26,7 @@ public class MixinNetHandlerPlayClient {
     @Inject(method = "handleEntityMetadata", at = @At(value = "RETURN"))
     public void handleEntityMetadata(S1CPacketEntityMetadata packetIn, CallbackInfo callbackInfo)
     {
-        PowerupDetect powerUpDetect = ShowSpawnTime.getInstance().getPowerupDetect();
+        PowerupDetect powerUpDetect = ShowSpawnTime.getPowerupDetect();
         int gameTick = GameUtils.getCurrentZombiesTimeTick();
         if (Minecraft.getMinecraft().theWorld.getEntityByID(packetIn.getEntityId()) instanceof EntityArmorStand) {
             for (DataWatcher.WatchableObject watchableObject : packetIn.func_149376_c()) {
@@ -42,7 +43,6 @@ public class MixinNetHandlerPlayClient {
                         if (powerupType.equals(Powerup.PowerupType.NULL)) {
                             return;
                         }
-
                         Powerup.deserialize(powerupType, (EntityArmorStand) Minecraft.getMinecraft().theWorld.getEntityByID(packetIn.getEntityId()));
 
                         List<Integer> roundList2 = new ArrayList<>();

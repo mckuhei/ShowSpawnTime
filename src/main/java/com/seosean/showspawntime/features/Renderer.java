@@ -1,4 +1,4 @@
-package com.seosean.showspawntime.modules.features;
+package com.seosean.showspawntime.features;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
@@ -8,7 +8,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public abstract class Renderer {
+public class Renderer {
     public boolean shouldRender;
 
     public Renderer() {
@@ -19,10 +19,7 @@ public abstract class Renderer {
     }
 
     public static void setShouldRender(boolean flag) {
-        ShowSpawnTime.getLRQueue().shouldRender = flag;
-        ShowSpawnTime.getPowerupRenderer().shouldRender = flag;
-        ShowSpawnTime.getSpawnTimeRenderer().shouldRender = flag;
-        ShowSpawnTime.getDPSCounterRenderer().shouldRender = flag;
+        ShowSpawnTime.getRendererList().forEach(r -> r.shouldRender = flag);
     }
 
     public Minecraft minecraft;
@@ -39,9 +36,6 @@ public abstract class Renderer {
             return;
         }
 
-        if (!this.shouldRender) {
-            return;
-        }
 
         this.onRender(event);
     }

@@ -1,4 +1,4 @@
-package com.seosean.showspawntime.modules.features.powerups;
+package com.seosean.showspawntime.features.powerups;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import net.minecraft.client.Minecraft;
@@ -11,14 +11,14 @@ import java.util.List;
 
 public class PowerupPredict {
 
-    public static void detectNextPowerupRound(String title) {
+    public static void detectNextPowerupRound() {
 
         int round = ShowSpawnTime.getSpawnTimes().currentRound;
         IChatComponent basic = new ChatComponentText(EnumChatFormatting.GOLD + "[" + EnumChatFormatting.WHITE + "ShowSpawnTime" + EnumChatFormatting.GOLD + "] ");
         List<IChatComponent> chatBox = new ArrayList<>();
         Integer[][] rounds = {{}, {}, {}}; // insRounds, maxRounds, ssRounds
 
-        PowerupDetect powerUpDetect = ShowSpawnTime.getInstance().getPowerupDetect();
+        PowerupDetect powerUpDetect = ShowSpawnTime.getPowerupDetect();
         List<Integer> insRounds = powerUpDetect.insRounds;
         List<Integer> maxRounds = powerUpDetect.maxRounds;
         List<Integer> ssRounds = powerUpDetect.ssRounds;

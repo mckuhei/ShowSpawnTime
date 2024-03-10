@@ -1,4 +1,4 @@
-package com.seosean.showspawntime.modules.features.playerinvisibility;
+package com.seosean.showspawntime.features.playerinvisibility;
 
 import com.seosean.showspawntime.config.MainConfiguration;
 import net.minecraft.client.Minecraft;

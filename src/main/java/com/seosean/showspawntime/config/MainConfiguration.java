@@ -106,7 +106,7 @@ public class MainConfiguration {
         sstRelated.put(propertyPlaySound.getName(), new ConfigElement(propertyPlaySound));
 
         commentDEBBPlaySound = "Turn on/off the sound of wave spawning in DE and BB.";
-        Property propertyPlayDEBBSound = config.get(Configuration.CATEGORY_GENERAL, "Toggle DE/BB Sound", false, commentDEBBPlaySound);
+        Property propertyPlayDEBBSound = config.get(Configuration.CATEGORY_GENERAL, "Toggle DE/BB Sound", true, commentDEBBPlaySound);
         PlayDEBBSound = propertyPlayDEBBSound.getBoolean();
         sstRelated.put(propertyPlayDEBBSound.getName(), new ConfigElement(propertyPlayDEBBSound));
 

@@ -1,4 +1,4 @@
-package com.seosean.showspawntime.modules.features.spawntimes;
+package com.seosean.showspawntime.features.spawntimes;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
@@ -45,7 +45,6 @@ public class SpawnTimes {
             roundTicks[i] *= 1000;
         }
         return currentWave = JavaUtils.findInsertPosition(roundTicks, ShowSpawnTime
-                .getInstance()
                 .getGameTickHandler()
                 .getGameTick());
     }

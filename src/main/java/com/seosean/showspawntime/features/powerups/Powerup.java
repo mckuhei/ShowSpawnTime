@@ -1,4 +1,4 @@
-package com.seosean.showspawntime.modules.features.powerups;
+package com.seosean.showspawntime.features.powerups;
 
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;

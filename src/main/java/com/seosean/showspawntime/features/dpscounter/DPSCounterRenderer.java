@@ -1,7 +1,7 @@
-package com.seosean.showspawntime.modules.features.dpscounter;
+package com.seosean.showspawntime.features.dpscounter;
 
 import com.seosean.showspawntime.config.MainConfiguration;
-import com.seosean.showspawntime.modules.features.Renderer;
+import com.seosean.showspawntime.features.Renderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 

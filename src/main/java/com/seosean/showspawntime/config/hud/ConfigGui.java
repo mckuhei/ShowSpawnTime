@@ -100,29 +100,29 @@ public class ConfigGui extends GuiScreen {
                if (box.getContents() == 0) {
                   MainConfiguration.XSpawnTime = box.x;
                   MainConfiguration.YSpawnTime = box.y;
-                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "XSpawnTime", -1).set(box.x);
-                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "YSpawnTime", -1).set(box.y);
+                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XSpawnTime", -1).set(box.x);
+                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YSpawnTime", -1).set(box.y);
                } else if (box.getContents() == 1) {
                   MainConfiguration.XPowerup = box.x;
                   MainConfiguration.YPowerup = box.y;
-                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "XPowerup", -1).set(box.x);
-                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "YPowerup", -1).set(box.y);
+                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XPowerup", -1).set(box.x);
+                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YPowerup", -1).set(box.y);
                } else if (box.getContents() == 2) {
                   MainConfiguration.XDPSCounter = box.x;
                   MainConfiguration.YDPSCounter = box.y;
-                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "XDPSCounter", -1).set(box.x);
-                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "YDPSCounter", -1).set(box.y);
+                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XDPSCounter", -1).set(box.x);
+                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YDPSCounter", -1).set(box.y);
                }
             }
-            ShowSpawnTime.getConfig().save();
+            ShowSpawnTime.getConfiguration().save();
             this.mc.displayGuiScreen(null);
             break;
          }
          case 2: {
             for (HudCoordinate box : boxes) {
                if (box.getContents() == 0) {
-                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "XSpawnTime", -1).set(-1);
-                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "YSpawnTime", -1).set(-1);
+                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XSpawnTime", -1).set(-1);
+                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YSpawnTime", -1).set(-1);
                   MainConfiguration.XSpawnTime = -1;
                   MainConfiguration.YSpawnTime = -1;
                   new DelayedTask() {
@@ -137,8 +137,8 @@ public class ConfigGui extends GuiScreen {
 
 
                } else if (box.getContents() == 1) {
-                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "XPowerup", -1).set(-1);
-                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "YPowerup", -1).set(-1);
+                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XPowerup", -1).set(-1);
+                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YPowerup", -1).set(-1);
                   MainConfiguration.XPowerup = -1;
                   MainConfiguration.YPowerup = -1;
                   new DelayedTask() {
@@ -153,8 +153,8 @@ public class ConfigGui extends GuiScreen {
 
 
                } else if (box.getContents() == 2) {
-                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "XDPSCounter", -1).set(-1);
-                  ShowSpawnTime.getConfig().get(Configuration.CATEGORY_CLIENT, "YDPSCounter", -1).set(-1);
+                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XDPSCounter", -1).set(-1);
+                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YDPSCounter", -1).set(-1);
                   MainConfiguration.XDPSCounter = -1;
                   MainConfiguration.YDPSCounter = -1;
                   new DelayedTask() {
@@ -170,11 +170,11 @@ public class ConfigGui extends GuiScreen {
 
                }
             }
-            ShowSpawnTime.getConfig().save();
+            ShowSpawnTime.getConfiguration().save();
             break;
          }
          default: {
-            ShowSpawnTime.getConfig().save();
+            ShowSpawnTime.getConfiguration().save();
             break;
          }
       }

@@ -2,11 +2,12 @@ package com.seosean.showspawntime.mixins;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
-import com.seosean.showspawntime.modules.features.Renderer;
-import com.seosean.showspawntime.modules.features.leftnotice.LeftNotice;
-import com.seosean.showspawntime.modules.features.powerups.Powerup;
-import com.seosean.showspawntime.modules.features.powerups.PowerupPredict;
-import com.seosean.showspawntime.modules.features.timerecorder.TimeRecorder;
+import com.seosean.showspawntime.features.Renderer;
+import com.seosean.showspawntime.features.leftnotice.LeftNotice;
+import com.seosean.showspawntime.features.powerups.Powerup;
+import com.seosean.showspawntime.features.powerups.PowerupPredict;
+import com.seosean.showspawntime.features.timerecorder.TimeRecorder;
+import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
@@ -36,17 +37,16 @@ public abstract class MixinGuiIngame {
         String roundTitle = p_175178_1_ == null ? "" : StringUtils.trim(p_175178_1_);
         boolean flag = LanguageUtils.contains(roundTitle, "zombies.game.youwin");
         if (LanguageUtils.isRoundTitle(roundTitle) || flag) {
-            TimeRecorder.recordGameTime(roundTitle);
-            TimeRecorder.recordRedundantTime(flag);
-            ShowSpawnTime.getInstance().getGameTickHandler().setGameStarted(true);
-            ShowSpawnTime.getInstance().getGameTickHandler().reset();
+            TimeRecorder.recordGameTime();
+            TimeRecorder.recordRedundantTime();
+            ShowSpawnTime.getGameTickHandler().setGameStarted(true);
+            ShowSpawnTime.getGameTickHandler().reset();
 
             if (!PlayerUtils.isInZombiesTitle()) {
                 return;
             }
 
             int round = LanguageUtils.getRoundNumber(roundTitle);
-
             ShowSpawnTime.getSpawnTimes().setCurrentRound(round);
 
             Renderer.setShouldRender(true);
@@ -55,24 +55,22 @@ public abstract class MixinGuiIngame {
 
             Powerup.incPowerups.clear();
 
-            if (ShowSpawnTime.getInstance().getPowerupDetect().isInsRound(round)) {
+            if (ShowSpawnTime.getPowerupDetect().isInsRound(round)) {
                 Powerup.deserialize(Powerup.PowerupType.INSTA_KILL);
             }
 
-            if (ShowSpawnTime.getInstance().getPowerupDetect().isMaxRound(round)) {
+            if (ShowSpawnTime.getPowerupDetect().isMaxRound(round)) {
                 Powerup.deserialize(Powerup.PowerupType.MAX_AMMO);
             }
 
-            if (ShowSpawnTime.getInstance().getPowerupDetect().isSSRound(round)) {
+            if (ShowSpawnTime.getPowerupDetect().isSSRound(round)) {
                 Powerup.deserialize(Powerup.PowerupType.SHOPPING_SPREE);
             }
-
-
 
             new DelayedTask() {
                 @Override
                 public void run() {
-                    PowerupPredict.detectNextPowerupRound(roundTitle);
+                    PowerupPredict.detectNextPowerupRound();
                 }
             }.runTaskLater(40);
         }

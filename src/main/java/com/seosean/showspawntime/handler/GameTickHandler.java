@@ -1,7 +1,7 @@
 package com.seosean.showspawntime.handler;
 
 import com.seosean.showspawntime.ShowSpawnTime;
-import com.seosean.showspawntime.modules.features.Renderer;
+import com.seosean.showspawntime.features.Renderer;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
@@ -46,7 +46,7 @@ public class GameTickHandler {
         }
 
         Renderer.setShouldRender(false);
-        ShowSpawnTime.SCOREBOARD_MANAGER.clear();
+        ShowSpawnTime.getScoreboardManager().clear();
 
         zGameStarted = false;
         zGameTick = 0;
@@ -55,7 +55,7 @@ public class GameTickHandler {
             @Override
             public void run() {
                 if (PlayerUtils.isInZombies()) {
-                    int round = LanguageUtils.getRoundNumber(ShowSpawnTime.SCOREBOARD_MANAGER.getContent(3));
+                    int round = LanguageUtils.getRoundNumber(ShowSpawnTime.getScoreboardManager().getContent(3));
                     ShowSpawnTime.getSpawnTimes().setCurrentRound(round);
                     Renderer.setShouldRender(true);
                 }

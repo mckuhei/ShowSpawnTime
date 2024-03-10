@@ -1,7 +1,7 @@
 package com.seosean.showspawntime.mixins;
 
 import com.seosean.showspawntime.config.MainConfiguration;
-import com.seosean.showspawntime.modules.features.playerinvisibility.PlayerInvisibility;
+import com.seosean.showspawntime.features.playerinvisibility.PlayerInvisibility;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerCape;

@@ -1,4 +1,4 @@
-package com.seosean.showspawntime.modules.features.timerecorder;
+package com.seosean.showspawntime.features.timerecorder;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
@@ -17,10 +17,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.text.DecimalFormat;
 
 public class TimeRecorder {
-
-    public static int recordedRound = 0;
-    public static void recordGameTime(String titleText) {
-        boolean record = false;
+    public static void recordGameTime() {
         int[] skipRound;
 
         LanguageUtils.ZombiesMap zombiesMap = LanguageUtils.getMap();
@@ -37,32 +34,23 @@ public class TimeRecorder {
             return;
         }
 
-        int maxRound = isAAMap ? 105 : (zombiesMap.equals(LanguageUtils.ZombiesMap.THE_LAB) ? 40 : 30);
+        int currentRound = ShowSpawnTime.getSpawnTimes().currentRound;
 
-        for (int i = maxRound; i > 0; i--) {
-            if (titleText.contains(String.valueOf(i))) {
-                recordedRound = i;
+        int increment = 0;
+        if (isAAMap ? MainConfiguration.AARoundsRecordToggle.contains("Quintuple") : MainConfiguration.DEBBRoundsRecordToggle.contains("Quintuple")) {
+            increment = 5;
+        } else if (isAAMap ? MainConfiguration.AARoundsRecordToggle.contains("Tenfold") : MainConfiguration.DEBBRoundsRecordToggle.contains("Tenfold")) {
+            increment = 10;
+        }
 
-                int increment = 0;
-                if (isAAMap ? MainConfiguration.AARoundsRecordToggle.contains("Quintuple") : MainConfiguration.DEBBRoundsRecordToggle.contains("Quintuple")) {
-                    increment = 5;
-                } else if (isAAMap ? MainConfiguration.AARoundsRecordToggle.contains("Tenfold") : MainConfiguration.DEBBRoundsRecordToggle.contains("Tenfold")) {
-                    increment = 10;
-                }
-
-                if (increment != 0 && i % increment != 1) {
-                    return;
-                }
-
-                record = true;
-                break;
-            }
+        if (increment != 0 && currentRound % increment != 1) {
+            return;
         }
 
         skipRound = LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.ALIEN_ARCADIUM) ?
-                new int[]{0, 1, 11, 21, 106} : new int[]{0, 1, 11, 21, 31, 41};
+                new int[]{0, 10, 21, 105} : new int[]{0, 10, 20, 30, 40};
 
-        if (record && !ArrayUtils.contains(skipRound, recordedRound)) {
+        if (!ArrayUtils.contains(skipRound, currentRound)) {
             try {
                 String time = ShowSpawnTime.getScoreboardManager().getContent(ShowSpawnTime.getScoreboardManager().getSize() - 3);
                 String[] split;
@@ -73,9 +61,9 @@ public class TimeRecorder {
                 }
 
                 IChatComponent crossBar = new ChatComponentText(EnumChatFormatting.GREEN.toString() + EnumChatFormatting.BOLD + "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ ");
-                IChatComponent timing = new ChatComponentText(EnumChatFormatting.YELLOW + "                     You completed " + EnumChatFormatting.RED + "Round " + (recordedRound - 1) + EnumChatFormatting.YELLOW + " in " + EnumChatFormatting.GREEN + split[1] + EnumChatFormatting.YELLOW + "!");
+                IChatComponent timing = new ChatComponentText(EnumChatFormatting.YELLOW + "                     You completed " + EnumChatFormatting.RED + "Round " + (currentRound) + EnumChatFormatting.YELLOW + " in " + EnumChatFormatting.GREEN + split[1] + EnumChatFormatting.YELLOW + "!");
                 IChatComponent copy = new ChatComponentText(EnumChatFormatting.GREEN + "Copy");
-                timing.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(net.minecraft.event.HoverEvent.Action.SHOW_TEXT, copy)).setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sst copy " + "You completed Round " + (recordedRound - 1) + " in " + split[1].replace("§a", "").replace("\uD83D\uDC79", "") + "!")));
+                timing.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(net.minecraft.event.HoverEvent.Action.SHOW_TEXT, copy)).setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sst copy " + "You completed Round " + (currentRound) + " in " + split[1].replace("§a", "").replace("\uD83D\uDC79", "") + "!")));
                 Minecraft.getMinecraft().thePlayer.addChatComponentMessage(crossBar);
                 Minecraft.getMinecraft().thePlayer.addChatComponentMessage(timing);
                 Minecraft.getMinecraft().thePlayer.addChatComponentMessage(crossBar);
@@ -86,8 +74,8 @@ public class TimeRecorder {
         }
     }
 
-    public static void recordRedundantTime(boolean isGameOver) {
-        int lastRoundTime = ShowSpawnTime.getInstance().getGameTickHandler().getGameTick();
+    public static void recordRedundantTime() {
+        int lastRoundTime = ShowSpawnTime.getGameTickHandler().getGameTick();
         double redundantLastRoundTime;
         if (MainConfiguration.CleanUpTimeToggle) {
             if (PlayerUtils.isInZombies()) {
@@ -97,8 +85,8 @@ public class TimeRecorder {
                 }
 
                 int[][] timer = zombiesMap.getTimer();
-                int maxRound = zombiesMap.getMaxRound();
-                int currentRound = isGameOver ? maxRound : ShowSpawnTime.getSpawnTimes().currentRound - 1;
+
+                int currentRound = ShowSpawnTime.getSpawnTimes().currentRound;
 
                 if (currentRound == 0) {
                     return;

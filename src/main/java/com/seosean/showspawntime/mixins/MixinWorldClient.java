@@ -3,8 +3,8 @@ package com.seosean.showspawntime.mixins;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.handler.LanguageDetector;
-import com.seosean.showspawntime.modules.features.dpscounter.DPSCounter;
-import com.seosean.showspawntime.modules.features.lrqueue.LRQueue;
+import com.seosean.showspawntime.features.dpscounter.DPSCounter;
+import com.seosean.showspawntime.features.lrqueue.LRQueueRenderer;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -29,12 +29,11 @@ public class MixinWorldClient {
     @Unique
     private void showSpawnTime$detectSound(String soundEffect, float pitch){
         if (soundEffect.equals("mob.wither.spawn") || soundEffect.equals("mob.enderdragon.end") || (soundEffect.equals("mob.guardian.curse") && !AAr10)) {
-            LanguageDetector.detectLanguage();
             AAr10 = soundEffect.equals("mob.guardian.curse");
-            LRQueue.lrUsings = 0;
-            ShowSpawnTime.getInstance().getGameTickHandler().setGameStarted(!soundEffect.equals("mob.enderdragon.end"));
-            if (LRQueue.displayTime > 100) {
-                LRQueue.displayTime = 100;
+            LRQueueRenderer.lrUsings = 0;
+            ShowSpawnTime.getGameTickHandler().setGameStarted(!soundEffect.equals("mob.enderdragon.end"));
+            if (LRQueueRenderer.displayTime > 100) {
+                LRQueueRenderer.displayTime = 100;
             }
         }
 
@@ -43,9 +42,9 @@ public class MixinWorldClient {
                 if (LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.ALIEN_ARCADIUM)) {
                     if (soundEffect.equals("ambient.weather.thunder")) {
                         if (pitch != 2.0) {
-                            LRQueue.lrUsings ++;
-                            LRQueue.lrOffsetCountDown = 100;
-                            LRQueue.displayTime = 160;
+                            LRQueueRenderer.lrUsings ++;
+                            LRQueueRenderer.lrOffsetCountDown = 100;
+                            LRQueueRenderer.displayTime = 160;
                         }
                     }
                 }

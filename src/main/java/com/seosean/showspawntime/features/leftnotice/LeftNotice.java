@@ -1,4 +1,4 @@
-package com.seosean.showspawntime.modules.features.leftnotice;
+package com.seosean.showspawntime.features.leftnotice;
 
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;

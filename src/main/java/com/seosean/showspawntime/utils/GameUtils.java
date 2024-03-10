@@ -106,7 +106,7 @@ public class GameUtils {
     }
 
     public static int getCurrentZombiesTimeTick() {
-        return ShowSpawnTime.getInstance().getGameTickHandler().getGameTick();
+        return ShowSpawnTime.getGameTickHandler().getGameTick();
     }
 
     public static int getCurrentWave(int currentRound) {
@@ -114,7 +114,7 @@ public class GameUtils {
         for (int i = 0; i < roundTicks.length; i++) {
             roundTicks[i] *= 1000;
         }
-        return JavaUtils.findInsertPosition(roundTicks, ShowSpawnTime.getInstance().getGameTickHandler().getGameTick());
+        return JavaUtils.findInsertPosition(roundTicks, ShowSpawnTime.getGameTickHandler().getGameTick());
     }
 
     public static List<Integer> getGiantOnlyWaves(int round) {

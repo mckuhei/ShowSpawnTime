@@ -1,7 +1,7 @@
-package com.seosean.showspawntime.modules.features.lrqueue;
+package com.seosean.showspawntime.features.lrqueue;
 
 import com.seosean.showspawntime.config.MainConfiguration;
-import com.seosean.showspawntime.modules.features.Renderer;
+import com.seosean.showspawntime.features.Renderer;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import com.seosean.showspawntime.utils.StringUtils;
@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
 
-public class LRQueue extends Renderer {
+public class LRQueueRenderer extends Renderer {
 
     @SubscribeEvent
     public void timerW1End(TickEvent.ClientTickEvent event) {

@@ -1,6 +1,6 @@
-package com.seosean.showspawntime.modules.features.dpscounter;
+package com.seosean.showspawntime.features.dpscounter;
 
-import com.seosean.showspawntime.modules.features.powerups.Powerup;
+import com.seosean.showspawntime.features.powerups.Powerup;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
@@ -48,7 +48,8 @@ public class DPSCounter {
     public static WeaponInfo readyWeapon;
 
     public static void detectWeaponBehavior(String sound, float pitch) {
-        if (sound.equals("random.successful_hit")) {
+        double epsilon = 0.1;
+        if (sound.equals("random.successful_hit") && (Math.abs(1.5F - pitch) < epsilon || Math.abs(2.0F - pitch) < epsilon)) {
             if (readyWeapon == null && cacheReadyWeapon != null) {
                 readyWeapon = cacheReadyWeapon;
             }
@@ -60,7 +61,7 @@ public class DPSCounter {
         } else {
             List<WeaponInfo> probableWeaponInfos = new ArrayList<>();
             for (WeaponInfo weaponInfo : weaponInfos) {
-                double epsilon = 0.1;
+
                 if (weaponInfo.getSound().equalsIgnoreCase(sound) && Math.abs(weaponInfo.getPitch() - pitch) < epsilon) {
                     probableWeaponInfos.add(weaponInfo);
                 }

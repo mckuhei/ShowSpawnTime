@@ -1,4 +1,4 @@
-package com.seosean.showspawntime.modules.features.dpscounter;
+package com.seosean.showspawntime.features.dpscounter;
 
 import com.seosean.showspawntime.utils.LanguageUtils;
 import net.minecraft.client.Minecraft;

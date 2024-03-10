@@ -4,11 +4,12 @@ import com.seosean.showspawntime.utils.LanguageUtils;
 
 public class LanguageDetector {
 
+    public static String cacheLanguage = "EN_US";
     public static String language = "EN_US";
 
     public static void detectLanguage() {
         String zombiesLeftText = LanguageUtils.getZombiesLeftText();
-
+        String cacheLang = language;
         switch (zombiesLeftText) {
             case "Zombies Left": language = "EN_US"; break;
             case "剩余僵尸": language = "ZH_CN"; break;
@@ -35,8 +36,10 @@ public class LanguageDetector {
             case "Kalan Zombi": language = "TR"; break;
             case "Залишилося зомбі": language = "UK"; break;
         }
-    }
-    public enum Language {
 
+        if (!language.equals(cacheLang)) {
+            LanguageUtils.resetCache();
+            cacheLanguage = language;
+        }
     }
 }

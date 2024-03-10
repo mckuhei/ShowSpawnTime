@@ -2,6 +2,7 @@ package com.seosean.showspawntime.utils;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.LanguageConfiguration;
+import com.seosean.showspawntime.handler.LanguageDetector;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,10 +25,17 @@ public class LanguageUtils {
 //    private static final List<String> DEAD_TEXT = Arrays.asList("DEAD", "已死亡", "已死亡", "MRTVÝ", "DØD", "DOOD", "KUOLLUT", "MORT", "TOT", "ΝΕΚΡΟΣ", "HALOTT", "MORTO", "死亡", "사망", "DØD", "ZGINĄŁ", "MORTO", "MORTO", "MORT", "МЁРТВ", "MUERTO", "DÖD", "ÖLDÜ", "МЕРТВИЙ");
 //    private static final List<String> QUIT_TEXT = Arrays.asList("QUIT", "已退出", "已退出", "ODEJÍT", "FORLADT", "VERLATEN", "POISTU", "PARTI", "VERLASSEN", "ΕΞΟΔΟΣ", "KILÉPETT", "DISC.", "退出", "떠남", "FORLAT", "SURRENDERED", "WYJDŹ", "SAIU", "SAIU", "IEȘI", "ВЫШЕЛ", "SALIÓ", "AVSLUTA", "AYRIL", "ВИЙШОВ");
 
+    public static void resetCache() {
+        cacheSidebarContent = "";
+        cacheZombiesLeftText = "";
+        cacheMapSideBarContent = "";
+        cacheMap = ZombiesMap.NULL;
+    }
+
     private static String cacheSidebarContent = "";
     private static String cacheZombiesLeftText = "";
     public static String getZombiesLeftText() {
-        if (!PlayerUtils.isInZombies()) {
+        if (!PlayerUtils.isInZombiesTitle()) {
             return "";
         }
 
@@ -37,8 +45,6 @@ public class LanguageUtils {
             return cacheZombiesLeftText;
         }
 
-        cacheSidebarContent = sidebarContent;
-
         if (!sidebarContent.contains(":") && !sidebarContent.contains("：")) {
             return "";
         }
@@ -46,6 +52,7 @@ public class LanguageUtils {
         String zombiesLeftText = StringUtils.trim(sidebarContent.contains(":") ? sidebarContent.split(":")[0] : sidebarContent.split("：")[0]);
 
         if (ZOMBIES_LEFT.contains(zombiesLeftText)) {
+            cacheSidebarContent = sidebarContent;
             return cacheZombiesLeftText = zombiesLeftText;
         }
 
@@ -63,10 +70,11 @@ public class LanguageUtils {
 
     public static boolean isZombiesTitle(String string) {
         string = StringUtils.trim(string);
-        return LanguageUtils.contains(string.trim(), "zombies.title");
+        return LanguageUtils.contains(string, "zombies.title.1") || LanguageUtils.contains(string, "zombies.title.2");
     }
 
     public static boolean isRoundTitle(String string) {
+        LanguageDetector.detectLanguage();
         string = StringUtils.trim(string);
         return LanguageUtils.contains(string.trim(), "zombies.game.round");
     }
@@ -89,13 +97,19 @@ public class LanguageUtils {
             return cacheMap;
         }
 
-        cacheMapSideBarContent = mapString;
-
         Map<String, String> maps = new HashMap<>();
-        maps.put("zombies.map.thelab", LanguageConfiguration.get("zombies.map.thelab"));
-        maps.put("zombies.map.deadend", LanguageConfiguration.get("zombies.map.deadend"));
-        maps.put("zombies.map.badblood", LanguageConfiguration.get("zombies.map.badblood"));
-        maps.put("zombies.map.alienarcadium", LanguageConfiguration.get("zombies.map.alienarcadium"));
+        maps.put("zombies.map.thelab.lang", LanguageConfiguration.get("zombies.map.thelab"));
+        maps.put("zombies.map.deadend.lang", LanguageConfiguration.get("zombies.map.deadend"));
+        maps.put("zombies.map.badblood.lang", LanguageConfiguration.get("zombies.map.badblood"));
+        maps.put("zombies.map.alienarcadium.lang", LanguageConfiguration.get("zombies.map.alienarcadium"));
+        maps.put("zombies.map.thelab.origin", LanguageConfiguration.getOrigin("zombies.map.thelab"));
+        maps.put("zombies.map.deadend.origin", LanguageConfiguration.getOrigin("zombies.map.deadend"));
+        maps.put("zombies.map.badblood.origin", LanguageConfiguration.getOrigin("zombies.map.badblood"));
+        maps.put("zombies.map.alienarcadium.origin", LanguageConfiguration.getOrigin("zombies.map.alienarcadium"));
+        maps.put("zombies.map.thelab.cache", LanguageConfiguration.getCache("zombies.map.thelab"));
+        maps.put("zombies.map.deadend.cache", LanguageConfiguration.getCache("zombies.map.deadend"));
+        maps.put("zombies.map.badblood.cache", LanguageConfiguration.getCache("zombies.map.badblood"));
+        maps.put("zombies.map.alienarcadium.cache", LanguageConfiguration.getCache("zombies.map.alienarcadium"));
         String mapName = "";
         String matchedKey = "";
 
@@ -114,22 +128,25 @@ public class LanguageUtils {
             return ZombiesMap.NULL;
         }
 
-        switch (matchedKey) {
-            case "zombies.map.deadend": return cacheMap = ZombiesMap.DEAD_END;
-            case "zombies.map.badblood": return cacheMap = ZombiesMap.BAD_BLOOD;
-            case "zombies.map.alienarcadium": return cacheMap = ZombiesMap.ALIEN_ARCADIUM;
-            case "zombies.map.thelab": return cacheMap = ZombiesMap.THE_LAB;
+        int lastDotIndex = matchedKey.lastIndexOf(".");
+        String result = matchedKey.substring(0, lastDotIndex);
+
+        switch (result) {
+            case "zombies.map.deadend": cacheMapSideBarContent = mapString; return cacheMap = ZombiesMap.DEAD_END;
+            case "zombies.map.badblood": cacheMapSideBarContent = mapString; return cacheMap = ZombiesMap.BAD_BLOOD;
+            case "zombies.map.alienarcadium": cacheMapSideBarContent = mapString; return cacheMap = ZombiesMap.ALIEN_ARCADIUM;
+            case "zombies.map.thelab": cacheMapSideBarContent = mapString; return cacheMap = ZombiesMap.THE_LAB;
         }
 
         return cacheMap = ZombiesMap.NULL;
     }
 
     public static boolean equals(String string, String i18nKey) {
-        return string.equalsIgnoreCase(LanguageConfiguration.get(i18nKey));
+        return string.equalsIgnoreCase(LanguageConfiguration.get(i18nKey)) || string.equalsIgnoreCase(LanguageConfiguration.getOrigin(i18nKey)) || string.equalsIgnoreCase(LanguageConfiguration.getCache(i18nKey));
     }
 
     public static boolean contains(String string, String i18nKey) {
-        return string.contains(LanguageConfiguration.get(i18nKey));
+        return string.contains(LanguageConfiguration.get(i18nKey)) || string.contains(LanguageConfiguration.getOrigin(i18nKey)) || string.contains(LanguageConfiguration.getCache(i18nKey));
     }
 
 

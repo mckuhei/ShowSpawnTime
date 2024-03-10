@@ -1,7 +1,8 @@
-package com.seosean.showspawntime.modules.features.powerups;
+package com.seosean.showspawntime.features.powerups;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
+import com.seosean.showspawntime.features.dpscounter.DPSCounter;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
@@ -72,7 +73,7 @@ public class PowerupDetect {
                 return;
             }
 
-            int gameTick = ShowSpawnTime.getInstance().getGameTickHandler().getGameTick();
+            int gameTick = ShowSpawnTime.getGameTickHandler().getGameTick();
 
             Powerup.PowerupType powerupType = Powerup.PowerupType.NULL;
             if (LanguageUtils.contains(message, "zombies.game.instakill.lower")) {
@@ -124,7 +125,11 @@ public class PowerupDetect {
                 powerupType = Powerup.PowerupType.BONUS_GOLD;
             } else if (LanguageUtils.contains(message, "zombies.game.doublegold.lower")) {
                 powerupType = Powerup.PowerupType.DOUBLE_GOLD;
+
             }
+
+            DPSCounter.setPowerupOn(powerupType);
+
             Powerup.PowerupType finalPowerupType = powerupType;
             new DelayedTask() {
                 @Override
