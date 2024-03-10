@@ -94,18 +94,31 @@ public class UpdateDetect {
 
                         newVersion.setChatStyle(newVersion.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, downloadHover)).setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Seosean/ShowSpawnTime/releases")));
                         Minecraft.getMinecraft().thePlayer.addChatComponentMessage(newVersion);
+                        status = Version.UPTODATE;
                         break;
                     } else if (newestVersionNumbers.get(i) < thisVersionNumbers.get(i)) {
                         IChatComponent newVersion = new ChatComponentText(EnumChatFormatting.AQUA+ "ShowSpawnTime: " + EnumChatFormatting.GREEN + "You are using an advanced version, it's probably unstable and uncompleted.");
                         Minecraft.getMinecraft().thePlayer.addChatComponentMessage(newVersion);
+                        status = Version.ADVANCED;
                     }
+
+                    this.newestVersion = newestVersion;
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }).start();
-
     }
 
+    public static Version status = Version.LATEST;
+
+    public static String newestVersion = "";
+
+
+    public enum Version {
+        UPTODATE,
+        LATEST,
+        ADVANCED
+    }
 
 }

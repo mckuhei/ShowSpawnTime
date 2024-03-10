@@ -114,6 +114,9 @@ public class LanguageUtils {
         String matchedKey = "";
 
         for (Map.Entry<String, String> entry : maps.entrySet()) {
+            if (entry.getValue().isEmpty()) {
+                continue;
+            }
             Pattern pattern = Pattern.compile(entry.getValue());
             Matcher matcher = pattern.matcher(mapString);
 
@@ -142,11 +145,17 @@ public class LanguageUtils {
     }
 
     public static boolean equals(String string, String i18nKey) {
-        return string.equalsIgnoreCase(LanguageConfiguration.get(i18nKey)) || string.equalsIgnoreCase(LanguageConfiguration.getOrigin(i18nKey)) || string.equalsIgnoreCase(LanguageConfiguration.getCache(i18nKey));
+        String i18nContent = LanguageConfiguration.get(i18nKey);
+        String originalContent = LanguageConfiguration.getOrigin(i18nKey);
+        String cacheContent = LanguageConfiguration.getCache(i18nKey);
+        return (!i18nContent.isEmpty() && string.equalsIgnoreCase(i18nContent)) || (!originalContent.isEmpty() && string.equalsIgnoreCase(originalContent)) || (!cacheContent.isEmpty() && string.equalsIgnoreCase(cacheContent));
     }
 
     public static boolean contains(String string, String i18nKey) {
-        return string.contains(LanguageConfiguration.get(i18nKey)) || string.contains(LanguageConfiguration.getOrigin(i18nKey)) || string.contains(LanguageConfiguration.getCache(i18nKey));
+        String i18nContent = LanguageConfiguration.get(i18nKey);
+        String originalContent = LanguageConfiguration.getOrigin(i18nKey);
+        String cacheContent = LanguageConfiguration.getCache(i18nKey);
+        return (!i18nContent.isEmpty() && string.contains(i18nContent)) || (!originalContent.isEmpty() && string.contains(originalContent)) || (!cacheContent.isEmpty() && string.contains(cacheContent));
     }
 
 
