@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.features.Renderer;
+import com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown;
 import com.seosean.showspawntime.features.leftnotice.LeftNotice;
 import com.seosean.showspawntime.features.powerups.Powerup;
 import com.seosean.showspawntime.features.powerups.PowerupPredict;
@@ -86,7 +87,7 @@ public abstract class MixinGuiIngame {
     @ModifyArg(method = "renderScoreboard", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/FontRenderer;drawString(Ljava/lang/String;III)I", ordinal = 0), index = 0)
     private String modifyArgumentText(String text) {
         String textTrimed = StringUtils.trim(text);
-        if(MainConfiguration.Wave3LeftNotice) {
+        if (MainConfiguration.Wave3LeftNotice) {
             if (PlayerUtils.isInZombies()) {
                 if (textTrimed.contains(":") || textTrimed.contains("：")) {
                     if (StringUtils.contains(LanguageUtils.ZOMBIES_LEFT, textTrimed)) {
@@ -107,29 +108,60 @@ public abstract class MixinGuiIngame {
             }
         }
         //§
-        if (MainConfiguration.PlayerHealthNotice) {
-            if (PlayerUtils.isInZombies()) {
-                if ((textTrimed.contains(":") || textTrimed.contains("："))) {
-                    String playerName = "";
-                    if (textTrimed.contains(":")) {
-                        playerName = StringUtils.trim(textTrimed.split(":")[0]);
-                    } else if (textTrimed.contains("：")){
-                        playerName = StringUtils.trim(textTrimed.split("：")[0]);
-                    }
+        String playerHealthNoticeString = "";
+        String fastReviveCoolDownString = "";
+        if (PlayerUtils.isInZombies()) {
+            if ((text.contains(":") || text.contains("："))) {
+                String colon = "";
+                String playerName = "";
+                String[] strings = new String[]{};
+                if (text.contains(":")) {
+                    strings = text.split(":");
+                    playerName = StringUtils.trim(strings[0]);
+                    colon = ":";
+                } else if (text.contains("：")) {
+                    strings = text.split("：");
+                    playerName = StringUtils.trim(strings[0]);
+                    colon = "：";
+                }
+                if (MainConfiguration.PlayerHealthNotice) {
                     if (playerName.length() >= 2) {
                         EntityPlayer entityPlayer = getPlayerEntity(playerName);
                         if (entityPlayer != null) {
-                            if (!text.contains("§6")) {
-                                return text;
+                            if (text.contains("§6")) {
+                                float health = entityPlayer.getHealth();
+                                playerHealthNoticeString = EnumChatFormatting.WHITE + "(" + getColor(entityPlayer) + (int) health + EnumChatFormatting.WHITE + ") ";
                             }
-                            float health = entityPlayer.getHealth();
-                            return EnumChatFormatting.WHITE + "(" + getColor(entityPlayer) + (int) health + EnumChatFormatting.WHITE + ")" + " " + text;
                         }
                     }
                 }
+//                if (!MainConfiguration.FastReviveCoolDown.equals(FastReviveCoolDown.RenderType.OFF)) {
+//                    if (FastReviveCoolDown.frcdMap.containsKey(playerName)) {
+//                        int cooldown = FastReviveCoolDown.frcdMap.get(playerName) / 100;
+//                        fastReviveCoolDownString = EnumChatFormatting.WHITE + "(" + EnumChatFormatting.RED + (cooldown / 10.0) + "s" + EnumChatFormatting.WHITE + ") ";
+//
+//                    }
+//                }
+//
+//                switch (MainConfiguration.FastReviveCoolDown) {
+//                    case FRONT:
+//                        text = fastReviveCoolDownString + playerHealthNoticeString + strings[0] + colon + strings[1];
+//                        break;
+//                    case MID:
+//                        text = playerHealthNoticeString + strings[0] + fastReviveCoolDownString + colon + strings[1];
+//                        break;
+//                    case BEHIND:
+//                        text = playerHealthNoticeString + strings[0] + colon + fastReviveCoolDownString + strings[1];
+//                        break;
+//                    case OFF:
+//                        text = playerHealthNoticeString + strings[0] + colon + strings[1];
+//                        break;
+//                }
+
             }
         }
-        return text;
+
+        return playerHealthNoticeString + text;
     }
 
     @Shadow

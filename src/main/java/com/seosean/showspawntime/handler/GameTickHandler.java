@@ -2,6 +2,7 @@ package com.seosean.showspawntime.handler;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.features.Renderer;
+import com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown;
 import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
@@ -12,6 +13,8 @@ import net.minecraft.entity.Entity;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -53,6 +56,8 @@ public class GameTickHandler {
         zGameTick = 0;
         ShowSpawnTime.getSpawnTimes().setCurrentRound(0);
 
+        FastReviveCoolDown.frcdMap.clear();
+
         new DelayedTask() {
             @Override
             public void run() {
@@ -83,6 +88,15 @@ public class GameTickHandler {
                         if (zGameTick % 1000 == 0) {
                             if (zGameStarted && PlayerUtils.isInZombies()) {
                                 ShowSpawnTime.getSpawnNotice().onSpawn(zGameTick);
+                            }
+                        }
+
+                        for (Map.Entry<String, Integer> entry : new ArrayList<>(FastReviveCoolDown.frcdMap.entrySet())) {
+                            int newValue = entry.getValue() - 10;
+                            FastReviveCoolDown.frcdMap.computeIfPresent(entry.getKey(), (k, v) -> newValue);
+
+                            if (newValue <= 0) {
+                                FastReviveCoolDown.frcdMap.remove(entry.getKey());
                             }
                         }
                     }

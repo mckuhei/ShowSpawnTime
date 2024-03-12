@@ -64,9 +64,14 @@ public class CommandDebug extends CommandBase {
                 DebugUtils.sendMessage(UpdateDetect.newestVersion);
                 break;
             }
+            case "type": {
+                type = Integer.parseInt(args[1]);
+                break;
+            }
         }
     }
 
+    private static int type = 1;
     public boolean canCommandSenderUseCommand(ICommandSender sender) {
         return true;
     }

@@ -7,6 +7,7 @@ import com.seosean.showspawntime.commands.CommandSSTHUD;
 import com.seosean.showspawntime.config.ConfigTip;
 import com.seosean.showspawntime.config.LanguageConfiguration;
 import com.seosean.showspawntime.config.MainConfiguration;
+import com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown;
 import com.seosean.showspawntime.handler.GameTickHandler;
 import com.seosean.showspawntime.handler.ScoreboardManager;
 import com.seosean.showspawntime.features.Renderer;
@@ -71,6 +72,7 @@ public class ShowSpawnTime
     private static SpawnTimes spawnTimes;
     private static SpawnNotice spawnNotice;
     private static DPSCounter dpsCounter;
+    private static FastReviveCoolDown fastReviveCoolDown;
     @EventHandler
     public void preinit(FMLPreInitializationEvent event){
 
@@ -101,6 +103,7 @@ public class ShowSpawnTime
         MinecraftForge.EVENT_BUS.register(spawnTimes = new SpawnTimes());
         MinecraftForge.EVENT_BUS.register(spawnNotice = new SpawnNotice());
         MinecraftForge.EVENT_BUS.register(dpsCounter = new DPSCounter());
+//        MinecraftForge.EVENT_BUS.register(fastReviveCoolDown = new FastReviveCoolDown());
 
         MinecraftForge.EVENT_BUS.register(lrQueueRenderer = new LRQueueRenderer());
         MinecraftForge.EVENT_BUS.register(powerupRenderer = new PowerupRenderer());

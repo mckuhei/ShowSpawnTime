@@ -81,7 +81,7 @@ public class ScoreboardManager {
     }
 
     public String getContent(int row) {
-        if (row > this.getSize()) {
+        if (row > this.getSize() || row < 1) {
             return "";
         }
         return content.get(row - 1);

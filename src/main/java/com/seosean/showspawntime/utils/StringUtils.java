@@ -11,6 +11,8 @@ public class StringUtils {
         return s.replaceAll(ShowSpawnTime.EMOJI_REGEX, "").replaceAll(ShowSpawnTime.COLOR_REGEX, "").trim();
     }
 
+
+
     public static int getNumberInString(String s) {
         String regex = "\\d+";
         Pattern pattern = Pattern.compile(regex);
