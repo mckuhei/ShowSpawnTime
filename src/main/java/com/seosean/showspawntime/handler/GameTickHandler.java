@@ -51,6 +51,7 @@ public class GameTickHandler {
 
         zGameStarted = false;
         zGameTick = 0;
+        ShowSpawnTime.getSpawnTimes().setCurrentRound(0);
 
         new DelayedTask() {
             @Override

@@ -45,7 +45,7 @@ public abstract class MixinGuiIngame {
             TimeRecorder.recordGameTime();
             TimeRecorder.recordRedundantTime();
             ShowSpawnTime.getGameTickHandler().setGameStarted(true);
-            ShowSpawnTime.getGameTickHandler().startOrSplit();;
+            ShowSpawnTime.getGameTickHandler().startOrSplit();
 
             if (!PlayerUtils.isInZombiesTitle()) {
                 return;
