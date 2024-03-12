@@ -19,6 +19,7 @@ public class DPSCounter {
     }
     private static final List<WeaponInfo> weaponInfos = new ArrayList<>();
 
+    private static final List<String> soundList = new ArrayList<>();
     static {
         weaponInfos.add(new WeaponInfo("Pistol", "mob.irongolem.hit", 2.0F, 10, 15, Item.getByNameOrId("minecraft:wooden_hoe"), 6, 6));
         weaponInfos.add(new WeaponInfo("Shotgun", "random.explode", 2.0F, 8, 12, Item.getByNameOrId("minecraft:iron_hoe"), 4.5, 4.5));
@@ -32,6 +33,11 @@ public class DPSCounter {
         weaponInfos.add(new WeaponInfo("RainbowRifle", "fireworks.largeBlast", 2.0F, 5, 7, Item.getByNameOrId("minecraft:golden_shovel"), 5, 6, 6.5, 7));
         weaponInfos.add(new WeaponInfo("DoubleBarrelShotgun", "fireworks.largeBlast", 1.0F, 8, 12, Item.getByNameOrId("minecraft:flint_and_steel"), 7, 7, 8, 8));
         weaponInfos.add(new WeaponInfo("GoldDigger", "dig.stone", 2.0F, 10, 15, Item.getByNameOrId("minecraft:golden_pickaxe"), 6, 8, 10, 12, 15, 20));
+
+        for (WeaponInfo weaponInfo : weaponInfos) {
+            soundList.add(weaponInfo.getSound());
+        }
+
     }
 
     public static int instaKillOn = 0;
@@ -58,10 +64,9 @@ public class DPSCounter {
                 cacheReadyWeapon = readyWeapon;
             }
             readyWeapon = null;
-        } else {
+        } else if (soundList.contains(sound)) {
             List<WeaponInfo> probableWeaponInfos = new ArrayList<>();
             for (WeaponInfo weaponInfo : weaponInfos) {
-
                 if (weaponInfo.getSound().equalsIgnoreCase(sound) && Math.abs(weaponInfo.getPitch() - pitch) < epsilon) {
                     probableWeaponInfos.add(weaponInfo);
                 }

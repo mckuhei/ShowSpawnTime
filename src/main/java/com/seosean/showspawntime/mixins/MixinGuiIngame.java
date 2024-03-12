@@ -1,5 +1,7 @@
 package com.seosean.showspawntime.mixins;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.features.Renderer;
@@ -16,6 +18,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.scoreboard.Score;
 import net.minecraft.util.EnumChatFormatting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -23,8 +26,10 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -35,11 +40,12 @@ public abstract class MixinGuiIngame {
     @Inject(method = "displayTitle", at = @At(value = "RETURN"))
     private void displayTitle(String p_175178_1_, String p_175178_2_, int p_175178_3_, int p_175178_4_, int p_175178_5_, CallbackInfo callbackInfo){
         String roundTitle = p_175178_1_ == null ? "" : StringUtils.trim(p_175178_1_);
-        boolean flag = LanguageUtils.contains(roundTitle, "zombies.game.youwin");
+        boolean flag = LanguageUtils.contains(roundTitle, "zombies.game.youwin") || LanguageUtils.contains(roundTitle, "zombies.game.gameover");
         if (LanguageUtils.isRoundTitle(roundTitle) || flag) {
             TimeRecorder.recordGameTime();
             TimeRecorder.recordRedundantTime();
             ShowSpawnTime.getGameTickHandler().setGameStarted(true);
+            ShowSpawnTime.getGameTickHandler().startOrSplit();;
 
             if (!PlayerUtils.isInZombiesTitle()) {
                 return;
@@ -218,4 +224,19 @@ public abstract class MixinGuiIngame {
         } else return EnumChatFormatting.RED;
     }
 
+//    @Redirect(method = "renderScoreboard", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/Lists;newArrayList(Ljava/lang/Iterable;)Ljava/util/ArrayList;", ordinal = 1))
+//    private <E extends Score> ArrayList<Score> extendSidebarDisplayCap(Iterable<? extends E> elements){
+//        if (PlayerUtils.isInZombiesTitle()) {
+//            return elements.;
+//        }
+//        else return Lists.newArrayList(elements);
+//    }
+
+    @Redirect(method = "renderScoreboard", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/Iterables;skip(Ljava/lang/Iterable;I)Ljava/lang/Iterable;"))
+    private <E extends Score> Iterable<E> extendSidebarDisplayCap(Iterable<E> list, int iterable) {
+        if (PlayerUtils.isInZombiesTitle()) {
+            return list;
+        }
+        else return Iterables.skip(list, iterable);
+    }
 }

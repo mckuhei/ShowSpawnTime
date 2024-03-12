@@ -2,6 +2,7 @@ package com.seosean.showspawntime.handler;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.features.Renderer;
+import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
@@ -92,6 +93,9 @@ public class GameTickHandler {
             else {
                 zGameTick = 0;
             }
+        } catch (Exception e) {
+            System.out.println("SST Splits Exception!");
+            e.printStackTrace();
         }
         finally {
             lock.unlock();
@@ -100,10 +104,6 @@ public class GameTickHandler {
 
     public int getGameTick() {
         return zGameTick;
-    }
-
-    public void reset() {
-        startOrSplit();
     }
 
     public void setGameStarted(boolean flag) {

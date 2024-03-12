@@ -19,7 +19,7 @@ public class SpawnTimeRenderer extends Renderer {
         spawnTimes.getCurrentWave();
         int waveAmount = spawnTimes.roundTimes.length;
 
-        if (waveAmount == 0) {
+        if (spawnTimes.currentRound != 0 && waveAmount == 0) {
             System.out.println("ShowSpawnTime: " + "There is an exception happened to map detector!");
             return;
         }
