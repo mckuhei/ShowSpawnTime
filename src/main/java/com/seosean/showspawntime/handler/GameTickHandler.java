@@ -10,6 +10,7 @@ import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -47,6 +48,10 @@ public class GameTickHandler {
 
         if (!entity.equals(p)){
             return;
+        }
+
+        if (ShowSpawnTime.VERSION.contains("Pre")) {
+            DebugUtils.sendMessage(EnumChatFormatting.GOLD.toString() + EnumChatFormatting.BOLD + "ShowSpawnTime" + EnumChatFormatting.WHITE + ": " + EnumChatFormatting.RED + "You are now using an unstable pre-version build of ShowSpawnTime! Please update your version as fast as possible if there is a latest version released.");
         }
 
         Renderer.setShouldRender(false);
