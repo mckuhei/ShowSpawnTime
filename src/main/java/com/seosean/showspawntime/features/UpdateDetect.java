@@ -2,6 +2,7 @@ package com.seosean.showspawntime.features;
 
 
 import com.seosean.showspawntime.ShowSpawnTime;
+import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
 import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
@@ -33,15 +34,14 @@ public class UpdateDetect {
 
         if (mc == null || mc.theWorld == null || mc.isSingleplayer() || mc.thePlayer == null) return;
 
-        if (!mc.theWorld.isAreaLoaded(mc.thePlayer.getPosition(), 16)) {
-            return;
-        }
-
         triggered = true;
         new DelayedTask() {
             @Override
             public void run() {
                 UpdateDetect.this.checkUpdates();
+                if (ShowSpawnTime.VERSION.contains("Pre")) {
+                    DebugUtils.sendMessage(EnumChatFormatting.GOLD.toString() + EnumChatFormatting.BOLD + "ShowSpawnTime" + EnumChatFormatting.WHITE + ": " + EnumChatFormatting.RED + "You are now using an unstable pre-version build of ShowSpawnTime! Please update your version as fast as possible if there is a latest version released.");
+                }
             }
         }.runTaskLater(3 * 20);
 

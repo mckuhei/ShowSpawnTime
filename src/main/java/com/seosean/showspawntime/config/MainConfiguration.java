@@ -30,6 +30,7 @@ public class MainConfiguration {
         MainConfiguration.logger = logger;
         MainConfiguration.minecraft = Minecraft.getMinecraft();
         this.ConfigLoad();
+        cacheCriticalTextFix = CriticalTextFix;
     }
 
     public static Minecraft minecraft;
@@ -57,6 +58,7 @@ public class MainConfiguration {
     public static boolean PowerupAlertToggle;
     public static boolean Wave3LeftNotice;
     public static boolean PlayerHealthNotice;
+    public static boolean CriticalTextFix;
     public static FastReviveCoolDown.RenderType FastReviveCoolDown;
     public static String[] FastReviveCoolDownRenderType = new String[]{"OFF", "FRONT", "MID","BEHIND"};
 
@@ -97,6 +99,7 @@ public class MainConfiguration {
         String commentPowerupAlert;
         String commentWave3LeftNotice;
         String commentPlayerHealthNotice;
+        String commentCriticalTextFix;
         String commentFastReviveCoolDown;
 
         comment = "How long will the highlight delayed after a wave spawns in **SECOND**. \nNotice it only works in Dead End and Bad Blood.";
@@ -165,18 +168,24 @@ public class MainConfiguration {
         PowerupAlertToggle = propertyPowerupAlertToggle.getBoolean();
         powerupRelated.put(propertyPowerupAlertToggle.getName(), new ConfigElement(propertyPowerupAlertToggle));
 
-        commentWave3LeftNotice = "Enhance the ScoreBoard which shows you the amount of zombies in wave 3rd in DE/BB.";
+        commentWave3LeftNotice = "Enhance the Sidebar which shows you the amount of zombies in wave 3rd in DE/BB.";
         Property propertyWave3LeftNotice = config.get(Configuration.CATEGORY_GENERAL, "Wave 3rd Left Notice", true, commentWave3LeftNotice);
         Wave3LeftNotice = propertyWave3LeftNotice.getBoolean();
         powerupRelated.put(propertyWave3LeftNotice.getName(), new ConfigElement(propertyWave3LeftNotice));
 
-        commentPlayerHealthNotice = "Enhance the ScoreBoard which shows the health of players.";
+        commentPlayerHealthNotice = "Enhance the Sidebar which shows the health of players.";
         Property propertyPlayerHealthNotice = config.get(Configuration.CATEGORY_GENERAL, "Player Health Notice", true, commentPlayerHealthNotice);
         PlayerHealthNotice = propertyPlayerHealthNotice.getBoolean();
         powerupRelated.put(propertyPlayerHealthNotice.getName(), new ConfigElement(propertyPlayerHealthNotice));
 
-        commentFastReviveCoolDown = "Enhance the ScoreBoard which shows the cool down of fast revive for each player.";
-        Property propertyFastReviveCoolDown = config.get(Configuration.CATEGORY_GENERAL, "Fast Revive Cool Down", "MID", commentFastReviveCoolDown, FastReviveCoolDownRenderType);
+
+        commentCriticalTextFix = "Fix a bug which caused texts after full angle bracket do not render.";
+        Property propertyCriticalTextFix = config.get(Configuration.CATEGORY_GENERAL, "Critical Hit Text Fix " + EnumChatFormatting.WHITE + "(" + EnumChatFormatting.RED + "Reload Resources" + EnumChatFormatting.WHITE + ")", true, commentCriticalTextFix);
+        CriticalTextFix = propertyCriticalTextFix.getBoolean();
+        powerupRelated.put(propertyCriticalTextFix.getName(), new ConfigElement(propertyCriticalTextFix));
+
+        commentFastReviveCoolDown = "Enhance the Sidebar which shows the cool down of fast revive for each player.";
+        Property propertyFastReviveCoolDown = config.get(Configuration.CATEGORY_GENERAL, "Fast Revive Cool Down", "BEHIND", commentFastReviveCoolDown, FastReviveCoolDownRenderType);
         FastReviveCoolDown = com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown.RenderType.valueOf(propertyFastReviveCoolDown.getString());
         powerupRelated.put(propertyFastReviveCoolDown.getName(), new ConfigElement(propertyFastReviveCoolDown));
 
@@ -184,11 +193,22 @@ public class MainConfiguration {
         logger.info("Finished loading config. ");
     }
 
+    private boolean cacheCriticalTextFix;
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
         if (event.modID.equals(ShowSpawnTime.MODID) && (event.configID == null || !event.configID.equals("dummyID"))) {
             config.save();
             this.ConfigLoad();
+            if (cacheCriticalTextFix != CriticalTextFix) {
+                cacheCriticalTextFix = CriticalTextFix;
+                new DelayedTask() {
+                    @Override
+                    public void run() {
+                        Minecraft.getMinecraft().refreshResources();
+                    }
+                }.runTaskLater(2);
+
+            }
         }
     }
 

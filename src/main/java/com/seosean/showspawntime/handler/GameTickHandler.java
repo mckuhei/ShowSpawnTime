@@ -50,10 +50,6 @@ public class GameTickHandler {
             return;
         }
 
-        if (ShowSpawnTime.VERSION.contains("Pre")) {
-            DebugUtils.sendMessage(EnumChatFormatting.GOLD.toString() + EnumChatFormatting.BOLD + "ShowSpawnTime" + EnumChatFormatting.WHITE + ": " + EnumChatFormatting.RED + "You are now using an unstable pre-version build of ShowSpawnTime! Please update your version as fast as possible if there is a latest version released.");
-        }
-
         Renderer.setShouldRender(false);
         ShowSpawnTime.getScoreboardManager().clear();
 

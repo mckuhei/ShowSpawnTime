@@ -11,7 +11,7 @@ public class PlayerInvisibility {
     @SubscribeEvent
     public void onRender(RenderPlayerEvent.Pre event) {
         EntityPlayer player = event.entityPlayer;
-        if (player != Minecraft.getMinecraft().thePlayer && !player.isPlayerSleeping() && PlayerInvisibility.withinDistance(player)) {
+        if (player != Minecraft.getMinecraft().thePlayer && !player.isPlayerSleeping() && PlayerInvisibility.withinDistance(player) && player.getMaxHealth() < 100) {
             event.setCanceled(MainConfiguration.PlayerInvisible);
         }
     }
@@ -27,7 +27,7 @@ public class PlayerInvisibility {
     public static boolean isPlayerInvisible(Entity entity){
         boolean flag = !entity.isInvisible();
         boolean flag1 = !flag && !entity.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer);
-        boolean flag2 = entity != Minecraft.getMinecraft().thePlayer && entity instanceof EntityPlayer && Minecraft.getMinecraft().thePlayer.getDistanceToEntity(entity) < 7.02F && !((EntityPlayer) entity).isPlayerSleeping();
+        boolean flag2 = entity != Minecraft.getMinecraft().thePlayer && entity instanceof EntityPlayer && Minecraft.getMinecraft().thePlayer.getDistanceToEntity(entity) < 7.02F && !((EntityPlayer) entity).isPlayerSleeping() && ((EntityPlayer) entity).getMaxHealth() < 100;
         return (flag || flag1) && (flag1 || flag2);
     }
 

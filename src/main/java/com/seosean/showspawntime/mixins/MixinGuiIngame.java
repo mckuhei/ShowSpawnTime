@@ -135,33 +135,34 @@ public abstract class MixinGuiIngame {
                         }
                     }
                 }
-//                if (!MainConfiguration.FastReviveCoolDown.equals(FastReviveCoolDown.RenderType.OFF)) {
-//                    if (FastReviveCoolDown.frcdMap.containsKey(playerName)) {
-//                        int cooldown = FastReviveCoolDown.frcdMap.get(playerName) / 100;
-//                        fastReviveCoolDownString = EnumChatFormatting.WHITE + "(" + EnumChatFormatting.RED + (cooldown / 10.0) + "s" + EnumChatFormatting.WHITE + ") ";
-//
-//                    }
-//                }
-//
-//                switch (MainConfiguration.FastReviveCoolDown) {
-//                    case FRONT:
-//                        text = fastReviveCoolDownString + playerHealthNoticeString + strings[0] + colon + strings[1];
-//                        break;
-//                    case MID:
-//                        text = playerHealthNoticeString + strings[0] + fastReviveCoolDownString + colon + strings[1];
-//                        break;
-//                    case BEHIND:
-//                        text = playerHealthNoticeString + strings[0] + colon + fastReviveCoolDownString + strings[1];
-//                        break;
-//                    case OFF:
-//                        text = playerHealthNoticeString + strings[0] + colon + strings[1];
-//                        break;
-//                }
+                if (!MainConfiguration.FastReviveCoolDown.equals(FastReviveCoolDown.RenderType.OFF)) {
+                    if (FastReviveCoolDown.frcdMap.containsKey(playerName)) {
+                        int cooldown = FastReviveCoolDown.frcdMap.get(playerName) / 100;
+                        fastReviveCoolDownString = EnumChatFormatting.WHITE + "(" + EnumChatFormatting.RED + (cooldown / 10.0) + "s" + EnumChatFormatting.WHITE + ") ";
+
+                    }
+                }
+                if (!fastReviveCoolDownString.isEmpty() || !playerHealthNoticeString.isEmpty()) {
+                    switch (MainConfiguration.FastReviveCoolDown) {
+                        case FRONT:
+                            text = fastReviveCoolDownString + playerHealthNoticeString + strings[0] + colon + strings[1];
+                            break;
+                        case MID:
+                            text = playerHealthNoticeString + fastReviveCoolDownString + strings[0] + colon + strings[1];
+                            break;
+                        case BEHIND:
+                            text = playerHealthNoticeString + strings[0] + fastReviveCoolDownString + colon + strings[1];
+                            break;
+                        case OFF:
+                            text = playerHealthNoticeString + strings[0] + colon + strings[1];
+                            break;
+                    }
+                }
 
             }
         }
 
-        return playerHealthNoticeString + text;
+        return text;
     }
 
     @Shadow
@@ -169,62 +170,87 @@ public abstract class MixinGuiIngame {
 
     //Contents
     @ModifyArg(method = "renderScoreboard", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/FontRenderer;drawString(Ljava/lang/String;III)I", ordinal = 0), index = 1)
-    private int modifyArgumentWidth0(int l1){
-        if(MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
-            if (PlayerUtils.isInZombies()) {
-                String text = "(00)";
-                return l1 - getFontRenderer().getStringWidth(text);
+    private int modifyArgumentWidth0(int l1) {
+        int toSub = 0;
+        if (PlayerUtils.isInZombies()) {
+            if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
+                String text = "00";
+                toSub += getFontRenderer().getStringWidth(text);
+            }
+            if (!MainConfiguration.FastReviveCoolDown.equals(FastReviveCoolDown.RenderType.OFF)) {
+                String text = "00s";
+                toSub += getFontRenderer().getStringWidth(text);
             }
         }
-        return l1;
+        return l1 - toSub;
     }
 
     //Title
     @ModifyArg(method = "renderScoreboard", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/FontRenderer;drawString(Ljava/lang/String;III)I", ordinal = 2), index = 1)
     private int modifyArgumentWidth1(int l1){
-        if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
-            if (PlayerUtils.isInZombies()) {
-                String text = "(00)";
-                return l1 - getFontRenderer().getStringWidth(text) / 2;
+        int toSub = 0;
+        if (PlayerUtils.isInZombies()) {
+            if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
+                String text = "00";
+                toSub += getFontRenderer().getStringWidth(text) / 2;
+            }
+            if (!MainConfiguration.FastReviveCoolDown.equals(FastReviveCoolDown.RenderType.OFF)) {
+                String text = "00s";
+                toSub += getFontRenderer().getStringWidth(text) / 2;
             }
         }
-        return l1;
+        return l1 - toSub;
     }
 
     //Contents GUI
     @ModifyArg(method = "renderScoreboard", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiIngame;drawRect(IIIII)V", ordinal = 0), index = 0)
     private int modifyArgumentLeft0(int l1){
-        if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
-            if (PlayerUtils.isInZombies()) {
-                String text = "(00)";
-                return l1 - getFontRenderer().getStringWidth(text);
+        int toSub = 0;
+        if (PlayerUtils.isInZombies()) {
+            if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
+                String text = "00";
+                toSub += getFontRenderer().getStringWidth(text);
+            }
+            if (!MainConfiguration.FastReviveCoolDown.equals(FastReviveCoolDown.RenderType.OFF)) {
+                String text = "00s";
+                toSub += getFontRenderer().getStringWidth(text);
             }
         }
-        return l1;
+        return l1 - toSub;
     }
 
     //Title GUI
     @ModifyArg(method = "renderScoreboard", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiIngame;drawRect(IIIII)V", ordinal = 1), index = 0)
     private int modifyArgumentLeft1(int l1){
-        if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
-            if (PlayerUtils.isInZombies()) {
-                String text = "(00)";
-                return l1 - getFontRenderer().getStringWidth(text);
+        int toSub = 0;
+        if (PlayerUtils.isInZombies()) {
+            if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
+                String text = "00";
+                toSub += getFontRenderer().getStringWidth(text);
+            }
+            if (!MainConfiguration.FastReviveCoolDown.equals(FastReviveCoolDown.RenderType.OFF)) {
+                String text = "00s";
+                toSub += getFontRenderer().getStringWidth(text);
             }
         }
-        return l1;
+        return l1 - toSub;
     }
 
     //Bottom GUI
     @ModifyArg(method = "renderScoreboard", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiIngame;drawRect(IIIII)V", ordinal = 2), index = 0)
     private int modifyArgumentLeft2(int l1){
-        if(MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
-            if (PlayerUtils.isInZombies()) {
-                String text = "(00)";
-                return l1 - getFontRenderer().getStringWidth(text);
+        int toSub = 0;
+        if (PlayerUtils.isInZombies()) {
+            if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
+                String text = "00";
+                toSub += getFontRenderer().getStringWidth(text);
+            }
+            if (!MainConfiguration.FastReviveCoolDown.equals(FastReviveCoolDown.RenderType.OFF)) {
+                String text = "00s";
+                toSub += getFontRenderer().getStringWidth(text);
             }
         }
-        return l1;
+        return l1 - toSub;
     }
 
 

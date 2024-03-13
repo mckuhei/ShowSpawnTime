@@ -53,8 +53,6 @@ public class ScoreboardManager {
                 .filter(p_apply_1_ -> p_apply_1_.getPlayerName() != null && !p_apply_1_.getPlayerName().startsWith("#")).collect(Collectors.toCollection(CopyOnWriteArrayList::new));
         if (filteredScores.isEmpty()) {
             return;
-        } else if (filteredScores.size() > 15) {
-            scores = Lists.newArrayList(Iterables.skip(filteredScores, scores.size() - 15));
         } else {
             scores = filteredScores;
         }
