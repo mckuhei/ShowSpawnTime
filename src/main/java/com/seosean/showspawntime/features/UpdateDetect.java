@@ -41,7 +41,7 @@ public class UpdateDetect {
             public void run() {
                 UpdateDetect.this.checkUpdates();
                 if (ShowSpawnTime.VERSION.contains("Pre")) {
-                    DebugUtils.sendMessage(EnumChatFormatting.GOLD.toString() + EnumChatFormatting.BOLD + "ShowSpawnTime" + EnumChatFormatting.WHITE + ": " + EnumChatFormatting.RED + "You are now using an unstable pre-version build of ShowSpawnTime! Please update your version as fast as possible if there is a latest version released.");
+                    DebugUtils.sendMessage(EnumChatFormatting.GOLD.toString() + EnumChatFormatting.BOLD + "ShowSpawnTime" + EnumChatFormatting.WHITE + ": " + EnumChatFormatting.RED + EnumChatFormatting.OBFUSCATED + "aa" + EnumChatFormatting.RESET + EnumChatFormatting.RED + "You are now using an unstable pre-version build! Please update your version as fast as possible if there is a latest version released." + EnumChatFormatting.OBFUSCATED + "aa");
                 }
             }
         }.runTaskLater(3 * 20);

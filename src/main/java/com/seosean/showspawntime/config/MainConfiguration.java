@@ -298,7 +298,7 @@ public class MainConfiguration {
     public static double getYDPSCounter(){
         int screenHeight = new ScaledResolution(minecraft).getScaledHeight();
         if(YDPSCounter < 0){
-            return 1 - minecraft.fontRendererObj.FONT_HEIGHT * 2 / (double)screenHeight;
+            return 1 - minecraft.fontRendererObj.FONT_HEIGHT * 3 / (double)screenHeight;
         }
         return YDPSCounter;
     }

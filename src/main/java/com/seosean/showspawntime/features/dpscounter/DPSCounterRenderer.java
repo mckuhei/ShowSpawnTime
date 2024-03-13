@@ -3,6 +3,7 @@ package com.seosean.showspawntime.features.dpscounter;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.features.Renderer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 public class DPSCounterRenderer extends Renderer {
@@ -19,7 +20,7 @@ public class DPSCounterRenderer extends Renderer {
         float absoluteX = (float) MainConfiguration.getXDPSCounter() * (float)scaledResolution.getScaledWidth();
         float absoluteY = (float) MainConfiguration.getYDPSCounter() * (float)scaledResolution.getScaledHeight();
 
-        fontRenderer.drawStringWithShadow("DPS: " + (DPSCounter.instaKillOn > 0 ? "INSTA KILL" : DPSCounter.DPS), absoluteX, absoluteY + this.fontRenderer.FONT_HEIGHT * (-1), 0xFFFFFF);
+        fontRenderer.drawStringWithShadow(EnumChatFormatting.GOLD + "DPS" + EnumChatFormatting.WHITE + ": " + (DPSCounter.instaKillOn > 0 ? EnumChatFormatting.RED +  "INSTA KILL" : EnumChatFormatting.AQUA.toString() + DPSCounter.DPS), absoluteX, absoluteY, 0xFFFFFF);
 
     }
 }
