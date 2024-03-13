@@ -32,9 +32,9 @@ public class SpawnNotice {
             for (int time : currentRoundTimes) {
                 if (time * 1000 == tick) {
                     if (finalWaveTime * 1000 == tick) {
-                        minecraft.thePlayer.playSound(MainConfiguration.TheLastWave, 2, (float) MainConfiguration.TheLastWavePitch);
+                        minecraft.thePlayer.playSound(MainConfiguration.TheLastWaveSound, 2, (float) MainConfiguration.TheLastWavePitch);
                     } else {
-                        minecraft.thePlayer.playSound(MainConfiguration.PrecededWave, 2, (float) MainConfiguration.PrecededWavePitch);
+                        minecraft.thePlayer.playSound(MainConfiguration.PrecededWaveSound, 2, (float) MainConfiguration.PrecededWavePitch);
                     }
                     return;
                 }
@@ -42,11 +42,11 @@ public class SpawnNotice {
         }
         if(MainConfiguration.DEBBCountDown) {
             if (tick == (finalWaveTime - 3) * 1000) {
-                Minecraft.getMinecraft().thePlayer.playSound(MainConfiguration.TheLastWave, 2, (float) MainConfiguration.PrecededWavePitch);
+                Minecraft.getMinecraft().thePlayer.playSound(MainConfiguration.CountDownSound, 2, (float) MainConfiguration.CountDownPitch);
             } else if (tick == (finalWaveTime - 2) * 1000) {
-                Minecraft.getMinecraft().thePlayer.playSound(MainConfiguration.TheLastWave, 2, (float) MainConfiguration.PrecededWavePitch);
+                Minecraft.getMinecraft().thePlayer.playSound(MainConfiguration.CountDownSound, 2, (float) MainConfiguration.CountDownPitch);
             } else if (tick == (finalWaveTime - 1) * 1000) {
-                Minecraft.getMinecraft().thePlayer.playSound(MainConfiguration.TheLastWave, 2, (float) MainConfiguration.PrecededWavePitch);
+                Minecraft.getMinecraft().thePlayer.playSound(MainConfiguration.CountDownSound, 2, (float) MainConfiguration.CountDownPitch);
             }
         }
     }

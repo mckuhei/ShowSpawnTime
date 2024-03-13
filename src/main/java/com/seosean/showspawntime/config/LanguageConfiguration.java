@@ -1,6 +1,8 @@
 package com.seosean.showspawntime.config;
 
 import com.seosean.showspawntime.handler.LanguageDetector;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,20 +14,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LanguageConfiguration {
-    public LanguageConfiguration(File file) {
-        this.file = file;
-    }
-
-    private final File file;
-
     public static Map<String, String> translations = new HashMap<>();
-    public void load() {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8))) {
-            String line;
-            while ((line = br.readLine()) != null) {
+    public static void load() {
+        ResourceLocation lang = new ResourceLocation("showspawntime", "lang/showspawntime.lang");
+        String line;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Minecraft.getMinecraft().getResourceManager().getResource(lang).getInputStream(), StandardCharsets.UTF_8));) {
+            while ((line = reader.readLine()) != null) {
                 if (!line.isEmpty()) {
                     String[] lines = line.split(" = ");
-                    translations.put(lines[0], lines[1]);
+                    LanguageConfiguration.translations.put(lines[0], lines[1]);
                 }
             }
         } catch (IOException e) {

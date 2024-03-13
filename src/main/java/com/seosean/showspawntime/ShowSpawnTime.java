@@ -80,12 +80,19 @@ public class ShowSpawnTime
         LOGGER = event.getModLog();
 
         File modConfigFolder = new File(event.getModConfigurationDirectory(), MODID);
-        if (!modConfigFolder.exists()) {
-            modConfigFolder.mkdirs();
+        modConfigFolder.deleteOnExit();
+        try {
+            modConfigFolder.createNewFile();
+        } catch (Exception ignored) {
+
         }
+//        if (!modConfigFolder.exists()) {
+//            modConfigFolder.mkdirs();
+//        }
 
         CONFIGURATION = new Configuration(new File(modConfigFolder, MODID + ".cfg"));
-        LANGUAGE_CONFIGURATION = createLangConfig();
+
+        LanguageConfiguration.load();
 
         MAIN_CONFIGURATION = new MainConfiguration(CONFIGURATION, LOGGER);
     }
@@ -122,42 +129,12 @@ public class ShowSpawnTime
         ClientCommandHandler.instance.registerCommand(new CommandCommon());
         ClientCommandHandler.instance.registerCommand(new CommandDebug());
 
-        ClientRegistry.registerKeyBinding(MainConfiguration.keyToggleCountDown);
         ClientRegistry.registerKeyBinding(MainConfiguration.keyTogglePlayerInvisible);
         ClientRegistry.registerKeyBinding(MainConfiguration.keyOpenConfig);
     }
 
     public static ScoreboardManager getScoreboardManager() {
         return SCOREBOARD_MANAGER;
-    }
-
-    private static LanguageConfiguration createLangConfig() {
-        File langConfig = new File(CONFIGURATION.getConfigFile().getParentFile(), MODID + ".lang");
-        langConfig.deleteOnExit();
-        try {
-            langConfig.createNewFile();
-            ResourceLocation lang = new ResourceLocation("showspawntime", "lang/showspawntime.lang");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(Minecraft.getMinecraft().getResourceManager().getResource(lang).getInputStream(), StandardCharsets.UTF_8));
-            String line;
-
-            try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(langConfig.toPath()), StandardCharsets.UTF_8))) {
-                while ((line = reader.readLine()) != null) {
-                    writer.write(line);
-                    writer.newLine();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        LanguageConfiguration config = new LanguageConfiguration(langConfig);
-        config.load();
-        return config;
-    }
-
-    public static LanguageConfiguration getLanguageConfiguration() {
-        return LANGUAGE_CONFIGURATION;
     }
 
     public static ShowSpawnTime getInstance() {
@@ -202,6 +179,10 @@ public class ShowSpawnTime
 
     public static DPSCounterRenderer getDPSCounterRenderer() {
         return dpsCounterRenderer;
+    }
+
+    public static FastReviveCoolDown getFastReviveCoolDown() {
+        return fastReviveCoolDown;
     }
 
     public static Logger getLogger() {

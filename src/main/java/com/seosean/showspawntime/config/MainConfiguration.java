@@ -36,7 +36,6 @@ public class MainConfiguration {
     public static Minecraft minecraft;
     public static String[] AARoundsRecord = new String[]{"OFF", "Quintuple", "Tenfold","ALL"};
     public static String[] DEBBRoundsRecord = new String[]{"OFF", "Quintuple", "Tenfold","ALL"};
-    public static KeyBinding keyToggleCountDown = new KeyBinding("Wave 3 Count Down", Keyboard.KEY_NONE, "Show Spawn Time");
     public static KeyBinding keyTogglePlayerInvisible = new KeyBinding("Player Invisible", Keyboard.KEY_NONE, "Show Spawn Time");
     public static KeyBinding keyOpenConfig = new KeyBinding("Config", Keyboard.KEY_NONE, "Show Spawn Time");
 
@@ -45,8 +44,8 @@ public class MainConfiguration {
     public static double HighlightDelay;
     public static boolean PlayAASound;
     public static boolean PlayDEBBSound;
-    public static String PrecededWave;
-    public static String TheLastWave;
+    public static String PrecededWaveSound;
+    public static String TheLastWaveSound;
     public static double PrecededWavePitch;
     public static double TheLastWavePitch;
     public static boolean ColorAlert;
@@ -63,6 +62,8 @@ public class MainConfiguration {
     public static String[] FastReviveCoolDownRenderType = new String[]{"OFF", "FRONT", "MID","BEHIND"};
 
     public static boolean DEBBCountDown;
+    public static String CountDownSound;
+    public static double CountDownPitch;
     public static boolean PlayerInvisible;
 
 
@@ -91,6 +92,9 @@ public class MainConfiguration {
         String commentPlaySoundLastWave;
         String commentPlaySoundPrecededWavePitch;
         String commentPlaySoundLastWavePitch;
+        String commentDEBBCountDown;
+        String commentDEBBCountDownSound;
+        String commentDEBBCountDownPitch;
         String commentDangerAlert;
         String commentAAAllRoundsRecord;
         String commentDEBBAllRoundsRecord;
@@ -109,6 +113,10 @@ public class MainConfiguration {
 //        sstRelated.put(propertyHighlightDelay.getName(), new ConfigElement(propertyHighlightDelay));
 
 
+        /**
+         *  SST Related Elements
+         */
+
         commentPlaySound = "Turn on/off the sound of wave spawning in AA.";
         Property propertyPlaySound =  config.get(Configuration.CATEGORY_GENERAL, "Toggle AA Sound", true, commentPlaySound);
         PlayAASound = propertyPlaySound.getBoolean();
@@ -119,9 +127,9 @@ public class MainConfiguration {
         PlayDEBBSound = propertyPlayDEBBSound.getBoolean();
         sstRelated.put(propertyPlayDEBBSound.getName(), new ConfigElement(propertyPlayDEBBSound));
 
-        commentPlaySoundPrecededWave = "What sound will be played when a wave spawns except the last wave. \nYou can search the sounds you want at https://minecraft.fandom.com/wiki/Sounds.json/Java_Edition_values_before_1.9 \nChinese wiki: https://minecraft.fandom.com/zh/wiki/Sounds.json/Java%E7%89%881.9%E5%89%8D";
+        commentPlaySoundPrecededWave = "The sound will be played when a wave spawns except the last wave. \nYou can search the sounds you want at https://minecraft.fandom.com/wiki/Sounds.json/Java_Edition_values_before_1.9 \nChinese wiki: https://minecraft.fandom.com/zh/wiki/Sounds.json/Java%E7%89%881.9%E5%89%8D";
         Property propertyPrecededWave = config.get(Configuration.CATEGORY_GENERAL, "Preceded Wave Sound", "note.pling", commentPlaySoundPrecededWave);
-        PrecededWave = propertyPrecededWave.getString();
+        PrecededWaveSound = propertyPrecededWave.getString();
         sstRelated.put(propertyPrecededWave.getName(), new ConfigElement(propertyPrecededWave));
 
         commentPlaySoundPrecededWavePitch = "The pitch setting of PrecededWave.";
@@ -129,9 +137,9 @@ public class MainConfiguration {
         PrecededWavePitch = propertyPrecededWavePitch.getDouble();
         sstRelated.put(propertyPrecededWavePitch.getName(), new ConfigElement(propertyPrecededWavePitch));
 
-        commentPlaySoundLastWave = "What sound will be played when the last wave spawns.";
+        commentPlaySoundLastWave = "The sound will be played when the last wave spawns.";
         Property propertyTheLastWave = config.get(Configuration.CATEGORY_GENERAL, "Final Wave Sound", "random.orb", commentPlaySoundLastWave);
-        TheLastWave = propertyTheLastWave.getString();
+        TheLastWaveSound = propertyTheLastWave.getString();
         sstRelated.put(propertyTheLastWave.getName(), new ConfigElement(propertyTheLastWave));
 
         commentPlaySoundLastWavePitch = "The pitch setting of TheLastWave.";
@@ -139,11 +147,29 @@ public class MainConfiguration {
         TheLastWavePitch = propertyTheLastWavePitch.getDouble();
         sstRelated.put(propertyTheLastWavePitch.getName(), new ConfigElement(propertyTheLastWavePitch));
 
+        commentDEBBCountDown = "Turn on/off the count-down sound of seconds before final wave spawns in DE and BB.";
+        Property propertyDEBBCountDown = config.get(Configuration.CATEGORY_GENERAL, "Toggle DE/BB W3 Count Down Sound", false, commentDEBBCountDown);
+        DEBBCountDown = propertyDEBBCountDown.getBoolean();
+        sstRelated.put(propertyDEBBCountDown.getName(), new ConfigElement(propertyDEBBCountDown));
+
+        commentDEBBCountDownSound = "The sound of W3 Count Down";
+        Property propertyCountDownSound = config.get(Configuration.CATEGORY_GENERAL, "Count Down Sound", "note.pling", commentDEBBCountDownSound);
+        CountDownSound = propertyCountDownSound.getString();
+        sstRelated.put(propertyCountDownSound.getName(), new ConfigElement(propertyCountDownSound));
+
+        commentDEBBCountDownPitch = "The sound pitch of W3 Count Down";
+        Property propertyCountDownPitch = config.get(Configuration.CATEGORY_GENERAL, "Count Down Pitch", 1.5, commentDEBBCountDownPitch, 0, 2);
+        CountDownPitch = propertyCountDownPitch.getDouble();
+        sstRelated.put(propertyCountDownPitch.getName(), new ConfigElement(propertyCountDownPitch));
+
         commentDangerAlert = "Turn on/off the color alert to The Old One and Giants. \nOnly works in AA.";
         Property propertyColorAlert = config.get(Configuration.CATEGORY_GENERAL, "AA Boss Color Alert", true, commentDangerAlert);
         ColorAlert = propertyColorAlert.getBoolean();
         sstRelated.put(propertyColorAlert.getName(), new ConfigElement(propertyColorAlert));
 
+        /**
+         *  Record Related Elements
+         */
         commentAAAllRoundsRecord  = "Turn on/off the round timing similar to round 10/20/105 in AA.";
         Property propertyAARoundsRecordToggle = config.get(Configuration.CATEGORY_GENERAL, "AA Rounds Record Timing", "ALL", commentAAAllRoundsRecord, AARoundsRecord);
         AARoundsRecordToggle = propertyAARoundsRecordToggle.getString();
@@ -159,6 +185,9 @@ public class MainConfiguration {
         CleanUpTimeToggle = propertyCleanUpTimeToggle.getBoolean();
         recordRelated.put(propertyCleanUpTimeToggle.getName(), new ConfigElement(propertyCleanUpTimeToggle));
 
+        /**
+         *  QoL Related Elements
+         */
         commentLightningRodHelper = "Turn on/off the helper of lightning rod queue in AA.";
         Property propertyLightningRodQueue = config.get(Configuration.CATEGORY_GENERAL, "LR Queue Helper", true, commentLightningRodHelper);
         LightningRodQueue = propertyLightningRodQueue.getBoolean();
@@ -287,17 +316,6 @@ public class MainConfiguration {
                 text = new ChatComponentText(EnumChatFormatting.YELLOW + "Toggled Player Invisible " + EnumChatFormatting.GREEN + "ON");
             } else {
                 text = new ChatComponentText(EnumChatFormatting.YELLOW + "Toggled Player Invisible " + EnumChatFormatting.RED + "OFF");
-            }
-            PlayerUtils.sendMessage(text);
-        }
-
-        else if (keyToggleCountDown.isPressed()) {
-            DEBBCountDown  = !DEBBCountDown;
-            IChatComponent text;
-            if (DEBBCountDown) {
-                text = new ChatComponentText(EnumChatFormatting.YELLOW + "Toggled Count Down " + EnumChatFormatting.GREEN + "ON");
-            } else {
-                text = new ChatComponentText(EnumChatFormatting.YELLOW + "Toggled Count Down " + EnumChatFormatting.RED + "OFF");
             }
             PlayerUtils.sendMessage(text);
         }

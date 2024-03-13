@@ -20,7 +20,7 @@ public class PlayerUtils {
 
     public static void sendMessage(IChatComponent string) {
         if (Minecraft.getMinecraft().thePlayer != null) {
-            PlayerUtils.sendMessage(string);
+            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(string);
         }
     }
 }
