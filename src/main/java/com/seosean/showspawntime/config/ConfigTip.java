@@ -70,7 +70,7 @@ public class ConfigTip {
         IChatComponent commandsTips = new ChatComponentText("\n" + EnumChatFormatting.GRAY + "/sstconfig and /ssthud are ways to open config GUIs.");
 
         globalTips.appendSibling(configTips).appendSibling(hudTips).appendSibling(featuresTips).appendSibling(glitchTips).appendSibling(commandsTips);
-        Minecraft.getMinecraft().thePlayer.addChatComponentMessage(globalTips);
+        PlayerUtils.sendMessage(globalTips);
 
         ShowConfigTip = true;
         MinecraftForge.EVENT_BUS.unregister(ConfigTip.this);

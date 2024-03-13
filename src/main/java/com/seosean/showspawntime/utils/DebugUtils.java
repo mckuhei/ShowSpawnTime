@@ -7,7 +7,9 @@ import net.minecraft.util.IChatComponent;
 
 public class DebugUtils {
     public static void sendMessage(String message) {
-        IChatComponent debug = new ChatComponentText(EnumChatFormatting.DARK_GREEN + message);
-        Minecraft.getMinecraft().thePlayer.addChatComponentMessage(debug);
+        if (Minecraft.getMinecraft().thePlayer != null) {
+            IChatComponent debug = new ChatComponentText(EnumChatFormatting.DARK_GREEN + message);
+            PlayerUtils.sendMessage(debug);
+        }
     }
 }

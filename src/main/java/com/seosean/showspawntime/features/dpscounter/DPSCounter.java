@@ -1,5 +1,6 @@
 package com.seosean.showspawntime.features.dpscounter;
 
+import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.features.powerups.Powerup;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
@@ -79,6 +80,14 @@ public class DPSCounter {
 
     @SubscribeEvent
     public void onChatReceived(ClientChatReceivedEvent event) {
+        if (!MainConfiguration.DPSCounterToggle) {
+            return;
+        }
+
+        if (event.type != 1) {
+            return;
+        }
+
         if (!PlayerUtils.isInZombies()) {
             return;
         }

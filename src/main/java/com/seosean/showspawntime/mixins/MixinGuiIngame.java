@@ -1,7 +1,6 @@
 package com.seosean.showspawntime.mixins;
 
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.features.Renderer;
@@ -10,7 +9,6 @@ import com.seosean.showspawntime.features.leftnotice.LeftNotice;
 import com.seosean.showspawntime.features.powerups.Powerup;
 import com.seosean.showspawntime.features.powerups.PowerupPredict;
 import com.seosean.showspawntime.features.timerecorder.TimeRecorder;
-import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
@@ -30,7 +28,6 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 

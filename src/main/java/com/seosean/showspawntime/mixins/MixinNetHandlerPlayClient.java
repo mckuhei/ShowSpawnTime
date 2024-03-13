@@ -3,7 +3,6 @@ package com.seosean.showspawntime.mixins;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.features.powerups.Powerup;
 import com.seosean.showspawntime.features.powerups.PowerupDetect;
-import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.GameUtils;
 import com.seosean.showspawntime.utils.StringUtils;
 import net.minecraft.client.Minecraft;

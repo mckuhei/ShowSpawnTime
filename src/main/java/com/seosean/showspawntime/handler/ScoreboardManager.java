@@ -1,7 +1,5 @@
 package com.seosean.showspawntime.handler;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.StringUtils;
 import net.minecraft.client.Minecraft;

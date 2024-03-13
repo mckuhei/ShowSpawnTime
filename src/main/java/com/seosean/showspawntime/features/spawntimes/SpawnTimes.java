@@ -13,23 +13,15 @@ import java.util.Objects;
 public class SpawnTimes {
 
     public SpawnTimes() {
-        this.configuration = ShowSpawnTime.getMainConfiguration();
         this.minecraft = Minecraft.getMinecraft();
         this.fontRenderer = minecraft.fontRendererObj;
-        this.shouldRender = false;
     }
 
     public Minecraft minecraft;
     public FontRenderer fontRenderer;
-    private MainConfiguration configuration;
-    public boolean shouldRender;
     public int currentRound = 1;
     public int currentWave;
     public int[] roundTimes = new int[0];
-
-    public void setShouldRender(boolean flag) {
-        this.shouldRender = flag;
-    }
 
     public void setCurrentRound(int round) {
         this.currentRound = round;

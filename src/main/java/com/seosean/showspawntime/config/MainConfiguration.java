@@ -4,6 +4,7 @@ import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.gui.ShowSpawnTimeGuiConfig;
 import com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown;
 import com.seosean.showspawntime.utils.DelayedTask;
+import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.settings.KeyBinding;
@@ -20,8 +21,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 public class MainConfiguration {
 
@@ -49,7 +49,6 @@ public class MainConfiguration {
     public static String TheLastWave;
     public static double PrecededWavePitch;
     public static double TheLastWavePitch;
-    public static boolean ShowConfigTip;
     public static boolean ColorAlert;
     public static String AARoundsRecordToggle;
     public static String DEBBRoundsRecordToggle;
@@ -59,6 +58,7 @@ public class MainConfiguration {
     public static boolean Wave3LeftNotice;
     public static boolean PlayerHealthNotice;
     public static boolean CriticalTextFix;
+    public static boolean DPSCounterToggle;
     public static FastReviveCoolDown.RenderType FastReviveCoolDown;
     public static String[] FastReviveCoolDownRenderType = new String[]{"OFF", "FRONT", "MID","BEHIND"};
 
@@ -66,9 +66,9 @@ public class MainConfiguration {
     public static boolean PlayerInvisible;
 
 
-    public static Map<String, IConfigElement> sstRelated = new HashMap<>();
-    public static Map<String, IConfigElement> recordRelated = new HashMap<>();
-    public static Map<String, IConfigElement> powerupRelated = new HashMap<>();
+    public static LinkedHashMap<String, IConfigElement> sstRelated = new LinkedHashMap<>();
+    public static LinkedHashMap<String, IConfigElement> recordRelated = new LinkedHashMap<>();
+    public static LinkedHashMap<String, IConfigElement> qolRelated = new LinkedHashMap<>();
 
 
     public void ConfigLoad(){
@@ -100,12 +100,13 @@ public class MainConfiguration {
         String commentWave3LeftNotice;
         String commentPlayerHealthNotice;
         String commentCriticalTextFix;
+        String commentDPSCounterToggle;
         String commentFastReviveCoolDown;
 
-        comment = "How long will the highlight delayed after a wave spawns in **SECOND**. \nNotice it only works in Dead End and Bad Blood.";
-        Property propertyHighlightDelay = config.get(Configuration.CATEGORY_GENERAL, "Highlight Delay", 2.0, comment, -10 , 10);
-        HighlightDelay = propertyHighlightDelay.getDouble();
-        sstRelated.put(propertyHighlightDelay.getName(), new ConfigElement(propertyHighlightDelay));
+//        comment = "How long will the highlight delayed after a wave spawns in **SECOND**. \nNotice it only works in Dead End and Bad Blood.";
+//        Property propertyHighlightDelay = config.get(Configuration.CATEGORY_GENERAL, "Highlight Delay", 2.0, comment, -10 , 10);
+//        HighlightDelay = propertyHighlightDelay.getDouble();
+//        sstRelated.put(propertyHighlightDelay.getName(), new ConfigElement(propertyHighlightDelay));
 
 
         commentPlaySound = "Turn on/off the sound of wave spawning in AA.";
@@ -129,17 +130,17 @@ public class MainConfiguration {
         sstRelated.put(propertyPrecededWavePitch.getName(), new ConfigElement(propertyPrecededWavePitch));
 
         commentPlaySoundLastWave = "What sound will be played when the last wave spawns.";
-        Property propertyTheLastWave = config.get(Configuration.CATEGORY_GENERAL, "Last Wave Sound", "random.orb", commentPlaySoundLastWave);
+        Property propertyTheLastWave = config.get(Configuration.CATEGORY_GENERAL, "Final Wave Sound", "random.orb", commentPlaySoundLastWave);
         TheLastWave = propertyTheLastWave.getString();
         sstRelated.put(propertyTheLastWave.getName(), new ConfigElement(propertyTheLastWave));
 
         commentPlaySoundLastWavePitch = "The pitch setting of TheLastWave.";
-        Property propertyTheLastWavePitch = config.get(Configuration.CATEGORY_GENERAL, "Last Wave Pitch", 0.5, commentPlaySoundLastWavePitch, 0, 2);
+        Property propertyTheLastWavePitch = config.get(Configuration.CATEGORY_GENERAL, "Final Wave Pitch", 0.5, commentPlaySoundLastWavePitch, 0, 2);
         TheLastWavePitch = propertyTheLastWavePitch.getDouble();
         sstRelated.put(propertyTheLastWavePitch.getName(), new ConfigElement(propertyTheLastWavePitch));
 
         commentDangerAlert = "Turn on/off the color alert to The Old One and Giants. \nOnly works in AA.";
-        Property propertyColorAlert = config.get(Configuration.CATEGORY_GENERAL, "AA Boss Alert", true, commentDangerAlert);
+        Property propertyColorAlert = config.get(Configuration.CATEGORY_GENERAL, "AA Boss Color Alert", true, commentDangerAlert);
         ColorAlert = propertyColorAlert.getBoolean();
         sstRelated.put(propertyColorAlert.getName(), new ConfigElement(propertyColorAlert));
 
@@ -161,33 +162,37 @@ public class MainConfiguration {
         commentLightningRodHelper = "Turn on/off the helper of lightning rod queue in AA.";
         Property propertyLightningRodQueue = config.get(Configuration.CATEGORY_GENERAL, "LR Queue Helper", true, commentLightningRodHelper);
         LightningRodQueue = propertyLightningRodQueue.getBoolean();
-        powerupRelated.put(propertyLightningRodQueue.getName(), new ConfigElement(propertyLightningRodQueue));
+        qolRelated.put(propertyLightningRodQueue.getName(), new ConfigElement(propertyLightningRodQueue));
 
         commentPowerupAlert = "Remind you when this is a powerup-round. Start counting down when a powerup spawns";
         Property propertyPowerupAlertToggle = config.get(Configuration.CATEGORY_GENERAL, "Powerup Alert", true, commentPowerupAlert);
         PowerupAlertToggle = propertyPowerupAlertToggle.getBoolean();
-        powerupRelated.put(propertyPowerupAlertToggle.getName(), new ConfigElement(propertyPowerupAlertToggle));
+        qolRelated.put(propertyPowerupAlertToggle.getName(), new ConfigElement(propertyPowerupAlertToggle));
 
         commentWave3LeftNotice = "Enhance the Sidebar which shows you the amount of zombies in wave 3rd in DE/BB.";
         Property propertyWave3LeftNotice = config.get(Configuration.CATEGORY_GENERAL, "Wave 3rd Left Notice", true, commentWave3LeftNotice);
         Wave3LeftNotice = propertyWave3LeftNotice.getBoolean();
-        powerupRelated.put(propertyWave3LeftNotice.getName(), new ConfigElement(propertyWave3LeftNotice));
+        qolRelated.put(propertyWave3LeftNotice.getName(), new ConfigElement(propertyWave3LeftNotice));
 
         commentPlayerHealthNotice = "Enhance the Sidebar which shows the health of players.";
         Property propertyPlayerHealthNotice = config.get(Configuration.CATEGORY_GENERAL, "Player Health Notice", true, commentPlayerHealthNotice);
         PlayerHealthNotice = propertyPlayerHealthNotice.getBoolean();
-        powerupRelated.put(propertyPlayerHealthNotice.getName(), new ConfigElement(propertyPlayerHealthNotice));
-
-
-        commentCriticalTextFix = "Fix a bug which caused texts after full angle bracket do not render.";
-        Property propertyCriticalTextFix = config.get(Configuration.CATEGORY_GENERAL, "Critical Hit Text Fix " + EnumChatFormatting.WHITE + "(" + EnumChatFormatting.RED + "Reload Resources" + EnumChatFormatting.WHITE + ")", true, commentCriticalTextFix);
-        CriticalTextFix = propertyCriticalTextFix.getBoolean();
-        powerupRelated.put(propertyCriticalTextFix.getName(), new ConfigElement(propertyCriticalTextFix));
+        qolRelated.put(propertyPlayerHealthNotice.getName(), new ConfigElement(propertyPlayerHealthNotice));
 
         commentFastReviveCoolDown = "Enhance the Sidebar which shows the cool down of fast revive for each player.";
         Property propertyFastReviveCoolDown = config.get(Configuration.CATEGORY_GENERAL, "Fast Revive Cool Down", "BEHIND", commentFastReviveCoolDown, FastReviveCoolDownRenderType);
         FastReviveCoolDown = com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown.RenderType.valueOf(propertyFastReviveCoolDown.getString());
-        powerupRelated.put(propertyFastReviveCoolDown.getName(), new ConfigElement(propertyFastReviveCoolDown));
+        qolRelated.put(propertyFastReviveCoolDown.getName(), new ConfigElement(propertyFastReviveCoolDown));
+
+        commentDPSCounterToggle = "Display your own damage per second on your screen.";
+        Property propertyDPSCounterToggle = config.get(Configuration.CATEGORY_GENERAL, "Individual DPS Counter", true, commentDPSCounterToggle);
+        DPSCounterToggle = propertyDPSCounterToggle.getBoolean();
+        qolRelated.put(propertyDPSCounterToggle.getName(), new ConfigElement(propertyDPSCounterToggle));
+
+        commentCriticalTextFix = "Fix a bug which caused texts after full angle bracket do not render.";
+        Property propertyCriticalTextFix = config.get(Configuration.CATEGORY_GENERAL, "Critical Hit Text Fix" + EnumChatFormatting.WHITE + "(" + EnumChatFormatting.RED + "Reload Resources" + EnumChatFormatting.WHITE + ")", true, commentCriticalTextFix);
+        CriticalTextFix = propertyCriticalTextFix.getBoolean();
+        qolRelated.put(propertyCriticalTextFix.getName(), new ConfigElement(propertyCriticalTextFix));
 
         config.save();
         logger.info("Finished loading config. ");
@@ -206,7 +211,7 @@ public class MainConfiguration {
                     public void run() {
                         Minecraft.getMinecraft().refreshResources();
                     }
-                }.runTaskLater(2);
+                }.runTaskLater(1);
 
             }
         }
@@ -283,7 +288,7 @@ public class MainConfiguration {
             } else {
                 text = new ChatComponentText(EnumChatFormatting.YELLOW + "Toggled Player Invisible " + EnumChatFormatting.RED + "OFF");
             }
-            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(text);
+            PlayerUtils.sendMessage(text);
         }
 
         else if (keyToggleCountDown.isPressed()) {
@@ -294,7 +299,7 @@ public class MainConfiguration {
             } else {
                 text = new ChatComponentText(EnumChatFormatting.YELLOW + "Toggled Count Down " + EnumChatFormatting.RED + "OFF");
             }
-            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(text);
+            PlayerUtils.sendMessage(text);
         }
 
         else if (keyOpenConfig.isPressed()) {

@@ -4,6 +4,7 @@ import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.LanguageConfiguration;
 import com.seosean.showspawntime.features.leftnotice.LeftNotice;
 import com.seosean.showspawntime.utils.DebugUtils;
+import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -48,11 +49,11 @@ public class CommandCommon extends CommandBase{
                 IChatComponent glitchTips = new ChatComponentText(EnumChatFormatting.AQUA + ">> " + EnumChatFormatting.WHITE + "If you find out certain glitches in the config screen, you reset the config though clicking: ");
                 ChatStyle configs = new ChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, configHover)).setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sst feature glitch reset"));
                 configfolder.setChatStyle(configs);
-                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(glitchTips.appendSibling(configfolder));
+                PlayerUtils.sendMessage(glitchTips.appendSibling(configfolder));
             } else if(args.length == 3 && args[1].equals("glitch") && args[2].equals("reset")){
 
                 IChatComponent configfolder = new ChatComponentText(EnumChatFormatting.RED.toString() + "The config file has been reset, you can now reedit with /sstconfig or /ssthud");
-                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(configfolder);
+                PlayerUtils.sendMessage(configfolder);
 
                 File fileBak = new File(ShowSpawnTime.getConfiguration().getConfigFile().getAbsolutePath() + "_" +
                         new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".errored");
@@ -67,7 +68,7 @@ public class CommandCommon extends CommandBase{
                 EnumChatFormatting.YELLOW + "\n· " + EnumChatFormatting.GREEN + "/sstconfig " + EnumChatFormatting.YELLOW + "to open config GUI." +
                 EnumChatFormatting.YELLOW + "\n· " + EnumChatFormatting.GREEN + "/ssthud " + EnumChatFormatting.YELLOW + "to open HUD GUI. "  + EnumChatFormatting.GRAY + "(You can edit the HUD of ZombiesAutoSplits by Seosean with this command as well if you installed it, and it works the same.)" +
                 EnumChatFormatting.YELLOW + "\n· " + EnumChatFormatting.GREEN + "/sst checkupdate " + EnumChatFormatting.YELLOW + "to check the latest version.");
-                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(commands);
+                PlayerUtils.sendMessage(commands);
             }
         } else if (args.length > 1 && args[0].equals("copy")) {
             StringBuilder text = new StringBuilder();
@@ -85,49 +86,49 @@ public class CommandCommon extends CommandBase{
             clipboard.setContents(selection, null);
             String copiedText = "Copied Successfully!";
             IChatComponent copied = new ChatComponentText(EnumChatFormatting.GREEN + copiedText);
-            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(copied);
+            PlayerUtils.sendMessage(copied);
         }else if(args.length > 1 && args[0].equals("ins")){
             if(Integer.parseInt(args[1]) == 2 || Integer.parseInt(args[1]) == 3) {
                 ShowSpawnTime.getPowerupDetect().setInstaRound(Integer.parseInt(args[1]));
                 IChatComponent pattern = new ChatComponentText(EnumChatFormatting.GREEN + "Insta Kill Pattern has been set to " + EnumChatFormatting.RED + args[1]);
-                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(pattern);
+                PlayerUtils.sendMessage(pattern);
                 IChatComponent alert = new ChatComponentText(EnumChatFormatting.GRAY + "The pattern will still be reset by mod's detection in r2/r3/r5/... .");
-                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(alert);
+                PlayerUtils.sendMessage(alert);
             }
         }else if(args.length > 1 && args[0].equals("max")){
             if(Integer.parseInt(args[1]) == 2 || Integer.parseInt(args[1]) == 3) {
                 ShowSpawnTime.getPowerupDetect().setMaxRound(Integer.parseInt(args[1]));
                 IChatComponent pattern = new ChatComponentText(EnumChatFormatting.GREEN + "Max Ammo Pattern has been set to " + EnumChatFormatting.RED + args[1]);
-                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(pattern);
+                PlayerUtils.sendMessage(pattern);
                 IChatComponent alert = new ChatComponentText(EnumChatFormatting.GRAY + "The pattern will still be reset by mod's detection in r2/r3/r5/... .");
-                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(alert);
+                PlayerUtils.sendMessage(alert);
             }
         }else if(args.length > 1 && args[0].equals("ss")){
             if(Integer.parseInt(args[1]) == 5 || Integer.parseInt(args[1]) == 6 || Integer.parseInt(args[1]) == 7) {
                 ShowSpawnTime.getPowerupDetect().setSSRound(Integer.parseInt(args[1]));
                 IChatComponent pattern = new ChatComponentText(EnumChatFormatting.GREEN + "Shopping Spree Pattern has been set to " + EnumChatFormatting.RED + args[1]);
-                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(pattern);
+                PlayerUtils.sendMessage(pattern);
                 IChatComponent alert = new ChatComponentText(EnumChatFormatting.GRAY + "The pattern will still be reset by mod's detection in r2/r3/r5/... .");
-                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(alert);
+                PlayerUtils.sendMessage(alert);
             }
         }else if(args.length > 1 && args[0].equals("mode")){
             switch (args[1]) {
                 case "normal": {
                     LeftNotice.diff = LeftNotice.Difficulty.NORMAL;
                     IChatComponent pattern = new ChatComponentText(EnumChatFormatting.GREEN + "Game mode for wave 3rd counter has been set to " + EnumChatFormatting.RED + "Normal");
-                    Minecraft.getMinecraft().thePlayer.addChatComponentMessage(pattern);
+                    PlayerUtils.sendMessage(pattern);
                     break;
                 }
                 case "hard": {
                     LeftNotice.diff = LeftNotice.Difficulty.HARD;
                     IChatComponent pattern = new ChatComponentText(EnumChatFormatting.GREEN + "Game mode for wave 3rd counter has been set to " + EnumChatFormatting.RED + "Hard");
-                    Minecraft.getMinecraft().thePlayer.addChatComponentMessage(pattern);
+                    PlayerUtils.sendMessage(pattern);
                     break;
                 }
                 case "rip": {
                     LeftNotice.diff = LeftNotice.Difficulty.RIP;
                     IChatComponent pattern = new ChatComponentText(EnumChatFormatting.GREEN + "Game mode for wave 3rd counter has been set to " + EnumChatFormatting.RED + "RIP");
-                    Minecraft.getMinecraft().thePlayer.addChatComponentMessage(pattern);
+                    PlayerUtils.sendMessage(pattern);
                     break;
                 }
             }

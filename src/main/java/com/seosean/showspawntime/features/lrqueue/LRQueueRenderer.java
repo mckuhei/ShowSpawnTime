@@ -47,6 +47,10 @@ public class LRQueueRenderer extends Renderer {
     public static int displayTime = 0;
     @SubscribeEvent
     public void onChatReceived(ClientChatReceivedEvent event) {
+        if (!MainConfiguration.LightningRodQueue) {
+            return;
+        }
+
         if (!PlayerUtils.isInZombies()) {
             return;
         }
@@ -61,7 +65,7 @@ public class LRQueueRenderer extends Renderer {
         }
 
         if (LanguageUtils.contains(message, "zombies.game.hasspawned")) {
-            lrUsings--;
+            lrUsings --;
         }
     }
 

@@ -1,6 +1,7 @@
 package com.seosean.showspawntime.features.powerups;
 
 import com.seosean.showspawntime.ShowSpawnTime;
+import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -71,7 +72,7 @@ public class PowerupPredict {
         }
 
         if(!powerUpDetect.insRounds.isEmpty() || !powerUpDetect.maxRounds.isEmpty() || !powerUpDetect.ssRounds.isEmpty()) {
-            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(basic);
+            PlayerUtils.sendMessage(basic);
         }
     }
 }

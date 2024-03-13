@@ -88,8 +88,8 @@ public class ShowSpawnTimeGuiConfig extends GuiConfig {
         List<IConfigElement> list = new ArrayList<>();
 
         list.add(new DummyConfigElement.DummyCategoryElement("SST Related", "", new ArrayList<>(MainConfiguration.sstRelated.values())));
-        list.add(new DummyConfigElement.DummyCategoryElement("ADDONS Related", "", new ArrayList<>(MainConfiguration.powerupRelated.values())));
-        list.add(new DummyConfigElement.DummyCategoryElement("RECORD Related", "", new ArrayList<>(MainConfiguration.recordRelated.values())));
+        list.add(new DummyConfigElement.DummyCategoryElement("Record Related", "", new ArrayList<>(MainConfiguration.recordRelated.values())));
+        list.add(new DummyConfigElement.DummyCategoryElement("QoL Related", "", new ArrayList<>(MainConfiguration.qolRelated.values())));
         return list;
     }
 }

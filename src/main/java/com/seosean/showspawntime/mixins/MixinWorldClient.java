@@ -2,7 +2,6 @@ package com.seosean.showspawntime.mixins;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
-import com.seosean.showspawntime.handler.LanguageDetector;
 import com.seosean.showspawntime.features.dpscounter.DPSCounter;
 import com.seosean.showspawntime.features.lrqueue.LRQueueRenderer;
 import com.seosean.showspawntime.utils.LanguageUtils;
@@ -53,6 +52,8 @@ public class MixinWorldClient {
             }
         }
 
-        DPSCounter.detectWeaponBehavior(soundEffect, pitch);
+        if (MainConfiguration.DPSCounterToggle) {
+            DPSCounter.detectWeaponBehavior(soundEffect, pitch);
+        }
     }
 }

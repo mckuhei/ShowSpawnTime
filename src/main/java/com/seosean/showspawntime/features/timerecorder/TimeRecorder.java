@@ -64,12 +64,12 @@ public class TimeRecorder {
                 IChatComponent timing = new ChatComponentText(EnumChatFormatting.YELLOW + "                     You completed " + EnumChatFormatting.RED + "Round " + (currentRound) + EnumChatFormatting.YELLOW + " in " + EnumChatFormatting.GREEN + split[1] + EnumChatFormatting.YELLOW + "!");
                 IChatComponent copy = new ChatComponentText(EnumChatFormatting.GREEN + "Copy");
                 timing.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(net.minecraft.event.HoverEvent.Action.SHOW_TEXT, copy)).setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sst copy " + "You completed Round " + (currentRound) + " in " + split[1].replace("§a", "").replace("\uD83D\uDC79", "") + "!")));
-                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(crossBar);
-                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(timing);
-                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(crossBar);
+                PlayerUtils.sendMessage(crossBar);
+                PlayerUtils.sendMessage(timing);
+                PlayerUtils.sendMessage(crossBar);
             } catch (Exception e) {
                 IChatComponent warning = new ChatComponentText(EnumChatFormatting.RED + "CANNOT RECORD THE TIME, PLEASE REPORT THIS TO Seosean");
-                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(warning);
+                PlayerUtils.sendMessage(warning);
             }
         }
     }
@@ -101,7 +101,7 @@ public class TimeRecorder {
                 IChatComponent redundantTimeTips = new ChatComponentText(EnumChatFormatting.YELLOW + "You took " + EnumChatFormatting.RED.toString() + EnumChatFormatting.BOLD + ((redundantLastRoundTime < 0) ? "--" : new DecimalFormat("#.##").format(redundantLastRoundTime)) + EnumChatFormatting.YELLOW + " seconds to clean up after the last wave.");
                 IChatComponent copy = new ChatComponentText(EnumChatFormatting.GREEN + "Copy");
                 redundantTimeTips.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(net.minecraft.event.HoverEvent.Action.SHOW_TEXT, copy)).setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sst copy " + "You took " + ((redundantLastRoundTime < 0) ? "--" : new DecimalFormat("#.##").format(redundantLastRoundTime)) + " seconds to clean up after the last wave.")));
-                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(redundantTimeTips);
+                PlayerUtils.sendMessage(redundantTimeTips);
 
             }
         }

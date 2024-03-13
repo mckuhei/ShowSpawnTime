@@ -2,14 +2,11 @@ package com.seosean.showspawntime.commands;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.LanguageConfiguration;
-import com.seosean.showspawntime.config.hud.ConfigGui;
 import com.seosean.showspawntime.features.UpdateDetect;
 import com.seosean.showspawntime.handler.LanguageDetector;
 import com.seosean.showspawntime.utils.DebugUtils;
-import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;

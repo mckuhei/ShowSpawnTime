@@ -10,6 +10,10 @@ public class DPSCounterRenderer extends Renderer {
 
     @Override
     public void onRender(RenderGameOverlayEvent.Post event) {
+        if (!MainConfiguration.DPSCounterToggle) {
+            return;
+        }
+
         ScaledResolution scaledResolution = new ScaledResolution(minecraft);
 
         float absoluteX = (float) MainConfiguration.getXDPSCounter() * (float)scaledResolution.getScaledWidth();

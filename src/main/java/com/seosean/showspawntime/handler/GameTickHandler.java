@@ -1,16 +1,15 @@
 package com.seosean.showspawntime.handler;
 
 import com.seosean.showspawntime.ShowSpawnTime;
+import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.features.Renderer;
 import com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown;
-import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -92,14 +91,17 @@ public class GameTickHandler {
                             }
                         }
 
-                        for (Map.Entry<String, Integer> entry : new ArrayList<>(FastReviveCoolDown.frcdMap.entrySet())) {
-                            int newValue = entry.getValue() - 10;
-                            FastReviveCoolDown.frcdMap.computeIfPresent(entry.getKey(), (k, v) -> newValue);
+                        if (!MainConfiguration.FastReviveCoolDown.equals(FastReviveCoolDown.RenderType.OFF)) {
+                            for (Map.Entry<String, Integer> entry : new ArrayList<>(FastReviveCoolDown.frcdMap.entrySet())) {
+                                int newValue = entry.getValue() - 10;
+                                FastReviveCoolDown.frcdMap.computeIfPresent(entry.getKey(), (k, v) -> newValue);
 
-                            if (newValue <= 0) {
-                                FastReviveCoolDown.frcdMap.remove(entry.getKey());
+                                if (newValue <= 0) {
+                                    FastReviveCoolDown.frcdMap.remove(entry.getKey());
+                                }
                             }
                         }
+
                     }
                     finally {
                         lock.unlock();

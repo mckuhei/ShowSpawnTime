@@ -4,6 +4,7 @@ package com.seosean.showspawntime.features;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
+import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
@@ -93,12 +94,12 @@ public class UpdateDetect {
                         IChatComponent downloadHover = new ChatComponentText(EnumChatFormatting.WHITE + "Click to Download");
 
                         newVersion.setChatStyle(newVersion.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, downloadHover)).setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Seosean/ShowSpawnTime/releases")));
-                        Minecraft.getMinecraft().thePlayer.addChatComponentMessage(newVersion);
+                        PlayerUtils.sendMessage(newVersion);
                         status = Version.UPTODATE;
                         break;
                     } else if (newestVersionNumbers.get(i) < thisVersionNumbers.get(i)) {
                         IChatComponent newVersion = new ChatComponentText(EnumChatFormatting.AQUA+ "ShowSpawnTime: " + EnumChatFormatting.GREEN + "You are using an advanced version, it's probably unstable and uncompleted.");
-                        Minecraft.getMinecraft().thePlayer.addChatComponentMessage(newVersion);
+                        PlayerUtils.sendMessage(newVersion);
                         status = Version.ADVANCED;
                     }
 
