@@ -3,9 +3,11 @@ package com.seosean.showspawntime.config.hud;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.utils.DelayedTask;
+import com.seosean.zombiesautosplits.ZombiesAutoSplits;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -67,6 +69,11 @@ public class ConfigGui extends GuiScreen {
       boxes.add(boxPowerup);
       HudCoordinate boxDPSCounter = new HudCoordinate(2, MainConfiguration.getXDPSCounter(), MainConfiguration.getYDPSCounter(), widthDPSCounter, this.fontRendererObj.FONT_HEIGHT, this.width, this.height);
       boxes.add(boxDPSCounter);
+      if (ShowSpawnTime.isAutoSplitsLoaded) {
+         int widthSpitsTime = this.fontRendererObj.getStringWidth("0:00:0");
+         HudCoordinate boxAutoSplits = new HudCoordinate(3, ZombiesAutoSplits.getInstance().getXSplitter(), ZombiesAutoSplits.getInstance().getYSplitter(), widthSpitsTime, this.fontRendererObj.FONT_HEIGHT, this.width, this.height);
+         boxes.add(boxAutoSplits);
+      }
    }
 
    protected void mouseClicked(int mouseX, int mouseY, int p_mouseClicked_3_) throws IOException {
@@ -112,9 +119,14 @@ public class ConfigGui extends GuiScreen {
                   MainConfiguration.YDPSCounter = box.y;
                   ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XDPSCounter", -1).set(box.x);
                   ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YDPSCounter", -1).set(box.y);
+               } else if (ShowSpawnTime.isAutoSplitsLoaded && box.getContents() == 3) {
+                  ZombiesAutoSplits.XSplitter = box.x;
+                  ZombiesAutoSplits.YSplitter = box.y;
+                  ZombiesAutoSplits.getInstance().getConfig().get(Configuration.CATEGORY_CLIENT, "XSplitter", -1).set(box.x);
+                  ZombiesAutoSplits.getInstance().getConfig().get(Configuration.CATEGORY_CLIENT, "YSplitter", -1).set(box.y);
+                  ZombiesAutoSplits.getInstance().getConfig().save();
                }
             }
-            ShowSpawnTime.getConfiguration().save();
             this.mc.displayGuiScreen(null);
             break;
          }
@@ -166,21 +178,59 @@ public class ConfigGui extends GuiScreen {
                         box.absoluteY = (int)(MainConfiguration.getYDPSCounter() * ConfigGui.this.height);
                      }
                   }.runTaskLater(2);
+               }
 
-
+               if (ShowSpawnTime.isAutoSplitsLoaded && box.getContents() == 3) {
+                  ZombiesAutoSplits.getInstance().getConfig().get(Configuration.CATEGORY_CLIENT, "XSplitter", -1).set(-1);
+                  ZombiesAutoSplits.getInstance().getConfig().get(Configuration.CATEGORY_CLIENT, "YSplitter", -1).set(-1);
+                  ZombiesAutoSplits.XSplitter = -1;
+                  ZombiesAutoSplits.YSplitter = -1;
+                  new com.seosean.zombiesautosplits.hudposition.DelayedTask(() -> {
+                     box.x = ZombiesAutoSplits.getInstance().getXSplitter();
+                     box.absoluteX = (int)(ZombiesAutoSplits.getInstance().getXSplitter() * this.width);
+                     box.y = ZombiesAutoSplits.getInstance().getYSplitter();
+                     box.absoluteY = (int)(ZombiesAutoSplits.getInstance().getYSplitter() * this.height);
+                  }, 2);
                }
             }
-            ShowSpawnTime.getConfiguration().save();
             break;
          }
-         default: {
-            ShowSpawnTime.getConfiguration().save();
-            break;
-         }
+      }
+
+      ShowSpawnTime.getConfiguration().save();
+      if (ShowSpawnTime.isAutoSplitsLoaded) {
+         ZombiesAutoSplits.getInstance().getConfig().save();
       }
    }
 
    public void onGuiClosed() {
+      for (HudCoordinate box : boxes) {
+         if (box.getContents() == 0) {
+            MainConfiguration.XSpawnTime = box.x;
+            MainConfiguration.YSpawnTime = box.y;
+            ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XSpawnTime", -1).set(box.x);
+            ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YSpawnTime", -1).set(box.y);
+         } else if (box.getContents() == 1) {
+            MainConfiguration.XPowerup = box.x;
+            MainConfiguration.YPowerup = box.y;
+            ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XPowerup", -1).set(box.x);
+            ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YPowerup", -1).set(box.y);
+         } else if (box.getContents() == 2) {
+            MainConfiguration.XDPSCounter = box.x;
+            MainConfiguration.YDPSCounter = box.y;
+            ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XDPSCounter", -1).set(box.x);
+            ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YDPSCounter", -1).set(box.y);
+         } else if (ShowSpawnTime.isAutoSplitsLoaded && box.getContents() == 3) {
+            ZombiesAutoSplits.XSplitter = box.x;
+            ZombiesAutoSplits.YSplitter = box.y;
+            ZombiesAutoSplits.getInstance().getConfig().get(Configuration.CATEGORY_CLIENT, "XSplitter", -1).set(box.x);
+            ZombiesAutoSplits.getInstance().getConfig().get(Configuration.CATEGORY_CLIENT, "YSplitter", -1).set(box.y);
+         }
+      }
+      ShowSpawnTime.getConfiguration().save();
+      if (ShowSpawnTime.isAutoSplitsLoaded) {
+         ZombiesAutoSplits.getInstance().getConfig().save();
+      }
       super.onGuiClosed();
    }
 }

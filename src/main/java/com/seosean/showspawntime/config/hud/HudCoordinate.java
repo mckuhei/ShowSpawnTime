@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -41,14 +42,14 @@ public class HudCoordinate {
         this.absoluteX = (int) (x * screenWidth);
         this.absoluteY = (int) (y * screenHeight);
         int color = isDragging ? 0x80FFFFFF : 0x00000000;
-        if(contents == 0){
+        if (contents == 0) {
             Gui.drawRect(absoluteX, absoluteY, absoluteX + width, absoluteY + height, color);
             int widthDirector = this.fontRendererObj.getStringWidth("➤ ");
             this.fontRendererObj.drawStringWithShadow("➤ ", absoluteX, absoluteY + this.fontRendererObj.FONT_HEIGHT * 3, 0xCC00CC);
             this.fontRendererObj.drawStringWithShadow("W1 00:10", absoluteX + widthDirector, absoluteY + this.fontRendererObj.FONT_HEIGHT * 3, 0xFFFF00);
             this.fontRendererObj.drawStringWithShadow("W2 00:20", absoluteX + widthDirector, absoluteY + this.fontRendererObj.FONT_HEIGHT * 4, 0x808080);
             this.fontRendererObj.drawStringWithShadow("W3 00:30", absoluteX + widthDirector, absoluteY + this.fontRendererObj.FONT_HEIGHT * 5, 0x808080);
-        }else if(contents == 1){
+        } else if (contents == 1) {
             Gui.drawRect(absoluteX, absoluteY, absoluteX + width  + this.fontRendererObj.getStringWidth(" "), absoluteY + height, color);
             this.fontRendererObj.drawStringWithShadow(" BONUS GOLD - 00:00", absoluteX, absoluteY, 0xFFFF00);
             this.fontRendererObj.drawStringWithShadow(" BONUS GOLD - 00:00", absoluteX, absoluteY + this.fontRendererObj.FONT_HEIGHT, 0xFFFF55);
@@ -56,9 +57,12 @@ public class HudCoordinate {
             this.fontRendererObj.drawStringWithShadow(" BONUS GOLD - 00:00", absoluteX, absoluteY + this.fontRendererObj.FONT_HEIGHT * 3, 0xFFFF55);
             this.fontRendererObj.drawStringWithShadow(" BONUS GOLD - 00:00", absoluteX, absoluteY + this.fontRendererObj.FONT_HEIGHT * 4, 0xFFFF55);
             this.fontRendererObj.drawStringWithShadow(" BONUS GOLD - 00:00", absoluteX, absoluteY + this.fontRendererObj.FONT_HEIGHT * 5, 0xFFFF55);
-        }else if(contents == 2){
+        } else if (contents == 2) {
             Gui.drawRect(absoluteX, absoluteY, absoluteX + width, absoluteY + height, color);
-            this.fontRendererObj.drawStringWithShadow("DPS: INSTA KILL", absoluteX, absoluteY, 0xFFFFFF);
+            this.fontRendererObj.drawStringWithShadow(EnumChatFormatting.GOLD + "DPS" + EnumChatFormatting.WHITE + ":" + EnumChatFormatting.RED + " INSTA KILL", absoluteX, absoluteY, 0xFFFFFF);
+        } else if(contents == 3) {
+            Gui.drawRect(absoluteX, absoluteY, absoluteX + width, absoluteY + height, color);
+            this.fontRendererObj.drawStringWithShadow("0:00:0", absoluteX, absoluteY, 0xFFFFFF);
         }
     }
 

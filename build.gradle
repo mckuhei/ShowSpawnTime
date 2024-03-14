@@ -29,7 +29,7 @@ plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 */
-version = "2.0.0 Pre-3 Build 1"
+version = "2.0.0 Pre-3 Build 2"
 group= "com.seosean.showspawntime" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ShowSpawnTime"
 
@@ -61,13 +61,17 @@ repositories {
         name = 'sponge'
         url = 'http://repo.spongepowered.org/maven'
     }
+
+    flatDir {
+        dirs 'libs'
+    }
 }
 dependencies {
     compile('org.spongepowered:mixin:0.7.11-SNAPSHOT')
     annotationProcessor('org.spongepowered:mixin:0.7.11-SNAPSHOT')
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
+    compile files('lib/ZombiesAutoSplits-1.2.jar')
     //compile "some.group:artifact:version"
       
     // real examples
@@ -138,6 +142,7 @@ shadowJar {
         exclude 'commons-io-2.4.jar'
         exclude 'dummyThing'
         exclude 'LICENSE.txt'
+        exclude 'ZombiesAutoSplits-1.2.jar'
     }
     finalizedBy 'reobfJar'
 }
