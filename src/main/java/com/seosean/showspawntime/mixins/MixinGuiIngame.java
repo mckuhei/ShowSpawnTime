@@ -2,6 +2,7 @@ package com.seosean.showspawntime.mixins;
 
 import com.google.common.collect.Iterables;
 import com.seosean.showspawntime.ShowSpawnTime;
+import com.seosean.showspawntime.commands.CommandDebug;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.features.Renderer;
 import com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown;
@@ -16,6 +17,7 @@ import com.seosean.showspawntime.utils.StringUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.util.EnumChatFormatting;
@@ -125,7 +127,7 @@ public abstract class MixinGuiIngame {
                     if (playerName.length() >= 2) {
                         EntityPlayer entityPlayer = getPlayerEntity(playerName);
                         if (entityPlayer != null) {
-                            if (text.contains("§6")) {
+                            if (!entityPlayer.isInvisible()) {
                                 float health = entityPlayer.getHealth();
                                 playerHealthNoticeString = EnumChatFormatting.WHITE + "(" + getColor(entityPlayer) + (int) health + EnumChatFormatting.WHITE + ") ";
                             }

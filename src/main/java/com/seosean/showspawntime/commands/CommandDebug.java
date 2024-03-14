@@ -68,7 +68,7 @@ public class CommandDebug extends CommandBase {
         }
     }
 
-    private static int type = 1;
+    public static int type = 1;
     public boolean canCommandSenderUseCommand(ICommandSender sender) {
         return true;
     }
