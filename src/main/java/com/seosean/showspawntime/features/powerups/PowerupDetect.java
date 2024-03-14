@@ -131,18 +131,26 @@ public class PowerupDetect {
             DPSCounter.setPowerupOn(powerupType);
 
             Powerup.PowerupType finalPowerupType = powerupType;
+
+
             new DelayedTask() {
+                boolean isClaimed = false;
                 @Override
                 public void run() {
                     for (Map.Entry<EntityArmorStand, Powerup> entry : new ArrayList<>(Powerup.powerups.entrySet())) {
                         if (entry.getValue().getPowerupType().equals(finalPowerupType)) {
                             if (entry.getKey() == null || entry.getKey().isDead) {
                                 entry.getValue().claim();
+                                isClaimed = true;
                             }
                         }
                     }
+
+                    if (!isClaimed) {
+                        Powerup.incPowerups.removeIf(powerup -> powerup.getPowerupType().equals(finalPowerupType));
+                    }
                 }
-            }.runTaskLater(10);
+            }.runTaskLater(5);
         }
     }
 

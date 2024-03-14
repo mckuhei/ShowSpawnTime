@@ -84,7 +84,7 @@ public class DPSCounter {
             return;
         }
 
-        if (event.type != 1) {
+        if (event.type != 1 && event.type != 0) {
             return;
         }
 
