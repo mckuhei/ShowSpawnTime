@@ -1,17 +1,14 @@
 package com.seosean.showspawntime.mixins;
 
-import akka.Main;
 import com.google.common.collect.Iterables;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
-import com.seosean.showspawntime.handler.Renderer;
-import com.seosean.showspawntime.features.downdetector.DownDetector;
 import com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown;
 import com.seosean.showspawntime.features.leftnotice.LeftNotice;
 import com.seosean.showspawntime.features.powerups.Powerup;
 import com.seosean.showspawntime.features.powerups.PowerupPredict;
 import com.seosean.showspawntime.features.timerecorder.TimeRecorder;
-import com.seosean.showspawntime.utils.DebugUtils;
+import com.seosean.showspawntime.handler.Renderer;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
@@ -108,7 +105,6 @@ public abstract class MixinGuiIngame {
         //§
         String playerHealthNoticeString = "";
         String fastReviveCoolDownString = "";
-        String downTimeCountDownString = "";
         if (PlayerUtils.isInZombies()) {
             if ((text.contains(":") || text.contains("："))) {
                 String colon = "";
@@ -142,32 +138,19 @@ public abstract class MixinGuiIngame {
                     }
                 }
 
-                if (MainConfiguration.DownTimeCountDown) {
-                    if (DownDetector.downCDMap.containsKey(playerName)) {
-                        if ((text.startsWith("§c") && text.substring(2).contains("§c")) || (!text.startsWith("§c") && text.contains("§c"))) {
-                            DownDetector.downCDMap.remove(playerName);
-                        } else {
-                            int cooldown = DownDetector.downCDMap.get(playerName) / 100;
-                            strings[1] =  " " + strings[1].trim();
-                            playerHealthNoticeString = "";
-                            downTimeCountDownString = EnumChatFormatting.WHITE + "(" + EnumChatFormatting.RED + (cooldown / 10.0) + "s" + EnumChatFormatting.WHITE + ")";
-                        }
-                    }
-                }
-
-                if (!fastReviveCoolDownString.isEmpty() || !playerHealthNoticeString.isEmpty() || !downTimeCountDownString.isEmpty()) {
+                if (!fastReviveCoolDownString.isEmpty() || !playerHealthNoticeString.isEmpty()) {
                     switch (MainConfiguration.FastReviveCoolDown) {
                         case FRONT:
-                            text = fastReviveCoolDownString + playerHealthNoticeString + strings[0] + colon + strings[1] + downTimeCountDownString;
+                            text = fastReviveCoolDownString + playerHealthNoticeString + strings[0] + colon + strings[1];
                             break;
                         case MID:
-                            text = playerHealthNoticeString + fastReviveCoolDownString + strings[0] + colon + strings[1] + downTimeCountDownString;
+                            text = playerHealthNoticeString + fastReviveCoolDownString + strings[0] + colon + strings[1];
                             break;
                         case BEHIND:
-                            text = playerHealthNoticeString + strings[0] + fastReviveCoolDownString + colon + strings[1] + downTimeCountDownString;
+                            text = playerHealthNoticeString + strings[0] + fastReviveCoolDownString + colon + strings[1];
                             break;
                         case OFF:
-                            text = playerHealthNoticeString + strings[0] + colon + strings[1] + downTimeCountDownString;
+                            text = playerHealthNoticeString + strings[0] + colon + strings[1];
                             break;
                     }
                 }
@@ -186,10 +169,7 @@ public abstract class MixinGuiIngame {
     private int modifyArgumentWidth0(int l1) {
         int toSub = 0;
         if (PlayerUtils.isInZombies()) {
-            if (MainConfiguration.DownTimeCountDown) {
-                String text = "00.0s";
-                toSub += getFontRenderer().getStringWidth(text);
-            } else if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
+            if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
                 String text = "00";
                 toSub += getFontRenderer().getStringWidth(text);
             }
@@ -206,10 +186,7 @@ public abstract class MixinGuiIngame {
     private int modifyArgumentWidth1(int l1){
         int toSub = 0;
         if (PlayerUtils.isInZombies()) {
-            if (MainConfiguration.DownTimeCountDown) {
-                String text = "00.0s";
-                toSub += getFontRenderer().getStringWidth(text);
-            } else if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
+            if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
                 String text = "00";
                 toSub += getFontRenderer().getStringWidth(text) / 2;
             }
@@ -226,10 +203,7 @@ public abstract class MixinGuiIngame {
     private int modifyArgumentLeft0(int l1){
         int toSub = 0;
         if (PlayerUtils.isInZombies()) {
-            if (MainConfiguration.DownTimeCountDown) {
-                String text = "00.0s";
-                toSub += getFontRenderer().getStringWidth(text);
-            } else if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
+            if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
                 String text = "00";
                 toSub += getFontRenderer().getStringWidth(text);
             }
@@ -246,10 +220,7 @@ public abstract class MixinGuiIngame {
     private int modifyArgumentLeft1(int l1){
         int toSub = 0;
         if (PlayerUtils.isInZombies()) {
-            if (MainConfiguration.DownTimeCountDown) {
-                String text = "00.0s";
-                toSub += getFontRenderer().getStringWidth(text);
-            } else if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
+            if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
                 String text = "00";
                 toSub += getFontRenderer().getStringWidth(text);
             }
@@ -266,10 +237,7 @@ public abstract class MixinGuiIngame {
     private int modifyArgumentLeft2(int l1){
         int toSub = 0;
         if (PlayerUtils.isInZombies()) {
-            if (MainConfiguration.DownTimeCountDown) {
-                String text = "00.0s";
-                toSub += getFontRenderer().getStringWidth(text);
-            } else if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
+            if (MainConfiguration.PlayerHealthNotice || MainConfiguration.Wave3LeftNotice) {
                 String text = "00";
                 toSub += getFontRenderer().getStringWidth(text);
             }

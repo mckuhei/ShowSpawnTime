@@ -157,6 +157,7 @@ public class GameUtils {
     public static List<String> playerList = new ArrayList<>();
     public static void initializePlayerList() {
         ScoreboardManager scoreboardManager = ShowSpawnTime.getScoreboardManager();
+        playerList = new ArrayList<>();
         for (int i = 6; i <= scoreboardManager.getSize(); i ++) {
             String content = scoreboardManager.getContent(i);
             if (content.startsWith(" ") || content.isEmpty()) {

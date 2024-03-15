@@ -1,7 +1,6 @@
 package com.seosean.showspawntime.handler;
 
 import com.seosean.showspawntime.config.MainConfiguration;
-import com.seosean.showspawntime.features.downdetector.DownDetector;
 import com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -33,17 +32,6 @@ public class CountDownTimer {
 
                 if (newValue <= 0) {
                     FastReviveCoolDown.frcdMap.remove(entry.getKey());
-                }
-            }
-        }
-
-        if (MainConfiguration.DownTimeCountDown) {
-            for (Map.Entry<String, Integer> entry : new ArrayList<>(DownDetector.downCDMap.entrySet())) {
-                int newValue = entry.getValue() - 50;
-                DownDetector.downCDMap.computeIfPresent(entry.getKey(), (k, v) -> newValue);
-
-                if (newValue <= 0) {
-                    DownDetector.downCDMap.remove(entry.getKey());
                 }
             }
         }

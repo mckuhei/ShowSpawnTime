@@ -8,10 +8,7 @@ import com.seosean.showspawntime.commands.CommandSSTHUD;
 import com.seosean.showspawntime.config.ConfigTip;
 import com.seosean.showspawntime.config.LanguageConfiguration;
 import com.seosean.showspawntime.config.MainConfiguration;
-import com.seosean.showspawntime.handler.CountDownTimer;
-import com.seosean.showspawntime.handler.Renderer;
 import com.seosean.showspawntime.features.UpdateDetect;
-import com.seosean.showspawntime.features.downdetector.DownDetector;
 import com.seosean.showspawntime.features.dpscounter.DPSCounter;
 import com.seosean.showspawntime.features.dpscounter.DPSCounterRenderer;
 import com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown;
@@ -21,7 +18,9 @@ import com.seosean.showspawntime.features.powerups.PowerupRenderer;
 import com.seosean.showspawntime.features.spawntimes.SpawnNotice;
 import com.seosean.showspawntime.features.spawntimes.SpawnTimeRenderer;
 import com.seosean.showspawntime.features.spawntimes.SpawnTimes;
+import com.seosean.showspawntime.handler.CountDownTimer;
 import com.seosean.showspawntime.handler.GameTickHandler;
+import com.seosean.showspawntime.handler.Renderer;
 import com.seosean.showspawntime.handler.ScoreboardManager;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -70,7 +69,6 @@ public class ShowSpawnTime
     private static SpawnNotice spawnNotice;
     private static DPSCounter dpsCounter;
     private static FastReviveCoolDown fastReviveCoolDown;
-    private static DownDetector downDetector;
     @EventHandler
     public void preinit(FMLPreInitializationEvent event){
 
@@ -111,7 +109,6 @@ public class ShowSpawnTime
         MinecraftForge.EVENT_BUS.register(spawnNotice = new SpawnNotice());
         MinecraftForge.EVENT_BUS.register(dpsCounter = new DPSCounter());
         MinecraftForge.EVENT_BUS.register(fastReviveCoolDown = new FastReviveCoolDown());
-        MinecraftForge.EVENT_BUS.register(downDetector = new DownDetector());
 
         MinecraftForge.EVENT_BUS.register(lrQueueRenderer = new LRQueueRenderer());
         MinecraftForge.EVENT_BUS.register(powerupRenderer = new PowerupRenderer());
@@ -198,10 +195,6 @@ public class ShowSpawnTime
 
     public static FastReviveCoolDown getFastReviveCoolDown() {
         return fastReviveCoolDown;
-    }
-
-    public static DownDetector getDownDetector() {
-        return downDetector;
     }
 
     public static Logger getLogger() {

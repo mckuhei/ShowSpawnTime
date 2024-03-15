@@ -58,7 +58,6 @@ public class MainConfiguration {
     public static boolean PlayerHealthNotice;
     public static boolean CriticalTextFix;
     public static boolean DPSCounterToggle;
-    public static boolean DownTimeCountDown;
     public static FastReviveCoolDown.RenderType FastReviveCoolDown;
     public static String[] FastReviveCoolDownRenderType = new String[]{"OFF", "FRONT", "MID","BEHIND"};
 
@@ -219,11 +218,6 @@ public class MainConfiguration {
         Property propertyDPSCounterToggle = config.get(Configuration.CATEGORY_GENERAL, "Individual DPS Counter", true, commentDPSCounterToggle);
         DPSCounterToggle = propertyDPSCounterToggle.getBoolean();
         qolRelated.put(propertyDPSCounterToggle.getName(), new ConfigElement(propertyDPSCounterToggle));
-
-        commentDownTimeCountDown = "Enhance the Sidebar which shows the reviving count down after a player get knocked down.";
-        Property propertyDownTimeCountDown = config.get(Configuration.CATEGORY_GENERAL, "Down Time Count Down", true, commentDownTimeCountDown);
-        DownTimeCountDown = propertyDownTimeCountDown.getBoolean();
-        qolRelated.put(propertyDownTimeCountDown.getName(), new ConfigElement(propertyDownTimeCountDown));
 
         commentCriticalTextFix = "Fix a bug which caused texts after full angle bracket do not render.";
         Property propertyCriticalTextFix = config.get(Configuration.CATEGORY_GENERAL, "Critical Hit Text Fix" + EnumChatFormatting.WHITE + "(" + EnumChatFormatting.RED + "Reload Resources" + EnumChatFormatting.WHITE + ")", true, commentCriticalTextFix);

@@ -5,7 +5,6 @@ import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.utils.JavaUtils;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;

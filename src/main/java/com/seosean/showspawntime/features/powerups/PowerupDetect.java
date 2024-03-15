@@ -4,6 +4,7 @@ import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.features.dpscounter.DPSCounter;
 import com.seosean.showspawntime.utils.DelayedTask;
+import com.seosean.showspawntime.utils.GameUtils;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import com.seosean.showspawntime.utils.StringUtils;
@@ -151,6 +152,68 @@ public class PowerupDetect {
                     }
                 }
             }.runTaskLater(5);
+        }
+    }
+
+    public void detectArmorstand(String armorStandName, int entityID) {
+        PowerupDetect powerUpDetect = ShowSpawnTime.getPowerupDetect();
+        int gameTick = GameUtils.getCurrentZombiesTimeTick();
+
+        int round = ShowSpawnTime.getSpawnTimes().currentRound;
+
+        if (round == 0) {
+            return;
+        }
+        Powerup.PowerupType powerupType = Powerup.PowerupType.getPowerupType(armorStandName);
+
+        if (!powerupType.equals(Powerup.PowerupType.NULL)) {
+            Powerup.deserialize(powerupType, (EntityArmorStand) Minecraft.getMinecraft().theWorld.getEntityByID(entityID));
+
+            List<Integer> roundList2 = new ArrayList<>();
+            List<Integer> roundList3 = new ArrayList<>();
+            if (powerupType.equals(Powerup.PowerupType.MAX_AMMO)) {
+                roundList2.addAll(Arrays.asList(PowerupDetect.r2MaxRoundsAA));
+                roundList3.addAll(Arrays.asList(PowerupDetect.r3MaxRoundsAA));
+                if (roundList2.contains(round)) {
+                    powerUpDetect.setMaxRound(2);
+                } else if (roundList3.contains(round) && gameTick <= 500) {
+                    powerUpDetect.setMaxRound(2);
+                } else if (roundList3.contains(round)) {
+                    powerUpDetect.setMaxRound(3);
+                } else if (roundList3.contains(round - 1) && gameTick <= 500) {
+                    powerUpDetect.setMaxRound(3);
+                }
+            } else if (powerupType.equals(Powerup.PowerupType.INSTA_KILL)) {
+                roundList2.addAll(Arrays.asList(PowerupDetect.r2InsRoundsAA));
+                roundList3.addAll(Arrays.asList(PowerupDetect.r3InsRoundsAA));
+                if (roundList2.contains(round)) {
+                    powerUpDetect.setInstaRound(2);
+                } else if (roundList3.contains(round) && gameTick <= 500) {
+                    powerUpDetect.setInstaRound(2);
+                } else if (roundList3.contains(round)) {
+                    powerUpDetect.setInstaRound(3);
+                } else if (roundList3.contains(round - 1) && gameTick <= 500) {
+                    powerUpDetect.setInstaRound(3);
+                }
+            } else if (powerupType.equals(Powerup.PowerupType.SHOPPING_SPREE)) {
+                roundList2.addAll(Arrays.asList(PowerupDetect.r5SSRoundsAA));
+                roundList3.addAll(Arrays.asList(PowerupDetect.r6SSRoundsAA));
+                List<Integer> roundList4 = new ArrayList<>(Arrays.asList(PowerupDetect.r7SSRoundsAA));
+                if (roundList2.contains(round)) {
+                    powerUpDetect.setSSRound(5);
+                } else if (roundList3.contains(round) && gameTick <= 500) {
+                    powerUpDetect.setSSRound(5);
+                } else if (roundList3.contains(round)) {
+                    powerUpDetect.setSSRound(6);
+                } else if (roundList4.contains(round) && gameTick <= 500) {
+                    powerUpDetect.setSSRound(6);
+                } else if (roundList4.contains(round)) {
+                    powerUpDetect.setSSRound(7);
+                } else if (roundList4.contains(round - 1) && gameTick <= 500) {
+                    powerUpDetect.setSSRound(7);
+                }
+            }
+            return;
         }
     }
 

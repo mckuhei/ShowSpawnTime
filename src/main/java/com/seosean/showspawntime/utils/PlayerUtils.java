@@ -3,7 +3,6 @@ package com.seosean.showspawntime.utils;
 import com.seosean.showspawntime.ShowSpawnTime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 
 public class PlayerUtils {
@@ -19,7 +18,7 @@ public class PlayerUtils {
     }
 
     public static void sendMessage(IChatComponent string) {
-        if (Minecraft.getMinecraft().thePlayer != null) {
+        if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().thePlayer != null) {
             Minecraft.getMinecraft().thePlayer.addChatComponentMessage(string);
         }
     }

@@ -5,6 +5,7 @@ import com.seosean.showspawntime.config.LanguageConfiguration;
 import com.seosean.showspawntime.features.UpdateDetect;
 import com.seosean.showspawntime.handler.LanguageDetector;
 import com.seosean.showspawntime.utils.DebugUtils;
+import com.seosean.showspawntime.utils.GameUtils;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.command.CommandBase;
@@ -59,6 +60,10 @@ public class CommandDebug extends CommandBase {
             case "version": {
                 DebugUtils.sendMessage(String.valueOf(UpdateDetect.status));
                 DebugUtils.sendMessage(UpdateDetect.newestVersion);
+                break;
+            }
+            case "players": {
+                DebugUtils.sendMessage(GameUtils.playerList.toString());
                 break;
             }
             case "type": {
