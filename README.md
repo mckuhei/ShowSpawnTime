@@ -11,6 +11,7 @@ Seosean's one was forked from thamid's, I added a feature that you can now edit 
 (if you installed ShowSpawnTime, you can edit ZombiesAutoSplits's HUD with ShowSpawnTime's /ssthud command, and edit their HUDs together.)  
   
 [**Download ZombiesAutoSplits by Seosean**](https://github.com/Seosean/ZombiesAutoSplits/releases/download/1.2/ZombiesAutoSplits-1.2.jar)  
+· ZombiesAutoSplits by Seosean 1.2 update: Add compatibility for ShowSpawnTime 2.0.0.
   
 ****
 ## Updates Logs
