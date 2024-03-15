@@ -128,7 +128,7 @@ public class ShowSpawnTime
             List<ModContainer> mods = Loader.instance().getActiveModList();
 
             for (ModContainer mod : mods) {
-                if ("zombiesautosplits".equals(mod.getModId())) {
+                if ("zombiesautosplits".equals(mod.getModId()) && Double.parseDouble(mod.getVersion().replace("1.", "")) >= 2) {
                     return true;
                 }
             }
