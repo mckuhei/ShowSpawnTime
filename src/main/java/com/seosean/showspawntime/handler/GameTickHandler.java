@@ -2,7 +2,7 @@ package com.seosean.showspawntime.handler;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
-import com.seosean.showspawntime.features.Renderer;
+import com.seosean.showspawntime.features.downdetector.DownDetector;
 import com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -56,7 +57,8 @@ public class GameTickHandler {
         zGameTick = 0;
         ShowSpawnTime.getSpawnTimes().setCurrentRound(0);
 
-        FastReviveCoolDown.frcdMap.clear();
+        FastReviveCoolDown.frcdMap = new ConcurrentHashMap<>();
+        DownDetector.downCDMap = new ConcurrentHashMap<>();
 
         new DelayedTask() {
             @Override
@@ -91,16 +93,7 @@ public class GameTickHandler {
                             }
                         }
 
-                        if (!MainConfiguration.FastReviveCoolDown.equals(FastReviveCoolDown.RenderType.OFF)) {
-                            for (Map.Entry<String, Integer> entry : new ArrayList<>(FastReviveCoolDown.frcdMap.entrySet())) {
-                                int newValue = entry.getValue() - 10;
-                                FastReviveCoolDown.frcdMap.computeIfPresent(entry.getKey(), (k, v) -> newValue);
 
-                                if (newValue <= 0) {
-                                    FastReviveCoolDown.frcdMap.remove(entry.getKey());
-                                }
-                            }
-                        }
 
                     }
                     finally {

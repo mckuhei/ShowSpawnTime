@@ -2,8 +2,10 @@ package com.seosean.showspawntime.features.frcooldown;
 
 import com.seosean.showspawntime.config.LanguageConfiguration;
 import com.seosean.showspawntime.config.MainConfiguration;
+import com.seosean.showspawntime.features.downdetector.DownDetector;
 import com.seosean.showspawntime.handler.LanguageDetector;
 import com.seosean.showspawntime.utils.DebugUtils;
+import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -14,10 +16,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FastReviveCoolDown {
     @SubscribeEvent
     public void onChatReceived(ClientChatReceivedEvent event) {
-        if (MainConfiguration.FastReviveCoolDown.equals(RenderType.OFF)) {
+        if (MainConfiguration.FastReviveCoolDown.equals(RenderType.OFF) && !MainConfiguration.DownTimeCountDown) {
             return;
         }
-        String messsage = event.message.getFormattedText();
 
         if (event.type != 1 && event.type != 0) {
             return;
@@ -27,32 +28,20 @@ public class FastReviveCoolDown {
             return;
         }
 
+        String messsage = event.message.getFormattedText();
 
         if (messsage.contains(":")) {
             return;
         }
+
         if (!messsage.contains("§e")) {
             return;
         }
 
-        String revivePatternEN = "";
-        String revivePattern = LanguageConfiguration.get("zombies.game.revive");
-        if (!LanguageDetector.language.equalsIgnoreCase("EN_US")) {
-            revivePatternEN = LanguageConfiguration.getOrigin("zombies.game.revive");
-        }
-
-        if (!messsage.contains(revivePattern)) {
-            if (!messsage.contains(revivePatternEN)) {
-                return;
-            } else {
-                revivePattern = revivePatternEN;
-            }
-        }
-
-
-        if (revivePattern.isEmpty()) {
+        if (!LanguageUtils.contains(messsage, "zombies.game.revive")) {
             return;
         }
+
         String[] strings = messsage.split("§");
         String name = "";
         for (String s : strings) {
@@ -66,7 +55,14 @@ public class FastReviveCoolDown {
         }
 
         name = name.substring(1);
-        frcdMap.put(name, 5000);
+        if (!MainConfiguration.FastReviveCoolDown.equals(RenderType.OFF)) {
+            frcdMap.put(name, 5000);
+        }
+
+        if (MainConfiguration.DownTimeCountDown) {
+            DownDetector.downCDMap.remove(name);
+        }
+
     }
 
     public static ConcurrentHashMap<String, Integer> frcdMap = new ConcurrentHashMap<>();

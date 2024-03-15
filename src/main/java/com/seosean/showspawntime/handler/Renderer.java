@@ -1,4 +1,4 @@
-package com.seosean.showspawntime.features;
+package com.seosean.showspawntime.handler;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;

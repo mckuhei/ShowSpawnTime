@@ -145,6 +145,7 @@ public class LanguageUtils {
     }
 
     public static boolean equals(String string, String i18nKey) {
+        string = StringUtils.trim(string);
         String i18nContent = LanguageConfiguration.get(i18nKey);
         String originalContent = LanguageConfiguration.getOrigin(i18nKey);
         String cacheContent = LanguageConfiguration.getCache(i18nKey);
@@ -152,6 +153,7 @@ public class LanguageUtils {
     }
 
     public static boolean contains(String string, String i18nKey) {
+        string = StringUtils.trim(string);
         String i18nContent = LanguageConfiguration.get(i18nKey);
         String originalContent = LanguageConfiguration.getOrigin(i18nKey);
         String cacheContent = LanguageConfiguration.getCache(i18nKey);

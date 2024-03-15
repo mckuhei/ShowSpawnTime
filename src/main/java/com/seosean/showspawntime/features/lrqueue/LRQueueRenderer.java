@@ -1,7 +1,7 @@
 package com.seosean.showspawntime.features.lrqueue;
 
 import com.seosean.showspawntime.config.MainConfiguration;
-import com.seosean.showspawntime.features.Renderer;
+import com.seosean.showspawntime.handler.Renderer;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import com.seosean.showspawntime.utils.StringUtils;
@@ -18,7 +18,7 @@ import org.lwjgl.opengl.GL11;
 public class LRQueueRenderer extends Renderer {
 
     @SubscribeEvent
-    public void timerW1End(TickEvent.ClientTickEvent event) {
+    public void lrCountDown(TickEvent.ClientTickEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc == null || mc.theWorld == null || mc.isSingleplayer()) {
             return;
@@ -26,6 +26,7 @@ public class LRQueueRenderer extends Renderer {
         if (event.phase!= TickEvent.Phase.START) {
             return;
         }
+
         EntityPlayerSP p = mc.thePlayer;
         if (p == null) {
             return;

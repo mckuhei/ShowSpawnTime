@@ -1,6 +1,7 @@
 package com.seosean.showspawntime.utils;
 
 import com.seosean.showspawntime.ShowSpawnTime;
+import com.seosean.showspawntime.handler.ScoreboardManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -140,6 +141,7 @@ public class GameUtils {
         }
         return waveList;
     }
+
     public static boolean isGiantOnlyWave(int round, int wave) {
         return getGiantOnlyWaves(round).contains(wave);
     }
@@ -150,5 +152,23 @@ public class GameUtils {
 
     public static boolean isTo1GiantWave(int round, int wave) {
         return getO1AndGiantWaves(round).contains(wave);
+    }
+
+    public static List<String> playerList = new ArrayList<>();
+    public static void initializePlayerList() {
+        ScoreboardManager scoreboardManager = ShowSpawnTime.getScoreboardManager();
+        for (int i = 6; i <= scoreboardManager.getSize(); i ++) {
+            String content = scoreboardManager.getContent(i);
+            if (content.startsWith(" ") || content.isEmpty()) {
+                break;
+            }
+            String colon = content.contains(":") ? ":" : (scoreboardManager.getContent(i).contains("：") ? "：" : "");
+
+            if (colon.isEmpty()) {
+                break;
+            }
+
+            playerList.add(content.split(colon)[0]);
+        }
     }
 }
