@@ -109,6 +109,7 @@ public class Powerup {
         public EnumChatFormatting getEnumChatFormatting() {
             return enumChatFormatting;
         }
+
         public static PowerupType getPowerupType(String name) {
             if (LanguageUtils.equals(name, "zombies.game.instakill.upper")) {
                 return INSTA_KILL;
