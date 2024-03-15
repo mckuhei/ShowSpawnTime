@@ -23,9 +23,12 @@ public class SpawnTimeRenderer extends Renderer {
             System.out.println("ShowSpawnTime: " + "There is an exception happened to map detector!");
             return;
         }
-        fontRenderer.drawStringWithShadow("➤ ", absoluteX, absoluteY + this.fontRenderer.FONT_HEIGHT * (5 - waveAmount + spawnTimes.getNextWave()), 0xCC00CC);
+        
+        if (waveAmount != 0) {
+            fontRenderer.drawStringWithShadow("➤ ", absoluteX, absoluteY + this.fontRenderer.FONT_HEIGHT * (5 - waveAmount + spawnTimes.getNextWave()), 0xCC00CC);
+        }
 
-        for (int i = 0; i < spawnTimes.roundTimes.length; i++) {
+        for (int i = 0; i < waveAmount; i++) {
             int wave = i + 1;
             fontRenderer.drawStringWithShadow("W" + wave + " " + "00:" + spawnTimes.getWaveTime(wave), absoluteX + widthW, absoluteY + this.fontRenderer.FONT_HEIGHT * (5 - waveAmount + wave), spawnTimes.getColor(wave));
         }
