@@ -3,6 +3,7 @@ package com.seosean.showspawntime.features.powerups;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.features.dpscounter.DPSCounter;
+import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.GameUtils;
 import com.seosean.showspawntime.utils.LanguageUtils;
@@ -164,10 +165,14 @@ public class PowerupDetect {
         if (round == 0) {
             return;
         }
+
         Powerup.PowerupType powerupType = Powerup.PowerupType.getPowerupType(armorStandName);
 
         if (!powerupType.equals(Powerup.PowerupType.NULL)) {
-            Powerup.deserialize(powerupType, (EntityArmorStand) Minecraft.getMinecraft().theWorld.getEntityByID(entityID));
+            Powerup powerup = Powerup.deserialize(powerupType, (EntityArmorStand) Minecraft.getMinecraft().theWorld.getEntityByID(entityID));
+            if (powerup == null) {
+                return;
+            }
 
             List<Integer> roundList2 = new ArrayList<>();
             List<Integer> roundList3 = new ArrayList<>();

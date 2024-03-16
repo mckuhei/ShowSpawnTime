@@ -14,6 +14,9 @@ public class PowerupPredict {
     public static void detectNextPowerupRound() {
 
         int round = ShowSpawnTime.getSpawnTimes().currentRound;
+        if (round <= 0) {
+            return;
+        }
         IChatComponent basic = new ChatComponentText(EnumChatFormatting.GOLD + "[" + EnumChatFormatting.WHITE + "ShowSpawnTime" + EnumChatFormatting.GOLD + "] ");
         List<IChatComponent> chatBox = new ArrayList<>();
         Integer[][] rounds = {{}, {}, {}}; // insRounds, maxRounds, ssRounds
@@ -30,7 +33,7 @@ public class PowerupPredict {
         for (int i = 0; i < rounds.length; i++) {
             Integer[] roundArray = rounds[i];
             for (int noticeRound : roundArray) {
-                if (noticeRound > round) {
+                if (noticeRound >= round) {
                     String powerup;
                     String color;
                     switch (i) {
@@ -50,7 +53,20 @@ public class PowerupPredict {
                             powerup = "";
                             color = "";
                     }
-                    IChatComponent roundNotice = new ChatComponentText(color + powerup + EnumChatFormatting.WHITE + " in " + EnumChatFormatting.AQUA + noticeRound);
+                    String furtherPredict = "";
+                    String notice = EnumChatFormatting.WHITE + " in " + EnumChatFormatting.AQUA + noticeRound;
+
+                    if (noticeRound == round) {
+                                notice = " " + EnumChatFormatting.GREEN + EnumChatFormatting.BOLD + "NOW";
+                        for (int furtherRound : roundArray) {
+                            if (furtherRound > round) {
+                                furtherPredict =  EnumChatFormatting.GRAY + "(" + furtherRound + ")";
+                                break;
+                            }
+                        }
+
+                    }
+                    IChatComponent roundNotice = new ChatComponentText(color + powerup + notice + furtherPredict);
                     chatBox.add(roundNotice);
                     break;
                 }
