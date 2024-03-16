@@ -1,4 +1,4 @@
-![TA8N65%T$N YFOD7KJMGY`V](https://github.com/Seosean/ShowSpawnTime/assets/88036696/f153d998-66e6-49fd-ba68-376c588b33b3)# ShowSpawnTime  
+# ShowSpawnTime  
   
 ## Latest Version of ShowSpawnTime
 [**2.0.1 Download**](https://github.com/Seosean/ShowSpawnTime/releases/download/2.0.1/ShowSpawnTime-2.0.1.jar)  
