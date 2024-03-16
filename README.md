@@ -1,7 +1,7 @@
-# ShowSpawnTime  
+![TA8N65%T$N YFOD7KJMGY`V](https://github.com/Seosean/ShowSpawnTime/assets/88036696/f153d998-66e6-49fd-ba68-376c588b33b3)# ShowSpawnTime  
   
 ## Latest Version of ShowSpawnTime
-[**2.0.0 Download**](https://github.com/Seosean/ShowSpawnTime/releases/download/2.0.0/ShowSpawnTime-2.0.0.jar)  
+[**2.0.1 Download**](https://github.com/Seosean/ShowSpawnTime/releases/download/2.0.1/ShowSpawnTime-2.0.1.jar)  
 
 ## The most necessary module to this mod.
 [**ZombiesAutoSplits by Seosean**](https://github.com/Seosean/ZombiesAutoSplits/tree/Mixin)  
@@ -15,6 +15,16 @@ Seosean's one was forked from thamid's, I added a feature that you can now edit 
   
 ****
 ## Updates Logs
+
+### Update 2.0.1 2024/3/16  
+· Fixed a bug when a powerup is expiring and flashing, the pattern of powerup will be set to current round. (e.g. Save r5 insta to r6 and the pattern could be set to 3)
+· Now mod will tell you if there is powerup in current round in chat, instead of skipping current round:  
+                                              Before (This round is r9, pattern is r3, but it directly told you the time of further next one)  
+ ![TB68G7GEVU}3@ 1AASUO62L](https://github.com/Seosean/ShowSpawnTime/assets/88036696/88efa00d-c18e-4f51-8f21-105fc87376ec)  
+                                               Now (This round is r5, pattern is r2, then it will display "NOW" and also the further next one in bracket.)  
+ ![TA8N65%T$N YFOD7KJMGY`V](https://github.com/Seosean/ShowSpawnTime/assets/88036696/492cde94-b50a-4785-a884-e673199f7c01)  
+
+
 ### Update 2.0.0 2024/3/15  
 · All codes are completely refactored!  
 · New feature: Fast revive cooldown display: Players' fast revive cooldown will display on sidebar now, you can choose the position you want to set the countdown in.  
