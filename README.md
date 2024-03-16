@@ -1,7 +1,7 @@
 # ShowSpawnTime  
   
 ## Latest Version of ShowSpawnTime
-[**2.0.1 Download**](https://github.com/Seosean/ShowSpawnTime/releases/download/2.0.1/ShowSpawnTime-2.0.1.jar)  
+[**2.0.2 Download**](https://github.com/Seosean/ShowSpawnTime/releases/download/2.0.2/ShowSpawnTime-2.0.2.jar)  
 
 ## The most necessary module to this mod.
 [**ZombiesAutoSplits by Seosean**](https://github.com/Seosean/ZombiesAutoSplits/tree/Mixin)  
@@ -15,6 +15,12 @@ Seosean's one was forked from thamid's, I added a feature that you can now edit 
   
 ****
 ## Updates Logs
+### Update 2.0.2 2024/3/16  
+· Fixed configs can't be saved.  
+· Fixed DPS Counter doesn't work.  
+· Fixed hotkey sometimes changes itself.  
+· Fixed player visibility works unintentionally.  
+· Fixed Left Notice doesn't detect difficulties correctly.  
 
 ### Update 2.0.1 2024/3/16  
 · Fixed a bug when a powerup is expiring and flashing, the pattern of powerup will be set to current round. (e.g. Save r5 insta to r6 and the pattern could be set to 3)
