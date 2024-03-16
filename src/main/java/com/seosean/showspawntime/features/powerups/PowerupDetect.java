@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +48,8 @@ public class PowerupDetect {
     public List<Integer> ssRounds = new ArrayList<>();
 
     public void iniPowerupPatterns(){
-        Powerup.powerups.clear();
-        Powerup.incPowerups.clear();
+        Powerup.powerups = new HashMap<>();
+        Powerup.incPowerups = new ArrayList<>();
         insRounds = new ArrayList<>();
         maxRounds = new ArrayList<>();
         ssRounds = new ArrayList<>();

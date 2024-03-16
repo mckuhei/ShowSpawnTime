@@ -36,8 +36,8 @@ public class MainConfiguration {
     public static Minecraft minecraft;
     public static String[] AARoundsRecord = new String[]{"OFF", "Quintuple", "Tenfold","ALL"};
     public static String[] DEBBRoundsRecord = new String[]{"OFF", "Quintuple", "Tenfold","ALL"};
-    public static KeyBinding keyTogglePlayerInvisible = new KeyBinding("Player Invisible", Keyboard.KEY_NONE, "Show Spawn Time");
-    public static KeyBinding keyOpenConfig = new KeyBinding("Config", Keyboard.KEY_NONE, "Show Spawn Time");
+    public static KeyBinding keyTogglePlayerInvisible = new KeyBinding("SST Player Invisible", Keyboard.KEY_NONE, "Show Spawn Time");
+    public static KeyBinding keyOpenConfig = new KeyBinding("SST Config", Keyboard.KEY_NONE, "Show Spawn Time");
 
     public static Configuration config;
     public static Logger logger;
