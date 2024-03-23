@@ -85,7 +85,7 @@ public class GameTickHandler {
                         zGameTick += 10;
                         if (zGameTick % 1000 == 0) {
                             if (zGameStarted && PlayerUtils.isInZombies()) {
-                                SpawnNotice.onSpawn(zGameTick);
+                                Minecraft.getMinecraft().addScheduledTask(() -> SpawnNotice.onSpawn(zGameTick));
                             }
                         }
                     } catch (Exception e) {

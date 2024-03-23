@@ -7,6 +7,7 @@ import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -21,7 +22,7 @@ public class SpawnNotice {
         currentRoundTimes = GameUtils.getRoundTimes(round);
     }
 
-    public static void onSpawn(int tick) throws Exception{
+    public static void onSpawn(int tick) {
         if (currentRound == 0 || currentRoundTimes.length == 0) {
             if (currentRound != 0) {
                 currentRoundTimes = GameUtils.getRoundTimes(currentRound);
@@ -49,6 +50,7 @@ public class SpawnNotice {
                 }
             }
         }
+
         if(MainConfiguration.DEBBCountDown) {
             if (tick == (finalWaveTime - 3) * 1000) {
                 PlayerUtils.playSound(MainConfiguration.CountDownSound, (float) MainConfiguration.CountDownPitch);

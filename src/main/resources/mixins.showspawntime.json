@@ -12,6 +12,7 @@
     "MixinModelPlayer",
     "MixinNetHandlerPlayClient",
     "MixinRender",
-    "MixinWorldClient"
+    "MixinWorldClient",
+    "MixinSoundManager"
   ]
 }
