@@ -1,7 +1,7 @@
 # ShowSpawnTime  
   
 ## Latest Version of ShowSpawnTime
-[**2.0.2 Download**](https://github.com/Seosean/ShowSpawnTime/releases/download/2.0.2/ShowSpawnTime-2.0.2.jar)  
+[**2.0.3 Download**](https://github.com/Seosean/ShowSpawnTime/releases/download/2.0.3/ShowSpawnTime-2.0.3.jar)  
 
 ## The most necessary module to this mod.
 [**ZombiesAutoSplits by Seosean**](https://github.com/Seosean/ZombiesAutoSplits/tree/Mixin)  
@@ -15,6 +15,13 @@ Seosean's one was forked from thamid's, I added a feature that you can now edit 
   
 ****
 ## Updates Logs
+
+### Update 2.0.3 2024/3/23  
+· Fixed mod not working for Simplified Chinese and Traditional Chinese.  
+· Fixed Powerups not cancelling displaying at boss round.  
+· Fixed wrong tips about Giants&The Old Ones waves.  
+· Fixed some of crashing.  
+
 ### Update 2.0.2 2024/3/16  
 · Fixed configs can't be saved.  
 · Fixed DPS Counter doesn't work.  
