@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinWorldClient {
 
     @Unique
-    private boolean AAr10 = false;
+    private boolean showSpawnTime$AAr10 = false;
 
     @Inject(method = "playSound", at = @At(value = "RETURN"))
     private void playSound(double x, double y, double z, String soundName, float volume, float pitch, boolean distanceDelay, CallbackInfo callbackInfo){
@@ -27,8 +27,8 @@ public class MixinWorldClient {
 
     @Unique
     private void showSpawnTime$detectSound(String soundEffect, float pitch){
-        if (soundEffect.equals("mob.wither.spawn") || soundEffect.equals("mob.enderdragon.end") || (soundEffect.equals("mob.guardian.curse") && !AAr10)) {
-            AAr10 = soundEffect.equals("mob.guardian.curse");
+        if (soundEffect.equals("mob.wither.spawn") || soundEffect.equals("mob.enderdragon.end") || (soundEffect.equals("mob.guardian.curse") && !showSpawnTime$AAr10)) {
+            showSpawnTime$AAr10 = soundEffect.equals("mob.guardian.curse");
 
             LRQueueRenderer.lrUsings = 0;
             ShowSpawnTime.getGameTickHandler().setGameStarted(!soundEffect.equals("mob.enderdragon.end"));

@@ -26,9 +26,9 @@ public class PowerupDetect {
 
     }
 
-    public static Integer[] r2MaxRoundsDE = {2, 8, 12, 16, 21, 26};
+    public static Integer[] r2MaxRoundsDE = {2, 8, 12, 16, 21, 26, 31, 36};
     public static Integer[] r2MaxRoundsBB = {2, 5, 8, 12, 16, 21, 26};
-    public static Integer[] r3MaxRoundsDEBB = {3, 6, 9, 13, 17, 22, 27};
+    public static Integer[] r3MaxRoundsDEBB = {3, 6, 9, 13, 17, 22, 27, 32, 37};
 
     public static Integer[] r2MaxRoundsAA = {2, 5, 8, 12, 16, 21, 26, 31, 36, 41, 46, 51, 61, 66, 71, 76, 81, 86, 91, 96};
     public static Integer[] r3MaxRoundsAA = {3, 6, 9, 13, 17, 22, 27, 32, 37, 42, 47, 52, 62, 67, 72, 77, 82, 87, 92, 97};
@@ -142,7 +142,8 @@ public class PowerupDetect {
                 public void run() {
                     for (Map.Entry<EntityArmorStand, Powerup> entry : new ArrayList<>(Powerup.powerups.entrySet())) {
                         if (entry.getValue().getPowerupType().equals(finalPowerupType)) {
-                            if (entry.getKey() == null || entry.getKey().isDead) {
+                            EntityArmorStand entityArmorStand = entry.getKey();
+                            if (entityArmorStand == null || entityArmorStand.isDead) {
                                 entry.getValue().claim();
                                 isClaimed = true;
                             }

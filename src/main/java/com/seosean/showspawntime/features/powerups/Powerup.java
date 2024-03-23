@@ -40,29 +40,24 @@ public class Powerup {
         this(powerupType, null);
     }
 
-    private DelayedTask delayedTask;
+    private DelayedTask countdownTask;
     public Powerup(PowerupType powerupType, EntityArmorStand entityArmorStand) {
         this.powerupType = powerupType;
         this.entityArmorStand = entityArmorStand;
         this.offsetTime = 1200;
         if (entityArmorStand != null) {
-            delayedTask = new DelayedTask() {
+            countdownTask = new DelayedTask() {
                 @Override
                 public void run() {
                     if (offsetTime <= 0) {
-                        for (Map.Entry<EntityArmorStand, Powerup> entry : new ArrayList<>(powerups.entrySet())) {
-                            if (entry.getValue().equals(Powerup.this)) {
-                                powerups.remove(entry.getKey());
-                                break;
-                            }
-                        }
+                        powerups.remove(entityArmorStand);
                         this.cancel();
                         return;
                     }
                     offsetTime--;
                 }
             };
-            delayedTask.runTaskTimer(0, 1);
+            countdownTask.runTaskTimer(0, 1);
         } else {
             this.inc = true;
         }
@@ -70,13 +65,8 @@ public class Powerup {
 
     public void claim() {
         this.offsetTime = 0;
-        for (Map.Entry<EntityArmorStand, Powerup> entry : new ArrayList<>(powerups.entrySet())) {
-            if (entry.getValue().equals(Powerup.this)) {
-                powerups.remove(entry.getKey());
-                delayedTask.cancel();
-                return;
-            }
-        }
+        powerups.remove(entityArmorStand);
+        countdownTask.cancel();
     }
 
     public PowerupType getPowerupType() {

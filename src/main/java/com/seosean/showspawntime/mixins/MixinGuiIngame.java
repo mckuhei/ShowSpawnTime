@@ -7,9 +7,11 @@ import com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown;
 import com.seosean.showspawntime.features.leftnotice.LeftNotice;
 import com.seosean.showspawntime.features.powerups.Powerup;
 import com.seosean.showspawntime.features.powerups.PowerupPredict;
+import com.seosean.showspawntime.features.spawntimes.SpawnNotice;
 import com.seosean.showspawntime.features.timerecorder.TimeRecorder;
 import com.seosean.showspawntime.handler.Renderer;
 import com.seosean.showspawntime.utils.DelayedTask;
+import com.seosean.showspawntime.utils.GameUtils;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import com.seosean.showspawntime.utils.StringUtils;
@@ -19,6 +21,7 @@ import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.util.EnumChatFormatting;
+import org.apache.commons.lang3.ArrayUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -28,6 +31,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -54,9 +58,13 @@ public abstract class MixinGuiIngame {
 
             Renderer.setShouldRender(true);
 
-            ShowSpawnTime.getSpawnNotice().update(round);
+            SpawnNotice.update(round);
 
             Powerup.incPowerups.clear();
+
+            if (ArrayUtils.contains(GameUtils.getBossRounds(), round)) {
+                new ArrayList<>(Powerup.powerups.values()).forEach(Powerup::claim);
+            }
 
             if (ShowSpawnTime.getPowerupDetect().isInsRound(round)) {
                 Powerup.deserialize(Powerup.PowerupType.INSTA_KILL);
@@ -121,11 +129,11 @@ public abstract class MixinGuiIngame {
                 }
                 if (MainConfiguration.PlayerHealthNotice) {
                     if (playerName.length() >= 2) {
-                        EntityPlayer entityPlayer = getPlayerEntity(playerName);
+                        EntityPlayer entityPlayer = showSpawnTime$getPlayerEntity(playerName);
                         if (entityPlayer != null) {
                             if (!entityPlayer.isInvisible()) {
                                 float health = entityPlayer.getHealth();
-                                playerHealthNoticeString = EnumChatFormatting.WHITE + "(" + getColor(entityPlayer) + (int) health + EnumChatFormatting.WHITE + ") ";
+                                playerHealthNoticeString = EnumChatFormatting.WHITE + "(" + showSpawnTime$getColor(entityPlayer) + (int) health + EnumChatFormatting.WHITE + ") ";
                             }
                         }
                     }
@@ -251,14 +259,14 @@ public abstract class MixinGuiIngame {
 
 
     @Unique
-    private List<EntityPlayer> getPlayerList() {
+    private List<EntityPlayer> showSpawnTime$getPlayerList() {
         return new CopyOnWriteArrayList<>(Minecraft.getMinecraft().theWorld.playerEntities);
     }
 
 
     @Unique
-    private EntityPlayer getPlayerEntity(String name) {
-        List<EntityPlayer> playerList = this.getPlayerList();
+    private EntityPlayer showSpawnTime$getPlayerEntity(String name) {
+        List<EntityPlayer> playerList = this.showSpawnTime$getPlayerList();
         for (EntityPlayer entity: playerList){
             String entityName = entity.getDisplayNameString().trim();
             if (name.equals(entityName.trim())) {
@@ -269,7 +277,7 @@ public abstract class MixinGuiIngame {
     }
 
     @Unique
-    private EnumChatFormatting getColor(EntityPlayer entityPlayer) {
+    private EnumChatFormatting showSpawnTime$getColor(EntityPlayer entityPlayer) {
         int currentHealth = (int)entityPlayer.getHealth();
         if (currentHealth > entityPlayer.getMaxHealth() / 2) {
             return EnumChatFormatting.GREEN;

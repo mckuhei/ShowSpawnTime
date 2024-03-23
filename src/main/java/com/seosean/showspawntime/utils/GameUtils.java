@@ -2,6 +2,7 @@ package com.seosean.showspawntime.utils;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.handler.ScoreboardManager;
+import net.minecraft.entity.monster.EntityZombie;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,31 +12,31 @@ import java.util.Map;
 
 public class GameUtils {
 
-    private static Map<Integer, List<Integer>> o1RoundsToWaves = new HashMap<>();
-    private static Map<Integer, List<Integer>> giantRoundsToWaves = new HashMap<>();
-    private static Map<Integer, List<Integer>> o1AndGiantRoundsToWaves = new HashMap<>();
+    private static final Map<Integer, List<Integer>> o1RoundsToWaves = new HashMap<>();
+    private static final Map<Integer, List<Integer>> giantRoundsToWaves = new HashMap<>();
+    private static final Map<Integer, List<Integer>> o1AndGiantRoundsToWaves = new HashMap<>();
 
     static {
-        o1RoundsToWaves.put(40, Arrays.asList(6));
-        o1RoundsToWaves.put(45, Arrays.asList(5,6));
-        o1RoundsToWaves.put(46, Arrays.asList(6));
-        o1RoundsToWaves.put(48, Arrays.asList(6));
-        o1RoundsToWaves.put(54, Arrays.asList(6));
+        o1RoundsToWaves.put(40, Arrays.asList(5));
+        o1RoundsToWaves.put(45, Arrays.asList(3, 4));
+        o1RoundsToWaves.put(46, Arrays.asList(4));
+        o1RoundsToWaves.put(48, Arrays.asList(4));
+        o1RoundsToWaves.put(54, Arrays.asList(5));
         o1RoundsToWaves.put(55, Arrays.asList(6));
-        o1RoundsToWaves.put(58, Arrays.asList(6));
+        o1RoundsToWaves.put(58, Arrays.asList(5));
         o1RoundsToWaves.put(59, Arrays.asList(1, 2, 3, 4, 5, 6));
-        o1RoundsToWaves.put(60, Arrays.asList(5,6));
-        o1RoundsToWaves.put(64, Arrays.asList(5,6));
+        o1RoundsToWaves.put(60, Arrays.asList(3, 4));
+        o1RoundsToWaves.put(64, Arrays.asList(5, 6));
         o1RoundsToWaves.put(67, Arrays.asList(6));
-        o1RoundsToWaves.put(68, Arrays.asList(5,6));
-        o1RoundsToWaves.put(69, Arrays.asList(5,6));
-        o1RoundsToWaves.put(70, Arrays.asList(2,3));
-        o1RoundsToWaves.put(74, Arrays.asList(4,5,6));
+        o1RoundsToWaves.put(68, Arrays.asList(5, 6));
+        o1RoundsToWaves.put(69, Arrays.asList(5, 6));
+        o1RoundsToWaves.put(70, Arrays.asList(2, 3));
+        o1RoundsToWaves.put(74, Arrays.asList(4, 5, 6));
         o1RoundsToWaves.put(77, Arrays.asList(6));
-        o1RoundsToWaves.put(78, Arrays.asList(5,6));
-        o1RoundsToWaves.put(79, Arrays.asList(5,6));
-        o1RoundsToWaves.put(80, Arrays.asList(2,3));
-        o1RoundsToWaves.put(84, Arrays.asList(4,5,6));
+        o1RoundsToWaves.put(78, Arrays.asList(5, 6));
+        o1RoundsToWaves.put(79, Arrays.asList(5, 6));
+        o1RoundsToWaves.put(80, Arrays.asList(2, 3));
+        o1RoundsToWaves.put(84, Arrays.asList(4, 5, 6));
         o1RoundsToWaves.put(87, Arrays.asList(6));
         o1RoundsToWaves.put(88, Arrays.asList(5,6));
         o1RoundsToWaves.put(89, Arrays.asList(5,6));
@@ -47,41 +48,52 @@ public class GameUtils {
         o1RoundsToWaves.put(100, Arrays.asList(2,3));
 
         giantRoundsToWaves.put(15, Arrays.asList(6));
-        giantRoundsToWaves.put(20, Arrays.asList(3,5));
-        giantRoundsToWaves.put(22, Arrays.asList(4,6));
-        giantRoundsToWaves.put(24, Arrays.asList(2,4,6));
-        giantRoundsToWaves.put(30, Arrays.asList(4,5,6));
-        giantRoundsToWaves.put(36, Arrays.asList(5,6));
-        giantRoundsToWaves.put(37, Arrays.asList(5,6));
-        giantRoundsToWaves.put(38, Arrays.asList(5,6));
-        giantRoundsToWaves.put(39, Arrays.asList(5,6));
-        giantRoundsToWaves.put(40, Arrays.asList(3,4));
-        giantRoundsToWaves.put(41, Arrays.asList(5,6));
-        giantRoundsToWaves.put(42, Arrays.asList(4,5,6));
-        giantRoundsToWaves.put(43, Arrays.asList(2,4,6));
-        giantRoundsToWaves.put(44, Arrays.asList(4,5,6));
-        giantRoundsToWaves.put(45, Arrays.asList(4));
-        giantRoundsToWaves.put(47, Arrays.asList(6));
-        giantRoundsToWaves.put(50, Arrays.asList(4,6));
-        giantRoundsToWaves.put(51, Arrays.asList(4,6));
-        giantRoundsToWaves.put(52, Arrays.asList(4,6));
-        giantRoundsToWaves.put(53, Arrays.asList(4,6));
-        giantRoundsToWaves.put(54, Arrays.asList(5));
-        giantRoundsToWaves.put(55, Arrays.asList(1,2,3,4));
-        giantRoundsToWaves.put(58, Arrays.asList(5));
-        giantRoundsToWaves.put(65, Arrays.asList(4,5,6));
-        giantRoundsToWaves.put(75, Arrays.asList(4,5,6));
-        giantRoundsToWaves.put(85, Arrays.asList(4,5,6));
-        giantRoundsToWaves.put(95, Arrays.asList(4,5,6));
+        giantRoundsToWaves.put(20, Arrays.asList(3, 5));
+        giantRoundsToWaves.put(22, Arrays.asList(4, 6));
+        giantRoundsToWaves.put(24, Arrays.asList(2, 4, 6));
+        giantRoundsToWaves.put(30, Arrays.asList(1, 2, 3));
+        giantRoundsToWaves.put(36, Arrays.asList(2, 3));
+        giantRoundsToWaves.put(37, Arrays.asList(2, 3));
+        giantRoundsToWaves.put(38, Arrays.asList(2, 3));
+        giantRoundsToWaves.put(39, Arrays.asList(2 ,3));
+        giantRoundsToWaves.put(40, Arrays.asList(2, 3));
+        giantRoundsToWaves.put(41, Arrays.asList(2, 3));
+        giantRoundsToWaves.put(42, Arrays.asList(1, 2, 3));
+        giantRoundsToWaves.put(43, Arrays.asList(2, 4, 6));
+        giantRoundsToWaves.put(44, Arrays.asList(1, 2, 3));
+        giantRoundsToWaves.put(45, Arrays.asList(2));
+        giantRoundsToWaves.put(47, Arrays.asList(3));
+        giantRoundsToWaves.put(50, Arrays.asList(2, 4));
+        giantRoundsToWaves.put(51, Arrays.asList(2, 4));
+        giantRoundsToWaves.put(52, Arrays.asList(2, 4));
+        giantRoundsToWaves.put(53, Arrays.asList(2, 4));
+        giantRoundsToWaves.put(54, Arrays.asList(4));
+        giantRoundsToWaves.put(55, Arrays.asList(1, 2, 3, 4));
+        giantRoundsToWaves.put(58, Arrays.asList(4));
+        giantRoundsToWaves.put(65, Arrays.asList(4, 5, 6));
+        giantRoundsToWaves.put(75, Arrays.asList(4, 5, 6));
+        giantRoundsToWaves.put(85, Arrays.asList(4, 5, 6));
+        giantRoundsToWaves.put(95, Arrays.asList(4, 5, 6));
 
-        o1AndGiantRoundsToWaves.put(54,Arrays.asList(3));
+        o1AndGiantRoundsToWaves.put(54,Arrays.asList(2));
         o1AndGiantRoundsToWaves.put(55, Arrays.asList(5));
-        o1AndGiantRoundsToWaves.put(58, Arrays.asList(3));
-        o1AndGiantRoundsToWaves.put(70, Arrays.asList(4,5,6));
-        o1AndGiantRoundsToWaves.put(80, Arrays.asList(4,5,6));
-        o1AndGiantRoundsToWaves.put(90, Arrays.asList(4,5,6));
-        o1AndGiantRoundsToWaves.put(100, Arrays.asList(4,5,6));
+        o1AndGiantRoundsToWaves.put(58, Arrays.asList(2));
+        o1AndGiantRoundsToWaves.put(70, Arrays.asList(4, 5, 6));
+        o1AndGiantRoundsToWaves.put(80, Arrays.asList(4, 5, 6));
+        o1AndGiantRoundsToWaves.put(90, Arrays.asList(4, 5, 6));
+        o1AndGiantRoundsToWaves.put(100, Arrays.asList(4, 5, 6));
     }
+
+    public static int[] getBossRounds() {
+        switch (LanguageUtils.getMap()) {
+            case ALIEN_ARCADIUM: return new int[]{25, 35, 56, 57, 101};
+            case DEAD_END: return new int[]{5, 10, 15, 20, 25, 30};
+            case BAD_BLOOD: return new int[]{10, 15, 20, 25, 30};
+            case THE_LAB: return new int[]{5, 10, 15, 20, 25, 30, 35, 40};
+        }
+        return new int[]{};
+    }
+
     public static int[][] getGlobalTimers() {
         LanguageUtils.ZombiesMap map = LanguageUtils.getMap();
         if (map != null) {

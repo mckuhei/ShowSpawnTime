@@ -63,8 +63,6 @@ public class ShowSpawnTimeGuiConfig extends GuiConfig {
     @Override
     public void onGuiClosed()
     {
-        super.onGuiClosed();
-
         try {
             if ((this.entryList.hasChangedEntry(true))) {
                 boolean requiresMcRestart = this.entryList.saveConfigElements();
@@ -81,6 +79,8 @@ public class ShowSpawnTimeGuiConfig extends GuiConfig {
         } catch (Throwable e) {
             e.printStackTrace();
         }
+
+        super.onGuiClosed();
     }
 
 

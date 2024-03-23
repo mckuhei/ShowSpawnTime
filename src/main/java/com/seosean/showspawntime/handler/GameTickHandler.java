@@ -2,6 +2,7 @@ package com.seosean.showspawntime.handler;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown;
+import com.seosean.showspawntime.features.spawntimes.SpawnNotice;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
@@ -84,12 +85,12 @@ public class GameTickHandler {
                         zGameTick += 10;
                         if (zGameTick % 1000 == 0) {
                             if (zGameStarted && PlayerUtils.isInZombies()) {
-                                ShowSpawnTime.getSpawnNotice().onSpawn(zGameTick);
+                                SpawnNotice.onSpawn(zGameTick);
                             }
                         }
-
-
-
+                    } catch (Exception e) {
+                        System.out.println("SST Splits Exception 1!");
+                        e.printStackTrace();
                     }
                     finally {
                         lock.unlock();
@@ -100,7 +101,7 @@ public class GameTickHandler {
                 zGameTick = 0;
             }
         } catch (Exception e) {
-            System.out.println("SST Splits Exception!");
+            System.out.println("SST Splits Exception 2!");
             e.printStackTrace();
         }
         finally {

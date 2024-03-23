@@ -1,9 +1,13 @@
 package com.seosean.showspawntime.utils;
 
 import com.seosean.showspawntime.ShowSpawnTime;
+import com.seosean.showspawntime.events.NoticeSoundEvent;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 
 public class PlayerUtils {
     public static boolean isInZombiesTitle() {
@@ -20,6 +24,16 @@ public class PlayerUtils {
     public static void sendMessage(IChatComponent string) {
         if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().thePlayer != null) {
             Minecraft.getMinecraft().thePlayer.addChatComponentMessage(string);
+        }
+    }
+
+    public static void playSound(String sound, float pitch) {
+        if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().thePlayer != null) {
+            World world = Minecraft.getMinecraft().theWorld;
+            if (!world.isRemote) {
+                return;
+            }
+            MinecraftForge.EVENT_BUS.post(new NoticeSoundEvent(sound, pitch));
         }
     }
 }

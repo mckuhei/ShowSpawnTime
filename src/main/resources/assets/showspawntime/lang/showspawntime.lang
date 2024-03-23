@@ -1,31 +1,3 @@
-zombies.title.1.EN_US = ZOMBIES
-zombies.title.1.ZH_CN = 僵尸末日
-zombies.title.1.ZH_TW = 殭屍末日
-zombies.title.1.CS = ZOMBIES
-zombies.title.1.DA = ZOMBIES
-zombies.title.1.NL = ZOMBIES
-zombies.title.1.FI = ZOMBIES
-zombies.title.1.FR = ZOMBIES
-zombies.title.1.DE = ZOMBIES
-zombies.title.1.EL = ZOMBIES
-zombies.title.1.HU = ZOMBIES
-zombies.title.1.IT = ZOMBIES
-zombies.title.1.JA = ZOMBIES
-zombies.title.1.KO = ZOMBIES
-zombies.title.1.NO = ZOMBIES
-zombies.title.1.PL = ZOMBIES
-zombies.title.1.PT_PT = ZOMBIES
-zombies.title.1.PT_BR = ZOMBIES
-zombies.title.1.RO = ZOMBIES
-zombies.title.1.RU = ZOMBIES
-zombies.title.1.ES_ES = ZOMBIES
-zombies.title.1.SV_SE = ZOMBIES
-zombies.title.1.TR = ZOMBIES
-zombies.title.1.UK = ZOMBIES
-
-zombies.title.2.ZH_CN = ZOMBIES
-zombies.title.2.ZH_TW = ZOMBIES
-
 zombies.map.deadend.EN_US = Dead End
 zombies.map.deadend.ZH_CN = 穷途末路
 zombies.map.deadend.ZH_TW = 窮途末路

@@ -35,11 +35,12 @@ public class LanguageUtils {
     private static String cacheSidebarContent = "";
     private static String cacheZombiesLeftText = "";
     public static String getZombiesLeftText() {
-        if (!PlayerUtils.isInZombiesTitle()) {
-            return "";
-        }
 
         String sidebarContent = ShowSpawnTime.getScoreboardManager().getContent(4);
+
+        if (sidebarContent == null || sidebarContent.isEmpty()) {
+            return "";
+        }
 
         if (cacheSidebarContent.equals(sidebarContent)) {
             return cacheZombiesLeftText;
@@ -70,7 +71,7 @@ public class LanguageUtils {
 
     public static boolean isZombiesTitle(String string) {
         string = StringUtils.trim(string);
-        return LanguageUtils.contains(string, "zombies.title.1") || LanguageUtils.contains(string, "zombies.title.2");
+        return string.contains("ZOMBIES") || string.contains("僵尸末日") || string.contains("殭屍末日");
     }
 
     public static boolean isRoundTitle(String string) {
