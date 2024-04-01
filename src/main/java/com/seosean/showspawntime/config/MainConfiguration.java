@@ -54,6 +54,7 @@ public class MainConfiguration {
     public static boolean CleanUpTimeToggle;
     public static boolean LightningRodQueue;
     public static boolean PowerupAlertToggle;
+    public static boolean PowerupPredictToggle;
     public static boolean Wave3LeftNotice;
     public static boolean PlayerHealthNotice;
     public static boolean CriticalTextFix;
@@ -101,6 +102,7 @@ public class MainConfiguration {
         String commentCleanUpTimeTook;
         String commentLightningRodHelper;
         String commentPowerupAlert;
+        String commentPowerupPredict;
         String commentWave3LeftNotice;
         String commentPlayerHealthNotice;
         String commentCriticalTextFix;
@@ -198,6 +200,11 @@ public class MainConfiguration {
         Property propertyPowerupAlertToggle = config.get(Configuration.CATEGORY_GENERAL, "Powerup Alert", true, commentPowerupAlert);
         PowerupAlertToggle = propertyPowerupAlertToggle.getBoolean();
         qolRelated.put(propertyPowerupAlertToggle.getName(), new ConfigElement(propertyPowerupAlertToggle));
+
+        commentPowerupPredict = "Notice you when the next powerup is at the beginning of round";
+        Property propertyPowerupPredictToggle = config.get(Configuration.CATEGORY_GENERAL, "Powerup Predict", true, commentPowerupPredict);
+        PowerupPredictToggle = propertyPowerupPredictToggle.getBoolean();
+        qolRelated.put(propertyPowerupPredictToggle.getName(), new ConfigElement(propertyPowerupPredictToggle));
 
         commentWave3LeftNotice = "Enhance the Sidebar which shows you the amount of zombies in wave 3rd in DE/BB.";
         Property propertyWave3LeftNotice = config.get(Configuration.CATEGORY_GENERAL, "Wave 3rd Left Notice", true, commentWave3LeftNotice);

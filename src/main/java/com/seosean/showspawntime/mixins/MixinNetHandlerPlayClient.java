@@ -19,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Mixin(NetHandlerPlayClient.class)
 public class MixinNetHandlerPlayClient {
@@ -29,6 +30,16 @@ public class MixinNetHandlerPlayClient {
         if (packetIn == null) {
             return;
         }
+
+        List<DataWatcher.WatchableObject> list = packetIn.func_149376_c();
+        if (list == null) {
+            return;
+        }
+
+        if (list.isEmpty()) {
+            return;
+        }
+
         Entity entity = Minecraft.getMinecraft().theWorld.getEntityByID(packetIn.getEntityId());
         if (entity instanceof EntityArmorStand) {
             for (DataWatcher.WatchableObject watchableObject : new ArrayList<>(packetIn.func_149376_c())) {

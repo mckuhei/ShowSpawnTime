@@ -402,6 +402,8 @@ zombies.game.activated.SV_SE = aktiverade
 zombies.game.activated.TR = güçlendirmesini aktif etti
 zombies.game.activated.UK = активував
 
+zombies.game.activated.2.ZH_CN = 启用了
+
 zombies.game.youwin.EN_US = You Win
 zombies.game.youwin.ZH_CN = 你赢了
 zombies.game.youwin.ZH_TW = 你贏了

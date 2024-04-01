@@ -24,7 +24,7 @@ public class CommandDebug extends CommandBase {
         return "sstdebug";
     }
 
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    public void processCommand(ICommandSender sender, String[] args) {
         String arg0 = args[0].toLowerCase();
         switch (arg0) {
             case "lang": {

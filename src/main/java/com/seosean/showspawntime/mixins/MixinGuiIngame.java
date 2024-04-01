@@ -78,12 +78,14 @@ public abstract class MixinGuiIngame {
                 Powerup.deserialize(Powerup.PowerupType.SHOPPING_SPREE);
             }
 
-            new DelayedTask() {
-                @Override
-                public void run() {
-                    PowerupPredict.detectNextPowerupRound();
-                }
-            }.runTaskLater(40);
+            if (MainConfiguration.PowerupPredictToggle) {
+                new DelayedTask() {
+                    @Override
+                    public void run() {
+                        PowerupPredict.detectNextPowerupRound();
+                    }
+                }.runTaskLater(40);
+            }
         }
     }
 

@@ -47,7 +47,7 @@ public class PowerupDetect {
     public List<Integer> insRounds = new ArrayList<>();
     public List<Integer> ssRounds = new ArrayList<>();
 
-    public void iniPowerupPatterns(){
+    public void iniPowerupPatterns() {
         Powerup.powerups = new HashMap<>();
         Powerup.incPowerups = new ArrayList<>();
         insRounds = new ArrayList<>();
@@ -58,6 +58,10 @@ public class PowerupDetect {
     @SubscribeEvent
     public void onChatReceived(ClientChatReceivedEvent event) {
         String message = StringUtils.trim(event.message.getUnformattedText());
+        if (event.type != 1 && event.type != 0) {
+            return;
+        }
+
         if (message.contains(":")) {
             return;
         }
@@ -67,7 +71,7 @@ public class PowerupDetect {
         }
 
         if (PlayerUtils.isInZombies()){
-            if(!LanguageUtils.contains(message, "zombies.game.activated")) {
+            if(!LanguageUtils.contains(message, "zombies.game.activated") && !LanguageUtils.contains(message, "zombies.game.activated.2"))  {
                 return;
             }
             int round = ShowSpawnTime.getSpawnTimes().currentRound;
