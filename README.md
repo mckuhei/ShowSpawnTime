@@ -1,8 +1,7 @@
 # ShowSpawnTime  
   
 ## Latest Version of ShowSpawnTime
-[**2.0.4 Download**](https://github.com/Seosean/ShowSpawnTime/releases/download/2.0.4/ShowSpawnTime-2.0.4.jar)  
-(Please tell me if any crashing happens again, now the development is in trouble due to the crashing. :( )  
+[**2.0.5 Download**](https://github.com/Seosean/ShowSpawnTime/releases/download/2.0.5/ShowSpawnTime-2.0.5.jar)  
 
 ## The most necessary module to this mod.
 [**ZombiesAutoSplits by Seosean**](https://github.com/Seosean/ZombiesAutoSplits/tree/Mixin)  
@@ -17,6 +16,11 @@ Seosean's one was forked from thamid's, I added a feature that you can now edit 
 ****
 ## Updates Logs
 
+### Update 2.0.5 2024/4/2  
+· Added a toggle to choose enable powerup predictor or not.  
+· Fixed a bug that powerup features didn't work properly with simplified Chinese.  
+· Fixed a bug that a few players might disconnect with no reason with certain client.  
+  
 ### Update 2.0.4 2024/3/23  
 · Attempt to fix the crashing about sounds.  
   
