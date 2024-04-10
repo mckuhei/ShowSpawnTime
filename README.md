@@ -1,7 +1,12 @@
 # ShowSpawnTime  
+
+## Serious Declaration  
+This mod has gradually developed for QoL that integrates multiple strong features.  
+However, it should be noted that not all features are allowed to be used by the Zombies community you have joined,  
+so if your community has relevant requirements, please turn off the corresponding features yourself.  
   
 ## Latest Version of ShowSpawnTime
-[**2.0.5 Download**](https://github.com/Seosean/ShowSpawnTime/releases/download/2.0.5/ShowSpawnTime-2.0.5.jar)  
+[**2.0.6 Download**](https://github.com/Seosean/ShowSpawnTime/releases/download/2.0.6/ShowSpawnTime-2.0.6.jar)  
 
 ## The most necessary module to this mod.
 [**ZombiesAutoSplits by Seosean**](https://github.com/Seosean/ZombiesAutoSplits/tree/Mixin)  
@@ -14,7 +19,17 @@ Seosean's one was forked from thamid's, I added a feature that you can now edit 
 · ZombiesAutoSplits by Seosean 1.2 update: Add compatibility for ShowSpawnTime 2.0.0.
   
 ****
-## Updates Logs
+## Updates Logs  
+  
+### Update 2.0.6 2024/4/11  
+· Now the countdown of powerups will be shown along with its nametag. (Togglable)  
+· Now you can toggle if nametag of powerup gets rendered with shadow. (Togglable, disabled by default.)  
+· Added a new catalog for powerup related features in config GUI.  
+· Fixed a bug that your client might be no response when a round starts.  
+· Fixed a bug that the timers of r74 and r76 were wrong.  
+· Fixed a bug that the timers from rounds which only have a 5s wave were rendered to 00:5 instead of 00:05.  
+· Fixed a bug that powerups displaying on screen didn't arrange from top to bottom according to remaining time.  
+· Fixed a bug that countdown of powerups would be reset if the powerup expired naturally.  
 
 ### Update 2.0.5 2024/4/2  
 · Added a toggle to choose enable powerup predictor or not.  
