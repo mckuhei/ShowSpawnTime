@@ -1,17 +1,12 @@
 package com.seosean.showspawntime.utils;
 
 import com.seosean.showspawntime.ShowSpawnTime;
-import com.seosean.showspawntime.events.NoticeSoundEvent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SoundManager;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.S29PacketSoundEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 
 public class PlayerUtils {
     public static boolean isInZombiesTitle() {
@@ -38,8 +33,10 @@ public class PlayerUtils {
             if (!world.isRemote) {
                 return;
             }
-            S29PacketSoundEffect s29PacketSoundEffect = new S29PacketSoundEffect(sound, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, 1.0F, pitch);
-            Minecraft.getMinecraft().thePlayer.sendQueue.handleSoundEffect(s29PacketSoundEffect);
+            Minecraft.getMinecraft().addScheduledTask(() -> {
+                S29PacketSoundEffect s29PacketSoundEffect = new S29PacketSoundEffect(sound, entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ, 1.0F, pitch);
+                Minecraft.getMinecraft().thePlayer.sendQueue.handleSoundEffect(s29PacketSoundEffect);
+            });
         }
     }
 }

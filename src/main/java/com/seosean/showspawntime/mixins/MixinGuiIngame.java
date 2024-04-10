@@ -41,51 +41,50 @@ public abstract class MixinGuiIngame {
 
     @Inject(method = "displayTitle", at = @At(value = "RETURN"))
     private void displayTitle(String p_175178_1_, String p_175178_2_, int p_175178_3_, int p_175178_4_, int p_175178_5_, CallbackInfo callbackInfo){
-        String roundTitle = p_175178_1_ == null ? "" : StringUtils.trim(p_175178_1_);
-        boolean flag = LanguageUtils.contains(roundTitle, "zombies.game.youwin") || LanguageUtils.contains(roundTitle, "zombies.game.gameover");
-        if (LanguageUtils.isRoundTitle(roundTitle) || flag) {
-            TimeRecorder.recordGameTime();
-            TimeRecorder.recordRedundantTime();
-            ShowSpawnTime.getGameTickHandler().setGameStarted(true);
-            ShowSpawnTime.getGameTickHandler().startOrSplit();
+        int i = 0;
+        try {
+            String roundTitle = p_175178_1_ == null ? "" : StringUtils.trim(p_175178_1_);
+            boolean flag = LanguageUtils.contains(roundTitle, "zombies.game.youwin") || LanguageUtils.contains(roundTitle, "zombies.game.gameover");
+            if (LanguageUtils.isRoundTitle(roundTitle) || flag) {
+                TimeRecorder.recordGameTime();
+                TimeRecorder.recordRedundantTime();
 
-            if (!PlayerUtils.isInZombiesTitle()) {
-                return;
+                ShowSpawnTime.getGameTickHandler().setGameStarted(true);
+                ShowSpawnTime.getGameTickHandler().startOrSplit();
+                if (!PlayerUtils.isInZombiesTitle()) {
+                    return;
+                }
+                int round = LanguageUtils.getRoundNumber(roundTitle);
+                ShowSpawnTime.getSpawnTimes().setCurrentRound(round);
+                Renderer.setShouldRender(true);
+                SpawnNotice.update(round);
+
+                Powerup.incPowerups.clear();
+
+                if (ArrayUtils.contains(GameUtils.getBossRounds(), round)) {
+                    new ArrayList<>(Powerup.powerups.values()).forEach(Powerup::claim);
+                }
+                if (ShowSpawnTime.getPowerupDetect().isInsRound(round)) {
+                    Powerup.deserialize(Powerup.PowerupType.INSTA_KILL);
+                }
+                if (ShowSpawnTime.getPowerupDetect().isMaxRound(round)) {
+                    Powerup.deserialize(Powerup.PowerupType.MAX_AMMO);
+                }
+                if (ShowSpawnTime.getPowerupDetect().isSSRound(round)) {
+                    Powerup.deserialize(Powerup.PowerupType.SHOPPING_SPREE);
+                }
+                if (MainConfiguration.PowerupPredictToggle) {
+                    new DelayedTask() {
+                        @Override
+                        public void run() {
+                            PowerupPredict.detectNextPowerupRound();
+                        }
+                    }.runTaskLater(40);
+                }
             }
-
-            int round = LanguageUtils.getRoundNumber(roundTitle);
-            ShowSpawnTime.getSpawnTimes().setCurrentRound(round);
-
-            Renderer.setShouldRender(true);
-
-            SpawnNotice.update(round);
-
-            Powerup.incPowerups.clear();
-
-            if (ArrayUtils.contains(GameUtils.getBossRounds(), round)) {
-                new ArrayList<>(Powerup.powerups.values()).forEach(Powerup::claim);
-            }
-
-            if (ShowSpawnTime.getPowerupDetect().isInsRound(round)) {
-                Powerup.deserialize(Powerup.PowerupType.INSTA_KILL);
-            }
-
-            if (ShowSpawnTime.getPowerupDetect().isMaxRound(round)) {
-                Powerup.deserialize(Powerup.PowerupType.MAX_AMMO);
-            }
-
-            if (ShowSpawnTime.getPowerupDetect().isSSRound(round)) {
-                Powerup.deserialize(Powerup.PowerupType.SHOPPING_SPREE);
-            }
-
-            if (MainConfiguration.PowerupPredictToggle) {
-                new DelayedTask() {
-                    @Override
-                    public void run() {
-                        PowerupPredict.detectNextPowerupRound();
-                    }
-                }.runTaskLater(40);
-            }
+        } catch (Exception e) {
+            ShowSpawnTime.getLogger().error("MixinGuiGame.class threw an exception: " + i);
+            e.printStackTrace();
         }
     }
 
@@ -288,13 +287,6 @@ public abstract class MixinGuiIngame {
         } else return EnumChatFormatting.RED;
     }
 
-//    @Redirect(method = "renderScoreboard", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/Lists;newArrayList(Ljava/lang/Iterable;)Ljava/util/ArrayList;", ordinal = 1))
-//    private <E extends Score> ArrayList<Score> extendSidebarDisplayCap(Iterable<? extends E> elements){
-//        if (PlayerUtils.isInZombiesTitle()) {
-//            return elements.;
-//        }
-//        else return Lists.newArrayList(elements);
-//    }
 
     @Redirect(method = "renderScoreboard", at = @At(value = "INVOKE", target = "Lcom/google/common/collect/Iterables;skip(Ljava/lang/Iterable;I)Ljava/lang/Iterable;"))
     private <E extends Score> Iterable<E> extendSidebarDisplayCap(Iterable<E> list, int iterable) {

@@ -2,7 +2,6 @@ package com.seosean.showspawntime.features.dpscounter;
 
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.features.powerups.Powerup;
-import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
@@ -13,7 +12,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DPSCounter {
 

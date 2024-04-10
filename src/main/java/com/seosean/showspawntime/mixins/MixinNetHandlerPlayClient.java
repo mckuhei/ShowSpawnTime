@@ -1,17 +1,12 @@
 package com.seosean.showspawntime.mixins;
 
 import com.seosean.showspawntime.ShowSpawnTime;
-import com.seosean.showspawntime.features.powerups.Powerup;
-import com.seosean.showspawntime.features.powerups.PowerupDetect;
 import com.seosean.showspawntime.utils.StringUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SoundManager;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.network.PacketThreadUtil;
-import net.minecraft.network.play.server.S13PacketDestroyEntities;
 import net.minecraft.network.play.server.S1CPacketEntityMetadata;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

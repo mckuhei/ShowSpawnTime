@@ -52,9 +52,11 @@ public class MainConfiguration {
     public static String AARoundsRecordToggle;
     public static String DEBBRoundsRecordToggle;
     public static boolean CleanUpTimeToggle;
-    public static boolean LightningRodQueue;
     public static boolean PowerupAlertToggle;
     public static boolean PowerupPredictToggle;
+    public static boolean PowerupCountDown;
+    public static boolean PowerupNameTagShadow;
+    public static boolean LightningRodQueue;
     public static boolean Wave3LeftNotice;
     public static boolean PlayerHealthNotice;
     public static boolean CriticalTextFix;
@@ -70,6 +72,7 @@ public class MainConfiguration {
 
     public static LinkedHashMap<String, IConfigElement> sstRelated = new LinkedHashMap<>();
     public static LinkedHashMap<String, IConfigElement> recordRelated = new LinkedHashMap<>();
+    public static LinkedHashMap<String, IConfigElement> powerupRelated = new LinkedHashMap<>();
     public static LinkedHashMap<String, IConfigElement> qolRelated = new LinkedHashMap<>();
 
 
@@ -100,14 +103,17 @@ public class MainConfiguration {
         String commentAAAllRoundsRecord;
         String commentDEBBAllRoundsRecord;
         String commentCleanUpTimeTook;
-        String commentLightningRodHelper;
+
         String commentPowerupAlert;
         String commentPowerupPredict;
+        String commentPowerupCountDown;
+        String commentPowerupNameTagShadow;
+
+        String commentLightningRodHelper;
         String commentWave3LeftNotice;
         String commentPlayerHealthNotice;
         String commentCriticalTextFix;
         String commentDPSCounterToggle;
-        String commentDownTimeCountDown;
         String commentFastReviveCoolDown;
 
 //        comment = "How long will the highlight delayed after a wave spawns in **SECOND**. \nNotice it only works in Dead End and Bad Blood.";
@@ -189,22 +195,36 @@ public class MainConfiguration {
         recordRelated.put(propertyCleanUpTimeToggle.getName(), new ConfigElement(propertyCleanUpTimeToggle));
 
         /**
+         *  Powerup Related Elements
+         */
+
+        commentPowerupAlert = "Remind you when this is a powerup-round. Start counting down when a powerup spawns";
+        Property propertyPowerupAlertToggle = config.get(Configuration.CATEGORY_GENERAL, "Powerup Alert", true, commentPowerupAlert);
+        PowerupAlertToggle = propertyPowerupAlertToggle.getBoolean();
+        powerupRelated.put(propertyPowerupAlertToggle.getName(), new ConfigElement(propertyPowerupAlertToggle));
+
+        commentPowerupPredict = "Notice you when the next powerup is at the beginning of round";
+        Property propertyPowerupPredictToggle = config.get(Configuration.CATEGORY_GENERAL, "Powerup Predict", true, commentPowerupPredict);
+        PowerupPredictToggle = propertyPowerupPredictToggle.getBoolean();
+        powerupRelated.put(propertyPowerupPredictToggle.getName(), new ConfigElement(propertyPowerupPredictToggle));
+
+        commentPowerupCountDown = "Show the remaining time of powerups on expiration.";
+        Property propertyPowerupCountDown = config.get(Configuration.CATEGORY_GENERAL, "Powerup Count Down", true, commentPowerupCountDown);
+        PowerupCountDown = propertyPowerupCountDown.getBoolean();
+        powerupRelated.put(propertyPowerupCountDown.getName(), new ConfigElement(propertyPowerupCountDown));
+
+        commentPowerupNameTagShadow = "Render shadow for nametags of powerups.";
+        Property propertyPowerupNameTagShadow = config.get(Configuration.CATEGORY_GENERAL, "Powerup NameTag Shadow", false, commentPowerupNameTagShadow);
+        PowerupNameTagShadow = propertyPowerupNameTagShadow.getBoolean();
+        powerupRelated.put(propertyPowerupNameTagShadow.getName(), new ConfigElement(propertyPowerupNameTagShadow));
+
+        /**
          *  QoL Related Elements
          */
         commentLightningRodHelper = "Turn on/off the helper of lightning rod queue in AA.";
         Property propertyLightningRodQueue = config.get(Configuration.CATEGORY_GENERAL, "LR Queue Helper", true, commentLightningRodHelper);
         LightningRodQueue = propertyLightningRodQueue.getBoolean();
         qolRelated.put(propertyLightningRodQueue.getName(), new ConfigElement(propertyLightningRodQueue));
-
-        commentPowerupAlert = "Remind you when this is a powerup-round. Start counting down when a powerup spawns";
-        Property propertyPowerupAlertToggle = config.get(Configuration.CATEGORY_GENERAL, "Powerup Alert", true, commentPowerupAlert);
-        PowerupAlertToggle = propertyPowerupAlertToggle.getBoolean();
-        qolRelated.put(propertyPowerupAlertToggle.getName(), new ConfigElement(propertyPowerupAlertToggle));
-
-        commentPowerupPredict = "Notice you when the next powerup is at the beginning of round";
-        Property propertyPowerupPredictToggle = config.get(Configuration.CATEGORY_GENERAL, "Powerup Predict", true, commentPowerupPredict);
-        PowerupPredictToggle = propertyPowerupPredictToggle.getBoolean();
-        qolRelated.put(propertyPowerupPredictToggle.getName(), new ConfigElement(propertyPowerupPredictToggle));
 
         commentWave3LeftNotice = "Enhance the Sidebar which shows you the amount of zombies in wave 3rd in DE/BB.";
         Property propertyWave3LeftNotice = config.get(Configuration.CATEGORY_GENERAL, "Wave 3rd Left Notice", true, commentWave3LeftNotice);
@@ -337,4 +357,8 @@ public class MainConfiguration {
             }.runTaskLater(2);
         }
     }
+
+    public static int powerupNameTagRenderColor = 0x20FFFFFF;
+    public static int powerupCountDownRenderColor = 0x2099CCFF;
+
 }

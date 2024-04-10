@@ -46,7 +46,8 @@ public class SpawnTimes {
         if (map == null || !JavaUtils.isValidIndex(roundTimes, wave - 1)) {
             return "00";
         }
-        return String.valueOf(roundTimes [wave - 1]);
+        int time = roundTimes [wave - 1];
+        return String.valueOf(time < 10 ? ("0" + time) : time);
     }
 
     public int getNextWave() {

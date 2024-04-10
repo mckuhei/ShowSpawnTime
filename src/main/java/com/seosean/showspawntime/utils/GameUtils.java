@@ -2,7 +2,6 @@ package com.seosean.showspawntime.utils;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.handler.ScoreboardManager;
-import net.minecraft.entity.monster.EntityZombie;
 
 import java.util.ArrayList;
 import java.util.Arrays;

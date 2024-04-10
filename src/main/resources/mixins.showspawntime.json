@@ -12,7 +12,11 @@
     "MixinModelPlayer",
     "MixinNetHandlerPlayClient",
     "MixinRender",
+    "MixinSoundManager",
     "MixinWorldClient",
-    "MixinSoundManager"
+    "MixinRendererLivingEntity"
+  ],
+  "client": [
+    "MixinRender"
   ]
 }

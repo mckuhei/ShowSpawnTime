@@ -89,6 +89,7 @@ public class ShowSpawnTimeGuiConfig extends GuiConfig {
 
         list.add(new DummyConfigElement.DummyCategoryElement("SST Related", "", new ArrayList<>(MainConfiguration.sstRelated.values())));
         list.add(new DummyConfigElement.DummyCategoryElement("Record Related", "", new ArrayList<>(MainConfiguration.recordRelated.values())));
+        list.add(new DummyConfigElement.DummyCategoryElement("Powerup Related", "", new ArrayList<>(MainConfiguration.powerupRelated.values())));
         list.add(new DummyConfigElement.DummyCategoryElement("QoL Related", "", new ArrayList<>(MainConfiguration.qolRelated.values())));
         return list;
     }

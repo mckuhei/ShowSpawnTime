@@ -6,9 +6,8 @@ import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Powerup {
 
@@ -17,12 +16,11 @@ public class Powerup {
 
     private int offsetTime;
 
-    private boolean inc;
-
-    public static Map<EntityArmorStand, Powerup> powerups = new HashMap<>();
+    public static LinkedHashMap<EntityArmorStand, Powerup> powerups = new LinkedHashMap<>();
     public static List<Powerup> incPowerups = new ArrayList<>();
+    public static List<EntityArmorStand> expiredPowerups = new ArrayList<>();
     public static Powerup deserialize(PowerupType powerupType, EntityArmorStand entityArmorStand) {
-        if (!powerups.containsKey(entityArmorStand)) {
+        if (!powerups.containsKey(entityArmorStand) && !expiredPowerups.contains(entityArmorStand)) {
             Powerup powerup = new Powerup(powerupType, entityArmorStand);
             incPowerups.removeIf(p -> p.getPowerupType().equals(powerupType));
             powerups.put(entityArmorStand, powerup);
@@ -50,6 +48,7 @@ public class Powerup {
                 @Override
                 public void run() {
                     if (offsetTime <= 0) {
+                        Powerup.this.onDeleteArmorStandFromExpiredList(entityArmorStand);
                         powerups.remove(entityArmorStand);
                         this.cancel();
                         return;
@@ -58,15 +57,25 @@ public class Powerup {
                 }
             };
             countdownTask.runTaskTimer(0, 1);
-        } else {
-            this.inc = true;
         }
     }
 
     public void claim() {
         this.offsetTime = 0;
+        this.onDeleteArmorStandFromExpiredList(entityArmorStand);
         powerups.remove(entityArmorStand);
         countdownTask.cancel();
+    }
+
+    private void onDeleteArmorStandFromExpiredList(EntityArmorStand entityArmorStand) {
+        expiredPowerups.add(entityArmorStand);
+        DelayedTask delayedTask = new DelayedTask() {
+            @Override
+            public void run() {
+                expiredPowerups.remove(entityArmorStand);
+            }
+        };
+        delayedTask.runTaskLater(20);
     }
 
     public PowerupType getPowerupType() {

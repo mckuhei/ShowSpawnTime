@@ -3,7 +3,6 @@ package com.seosean.showspawntime.features.powerups;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.features.dpscounter.DPSCounter;
-import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.GameUtils;
 import com.seosean.showspawntime.utils.LanguageUtils;
@@ -17,7 +16,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,9 +25,13 @@ public class PowerupDetect {
 
     }
 
-    public static Integer[] r2MaxRoundsDE = {2, 8, 12, 16, 21, 26, 31, 36};
+
+    public static Integer[] r2MaxRoundsDE = {2, 8, 12, 16, 21, 26};
     public static Integer[] r2MaxRoundsBB = {2, 5, 8, 12, 16, 21, 26};
-    public static Integer[] r3MaxRoundsDEBB = {3, 6, 9, 13, 17, 22, 27, 32, 37};
+    public static Integer[] r3MaxRoundsDEBB = {3, 6, 9, 13, 17, 22, 27};
+
+    public static Integer[] r2MaxRoundsTL = {2, 8, 12, 16, 21, 26, 31, 36};
+    public static Integer[] r3MaxRoundsTL = {3, 6, 9, 13, 17, 22, 27, 32, 37};
 
     public static Integer[] r2MaxRoundsAA = {2, 5, 8, 12, 16, 21, 26, 31, 36, 41, 46, 51, 61, 66, 71, 76, 81, 86, 91, 96};
     public static Integer[] r3MaxRoundsAA = {3, 6, 9, 13, 17, 22, 27, 32, 37, 42, 47, 52, 62, 67, 72, 77, 82, 87, 92, 97};
@@ -40,6 +43,9 @@ public class PowerupDetect {
     public static Integer[] r2InsRoundsAA = {2, 5, 8, 11, 14, 17, 20, 23};
     public static Integer[] r3InsRoundsAA = {3, 6, 9, 12, 15, 18, 21};
 
+    public static Integer[] r2InsRoundsTL = {2, 8, 11, 14, 17, 20, 23};
+    public static Integer[] r3InsRoundsTL = {3, 6, 9, 12, 18, 21, 24};
+
     public static Integer[] r5SSRoundsAA = {5, 15, 45, 55, 65, 75, 85, 95, 105};
     public static Integer[] r6SSRoundsAA = {6, 16, 26, 36, 46, 66, 76, 86, 96};
     public static Integer[] r7SSRoundsAA = {7, 17, 27, 37, 47, 67, 77, 87, 97};
@@ -48,7 +54,8 @@ public class PowerupDetect {
     public List<Integer> ssRounds = new ArrayList<>();
 
     public void iniPowerupPatterns() {
-        Powerup.powerups = new HashMap<>();
+        Powerup.expiredPowerups = new ArrayList<>();
+        Powerup.powerups = new LinkedHashMap<>();
         Powerup.incPowerups = new ArrayList<>();
         insRounds = new ArrayList<>();
         maxRounds = new ArrayList<>();
@@ -187,11 +194,11 @@ public class PowerupDetect {
                 roundList3.addAll(Arrays.asList(PowerupDetect.r3MaxRoundsAA));
                 if (roundList2.contains(round)) {
                     powerUpDetect.setMaxRound(2);
-                } else if (roundList3.contains(round) && gameTick <= 500) {
+                } else if (roundList3.contains(round) && gameTick <= 1000) {
                     powerUpDetect.setMaxRound(2);
                 } else if (roundList3.contains(round)) {
                     powerUpDetect.setMaxRound(3);
-                } else if (roundList3.contains(round - 1) && gameTick <= 500) {
+                } else if (roundList3.contains(round - 1) && gameTick <= 1000) {
                     powerUpDetect.setMaxRound(3);
                 }
             } else if (powerupType.equals(Powerup.PowerupType.INSTA_KILL)) {
@@ -199,11 +206,11 @@ public class PowerupDetect {
                 roundList3.addAll(Arrays.asList(PowerupDetect.r3InsRoundsAA));
                 if (roundList2.contains(round)) {
                     powerUpDetect.setInstaRound(2);
-                } else if (roundList3.contains(round) && gameTick <= 500) {
+                } else if (roundList3.contains(round) && gameTick <= 1000) {
                     powerUpDetect.setInstaRound(2);
                 } else if (roundList3.contains(round)) {
                     powerUpDetect.setInstaRound(3);
-                } else if (roundList3.contains(round - 1) && gameTick <= 500) {
+                } else if (roundList3.contains(round - 1) && gameTick <= 1000) {
                     powerUpDetect.setInstaRound(3);
                 }
             } else if (powerupType.equals(Powerup.PowerupType.SHOPPING_SPREE)) {
@@ -212,15 +219,15 @@ public class PowerupDetect {
                 List<Integer> roundList4 = new ArrayList<>(Arrays.asList(PowerupDetect.r7SSRoundsAA));
                 if (roundList2.contains(round)) {
                     powerUpDetect.setSSRound(5);
-                } else if (roundList3.contains(round) && gameTick <= 500) {
+                } else if (roundList3.contains(round) && gameTick <= 1000) {
                     powerUpDetect.setSSRound(5);
                 } else if (roundList3.contains(round)) {
                     powerUpDetect.setSSRound(6);
-                } else if (roundList4.contains(round) && gameTick <= 500) {
+                } else if (roundList4.contains(round) && gameTick <= 1000) {
                     powerUpDetect.setSSRound(6);
                 } else if (roundList4.contains(round)) {
                     powerUpDetect.setSSRound(7);
-                } else if (roundList4.contains(round - 1) && gameTick <= 500) {
+                } else if (roundList4.contains(round - 1) && gameTick <= 1000) {
                     powerUpDetect.setSSRound(7);
                 }
             }
@@ -232,8 +239,10 @@ public class PowerupDetect {
         LanguageUtils.ZombiesMap map = LanguageUtils.getMap();
         switch (map) {
             case DEAD_END:
-            case THE_LAB:
                 insRounds = Arrays.asList(round == 2 ? r2InsRoundsDE : r3InsRoundsDEBB);
+                break;
+            case THE_LAB:
+                insRounds = Arrays.asList(round == 2 ? r2InsRoundsTL : r3InsRoundsTL);
                 break;
             case BAD_BLOOD:
                 insRounds = Arrays.asList(round == 2 ? r2InsRoundsBB : r3InsRoundsDEBB);
@@ -248,8 +257,10 @@ public class PowerupDetect {
         LanguageUtils.ZombiesMap map = LanguageUtils.getMap();
         switch (map) {
             case DEAD_END:
-            case THE_LAB:
                 maxRounds = Arrays.asList(round == 2 ? r2MaxRoundsDE : r3MaxRoundsDEBB);
+                break;
+            case THE_LAB:
+                maxRounds = Arrays.asList(round == 2 ? r2MaxRoundsTL : r3MaxRoundsTL);
                 break;
             case BAD_BLOOD:
                 maxRounds = Arrays.asList(round == 2 ? r2MaxRoundsBB : r3MaxRoundsDEBB);
