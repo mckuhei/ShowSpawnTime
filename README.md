@@ -6,7 +6,7 @@ However, it should be noted that not all features are allowed to be used by the 
 so if your community has relevant requirements, please turn off the corresponding features yourself.  
   
 ## Latest Version of ShowSpawnTime
-[**2.0.6 Download**](https://github.com/Seosean/ShowSpawnTime/releases/download/2.0.6/ShowSpawnTime-2.0.6.jar)  
+[**2.0.7 Download**](https://github.com/Seosean/ShowSpawnTime/releases/download/2.0.7/ShowSpawnTime-2.0.7.jar)  
 
 ## The most necessary module to this mod.
 [**ZombiesAutoSplits by Seosean**](https://github.com/Seosean/ZombiesAutoSplits/tree/Mixin)  
@@ -20,6 +20,9 @@ Seosean's one was forked from thamid's, I added a feature that you can now edit 
   
 ****
 ## Updates Logs  
+
+### Update 2.0.7 2024/4/13  
+· Fixed a bug that patcher was forced to be as a requirement of sst 2.0.6  
   
 ### Update 2.0.6 2024/4/11  
 · Now the countdown of powerups will be shown along with its nametag. (Togglable)  
