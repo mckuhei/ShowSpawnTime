@@ -25,24 +25,26 @@ public class MixinNetHandlerPlayClient {
         if (packetIn == null) {
             return;
         }
-
         List<DataWatcher.WatchableObject> list = packetIn.func_149376_c();
         if (list == null) {
             return;
         }
-
         if (list.isEmpty()) {
             return;
         }
-
-        Entity entity = Minecraft.getMinecraft().theWorld.getEntityByID(packetIn.getEntityId());
-        if (entity instanceof EntityArmorStand) {
-            for (DataWatcher.WatchableObject watchableObject : new ArrayList<>(packetIn.func_149376_c())) {
-                if (watchableObject != null) {
-                    if (watchableObject.getObjectType() == 4 && watchableObject.getDataValueId() == 2) {
-                        if (watchableObject.getObject() instanceof String) {
-                            String armorstandName = StringUtils.trim((String) watchableObject.getObject());
-                            ShowSpawnTime.getPowerupDetect().detectArmorstand(armorstandName, packetIn.getEntityId());
+        
+        if (Minecraft.getMinecraft() != null) {
+            if (Minecraft.getMinecraft().theWorld != null) {
+                Entity entity = Minecraft.getMinecraft().theWorld.getEntityByID(packetIn.getEntityId());
+                if (entity instanceof EntityArmorStand) {
+                    for (DataWatcher.WatchableObject watchableObject : new ArrayList<>(packetIn.func_149376_c())) {
+                        if (watchableObject != null) {
+                            if (watchableObject.getObjectType() == 4 && watchableObject.getDataValueId() == 2) {
+                                if (watchableObject.getObject() instanceof String) {
+                                    String armorstandName = StringUtils.trim((String) watchableObject.getObject());
+                                    ShowSpawnTime.getPowerupDetect().detectArmorstand(armorstandName, packetIn.getEntityId());
+                                }
+                            }
                         }
                     }
                 }

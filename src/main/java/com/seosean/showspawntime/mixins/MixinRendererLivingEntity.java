@@ -83,13 +83,13 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
             GlStateManager.enableTexture2D();
 
             fontrenderer.drawString(nameTagStr, (float) (-fontrenderer.getStringWidth(str) / 2.0), (float) i, MainConfiguration.powerupNameTagRenderColor, MainConfiguration.PowerupNameTagShadow);
-            fontrenderer.drawString(countdownStr.replace("§f", ""), (float) (-fontrenderer.getStringWidth(str) / 2.0 + fontrenderer.getStringWidth(nameTagStr)), (float) i, MainConfiguration.powerupCountDownRenderColor, true);
+            fontrenderer.drawString(countdownStr.replace("§f", ""), (float) (-fontrenderer.getStringWidth(str) / 2.0 + fontrenderer.getStringWidth("A" + nameTagStr)), (float) i, MainConfiguration.powerupCountDownRenderColor, true);
 
             GlStateManager.enableDepth();
             GlStateManager.depthMask(true);
 
             fontrenderer.drawString(nameTagStr, (float) (-fontrenderer.getStringWidth(str) / 2.0), (float) i, -1, MainConfiguration.PowerupNameTagShadow);
-            fontrenderer.drawString(countdownStr.replace("§f", ""), (float) (-fontrenderer.getStringWidth(str) / 2.0 + fontrenderer.getStringWidth(nameTagStr)), (float) i, 0x99CCFF, true);
+            fontrenderer.drawString(countdownStr.replace("§f", ""), (float) (-fontrenderer.getStringWidth(str) / 2.0 + fontrenderer.getStringWidth("A" + nameTagStr)), (float) i, 0x99CCFF, true);
 
             GlStateManager.enableLighting();
             GlStateManager.disableBlend();
