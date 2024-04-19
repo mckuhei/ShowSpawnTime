@@ -32,7 +32,7 @@ public class MixinNetHandlerPlayClient {
         if (list.isEmpty()) {
             return;
         }
-        
+
         if (Minecraft.getMinecraft() != null) {
             if (Minecraft.getMinecraft().theWorld != null) {
                 Entity entity = Minecraft.getMinecraft().theWorld.getEntityByID(packetIn.getEntityId());
