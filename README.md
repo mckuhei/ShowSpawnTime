@@ -6,7 +6,7 @@ However, it should be noted that not all features are allowed to be used by the 
 so if your community has relevant requirements, please turn off the corresponding features yourself.  
   
 ## Latest Version of ShowSpawnTime
-[**2.0.8 Download**](https://github.com/Seosean/ShowSpawnTime/releases/download/2.0.8/ShowSpawnTime-2.0.8.jar)  
+[**2.0.9 Download**](https://github.com/Seosean/ShowSpawnTime/releases/download/2.0.9/ShowSpawnTime-2.0.9.jar)  
 
 ## The most necessary module to this mod.
 [**ZombiesAutoSplits by Seosean**](https://github.com/Seosean/ZombiesAutoSplits/tree/Mixin)  
