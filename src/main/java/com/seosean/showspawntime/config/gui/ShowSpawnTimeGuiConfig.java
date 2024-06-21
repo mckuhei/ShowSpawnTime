@@ -41,45 +41,13 @@ public class ShowSpawnTimeGuiConfig extends GuiConfig {
             this.entryList.undoAllChanges(this.chkApplyGlobally.isChecked());
         }
 
-        try {
-            if ((this.entryList.hasChangedEntry(true))) {
-                boolean requiresMcRestart = this.entryList.saveConfigElements();
-
-                if (Loader.isModLoaded(modID)) {
-                    ConfigChangedEvent event = new ConfigChangedEvent.OnConfigChangedEvent(modID, configID, isWorldRunning, requiresMcRestart);
-                    MinecraftForge.EVENT_BUS.post(event);
-
-                    if (!event.getResult().equals(Event.Result.DENY)) {
-                        MinecraftForge.EVENT_BUS.post(new ConfigChangedEvent.PostConfigChangedEvent(modID, configID, isWorldRunning, requiresMcRestart));
-                    }
-                }
-            }
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-
+        this.save();
     }
 
     @Override
     public void onGuiClosed()
     {
-        try {
-            if ((this.entryList.hasChangedEntry(true))) {
-                boolean requiresMcRestart = this.entryList.saveConfigElements();
-
-                if (Loader.isModLoaded(modID)) {
-                    ConfigChangedEvent event = new ConfigChangedEvent.OnConfigChangedEvent(modID, configID, isWorldRunning, requiresMcRestart);
-                    MinecraftForge.EVENT_BUS.post(event);
-
-                    if (!event.getResult().equals(Event.Result.DENY)) {
-                        MinecraftForge.EVENT_BUS.post(new ConfigChangedEvent.PostConfigChangedEvent(modID, configID, isWorldRunning, requiresMcRestart));
-                    }
-                }
-            }
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-
+        this.save();
         super.onGuiClosed();
     }
 
@@ -92,5 +60,24 @@ public class ShowSpawnTimeGuiConfig extends GuiConfig {
         list.add(new DummyConfigElement.DummyCategoryElement("Powerup Related", "", new ArrayList<>(MainConfiguration.powerupRelated.values())));
         list.add(new DummyConfigElement.DummyCategoryElement("QoL Related", "", new ArrayList<>(MainConfiguration.qolRelated.values())));
         return list;
+    }
+
+    protected void save() {
+        try {
+            if ((this.entryList.hasChangedEntry(true))) {
+                boolean requiresMcRestart = this.entryList.saveConfigElements();
+
+                if (Loader.isModLoaded(modID)) {
+                    ConfigChangedEvent event = new ConfigChangedEvent.OnConfigChangedEvent(modID, configID, isWorldRunning, requiresMcRestart);
+                    MinecraftForge.EVENT_BUS.post(event);
+
+                    if (!event.getResult().equals(Event.Result.DENY)) {
+                        MinecraftForge.EVENT_BUS.post(new ConfigChangedEvent.PostConfigChangedEvent(modID, configID, isWorldRunning, requiresMcRestart));
+                    }
+                }
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 }

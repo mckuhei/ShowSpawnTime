@@ -3,6 +3,7 @@ package com.seosean.showspawntime.config;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.gui.ShowSpawnTimeGuiConfig;
 import com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown;
+import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
@@ -21,6 +22,14 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 
 public class MainConfiguration {
@@ -29,6 +38,7 @@ public class MainConfiguration {
         MainConfiguration.config = config;
         MainConfiguration.logger = logger;
         MainConfiguration.minecraft = Minecraft.getMinecraft();
+        this.check();
         this.ConfigLoad();
         cacheCriticalTextFix = CriticalTextFix;
     }
@@ -75,19 +85,61 @@ public class MainConfiguration {
     public static LinkedHashMap<String, IConfigElement> powerupRelated = new LinkedHashMap<>();
     public static LinkedHashMap<String, IConfigElement> qolRelated = new LinkedHashMap<>();
 
+    public static LinkedHashMap<String, IConfigElement> guiRelated = new LinkedHashMap<>();
+
+    public void check() {
+        File file = config.getConfigFile();
+        boolean changed = false;
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("I:X")) {
+                    line = line.replace("I:X", "D:X");
+                    changed = true;
+                } else if (line.contains("I:Y")) {
+                    line = line.replace("I:Y", "D:Y");
+                    changed = true;
+                }
+                content.append(line).append(System.lineSeparator());
+            }
+
+            if (changed) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                    writer.write(content.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void ConfigLoad(){
         config.load();
         logger.info("Started loading config. ");
 
-        XSpawnTime = config.get(Configuration.CATEGORY_CLIENT, "XSpawnTime", -1, "X").getDouble();
-        YSpawnTime = config.get(Configuration.CATEGORY_CLIENT, "YSpawnTime", -1, "Y").getDouble();
+        Property propertyXSpawnTime = config.get(Configuration.CATEGORY_CLIENT, "XSpawnTime", -1.0, "X");
+        Property propertyYSpawnTime = config.get(Configuration.CATEGORY_CLIENT, "YSpawnTime", -1.0, "Y");
+        XSpawnTime = propertyXSpawnTime.getDouble();
+        YSpawnTime = propertyYSpawnTime.getDouble();
+        guiRelated.put("XSpawnTime", new ConfigElement(propertyXSpawnTime));
+        guiRelated.put("YSpawnTime", new ConfigElement(propertyYSpawnTime));
 
-        XPowerup = config.get(Configuration.CATEGORY_CLIENT, "XPowerup", -1, "X").getDouble();
-        YPowerup = config.get(Configuration.CATEGORY_CLIENT, "YPowerup", -1, "Y").getDouble();
+        Property propertyXPowerup = config.get(Configuration.CATEGORY_CLIENT, "XPowerup", -1.0, "X");
+        Property propertyYPowerup = config.get(Configuration.CATEGORY_CLIENT, "YPowerup", -1.0, "Y");
+        XPowerup = propertyXPowerup.getDouble();
+        YPowerup = propertyYPowerup.getDouble();
+        guiRelated.put("XPowerup", new ConfigElement(propertyXPowerup));
+        guiRelated.put("YPowerup", new ConfigElement(propertyYPowerup));
 
-        XDPSCounter = config.get(Configuration.CATEGORY_CLIENT, "XDPSCounter", -1, "X").getDouble();
-        YDPSCounter = config.get(Configuration.CATEGORY_CLIENT, "YDPSCounter", -1, "Y").getDouble();
+        Property propertyXDPSCounter = config.get(Configuration.CATEGORY_CLIENT, "XDPSCounter", -1.0, "X");
+        Property propertyYDPSCounter = config.get(Configuration.CATEGORY_CLIENT, "YDPSCounter", -1.0, "Y");
+        XDPSCounter = propertyXDPSCounter.getDouble();
+        YDPSCounter = propertyYDPSCounter.getDouble();
+        guiRelated.put("XDPSCounter", new ConfigElement(propertyXDPSCounter));
+        guiRelated.put("YDPSCounter", new ConfigElement(propertyYDPSCounter));
 
         String comment;
         String commentPlaySound;

@@ -2,6 +2,7 @@ package com.seosean.showspawntime.config.hud;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
+import com.seosean.showspawntime.config.gui.ShowSpawnTimeGuiConfig;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.zombiesautosplits.ZombiesAutoSplits;
 import net.minecraft.client.gui.GuiButton;
@@ -9,7 +10,12 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
@@ -51,10 +57,9 @@ public class ConfigGui extends GuiScreen {
       }
    }
 
+   @Override
    public void initGui() {
       MinecraftForge.EVENT_BUS.post(new GuiScreenEvent.InitGuiEvent.Pre(this, buttonList));
-      super.initGui();
-      MinecraftForge.EVENT_BUS.post(new GuiScreenEvent.InitGuiEvent.Post(this, buttonList));
       int widthTime = this.fontRendererObj.getStringWidth("➤ W2 00:00");
       int widthPowerup = this.fontRendererObj.getStringWidth("-BONUS GOLD - 00:00 ");
       int widthDPSCounter = this.fontRendererObj.getStringWidth("DPS: INSTA KILL");
@@ -73,6 +78,7 @@ public class ConfigGui extends GuiScreen {
          HudCoordinate boxAutoSplits = new HudCoordinate(3, ZombiesAutoSplits.getInstance().getXSplitter(), ZombiesAutoSplits.getInstance().getYSplitter(), widthSpitsTime, this.fontRendererObj.FONT_HEIGHT, this.width, this.height);
          boxes.add(boxAutoSplits);
       }
+      MinecraftForge.EVENT_BUS.post(new GuiScreenEvent.InitGuiEvent.Post(this, buttonList));
    }
 
    protected void mouseClicked(int mouseX, int mouseY, int p_mouseClicked_3_) throws IOException {
@@ -99,30 +105,30 @@ public class ConfigGui extends GuiScreen {
       super.drawScreen(mouseX, mouseY, p_drawScreen_3_);
    }
 
-   protected void actionPerformed(GuiButton button) throws IOException {
+   protected void actionPerformed(GuiButton button) {
       switch(button.id) {
          case 1: {
             for (HudCoordinate box : boxes) {
                if (box.getContents() == 0) {
                   MainConfiguration.XSpawnTime = box.x;
                   MainConfiguration.YSpawnTime = box.y;
-                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XSpawnTime", -1).set(box.x);
-                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YSpawnTime", -1).set(box.y);
+                  MainConfiguration.guiRelated.get("XSpawnTime").set(box.x);
+                  MainConfiguration.guiRelated.get("YSpawnTime").set(box.y);
                } else if (box.getContents() == 1) {
                   MainConfiguration.XPowerup = box.x;
                   MainConfiguration.YPowerup = box.y;
-                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XPowerup", -1).set(box.x);
-                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YPowerup", -1).set(box.y);
+                  MainConfiguration.guiRelated.get("XPowerup").set(box.x);
+                  MainConfiguration.guiRelated.get("YPowerup").set(box.y);
                } else if (box.getContents() == 2) {
                   MainConfiguration.XDPSCounter = box.x;
                   MainConfiguration.YDPSCounter = box.y;
-                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XDPSCounter", -1).set(box.x);
-                  ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YDPSCounter", -1).set(box.y);
+                  MainConfiguration.guiRelated.get("XDPSCounter").set(box.x);
+                  MainConfiguration.guiRelated.get("YDPSCounter").set(box.y);
                } else if (ShowSpawnTime.isAutoSplitsLoaded && box.getContents() == 3) {
                   ZombiesAutoSplits.XSplitter = box.x;
                   ZombiesAutoSplits.YSplitter = box.y;
-                  ZombiesAutoSplits.getInstance().getConfig().get(Configuration.CATEGORY_CLIENT, "XSplitter", -1).set(box.x);
-                  ZombiesAutoSplits.getInstance().getConfig().get(Configuration.CATEGORY_CLIENT, "YSplitter", -1).set(box.y);
+                  ZombiesAutoSplits.elements.get("XSplitter").set(box.x);
+                  ZombiesAutoSplits.elements.get("YSplitter").set(box.y);
                   ZombiesAutoSplits.getInstance().getConfig().save();
                }
             }
@@ -180,8 +186,8 @@ public class ConfigGui extends GuiScreen {
                }
 
                if (ShowSpawnTime.isAutoSplitsLoaded && box.getContents() == 3) {
-                  ZombiesAutoSplits.getInstance().getConfig().get(Configuration.CATEGORY_CLIENT, "XSplitter", -1).set(-1);
-                  ZombiesAutoSplits.getInstance().getConfig().get(Configuration.CATEGORY_CLIENT, "YSplitter", -1).set(-1);
+                  ZombiesAutoSplits.elements.get("XSplitter").set(-1);
+                  ZombiesAutoSplits.elements.get("YSplitter").set(-1);
                   ZombiesAutoSplits.XSplitter = -1;
                   ZombiesAutoSplits.YSplitter = -1;
                   new com.seosean.zombiesautosplits.hudposition.DelayedTask(() -> {
@@ -196,40 +202,46 @@ public class ConfigGui extends GuiScreen {
          }
       }
 
-      ShowSpawnTime.getConfiguration().save();
+      this.save();
       if (ShowSpawnTime.isAutoSplitsLoaded) {
          ZombiesAutoSplits.getInstance().getConfig().save();
       }
    }
 
+   @Override
    public void onGuiClosed() {
       for (HudCoordinate box : boxes) {
          if (box.getContents() == 0) {
             MainConfiguration.XSpawnTime = box.x;
             MainConfiguration.YSpawnTime = box.y;
-            ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XSpawnTime", -1).set(box.x);
-            ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YSpawnTime", -1).set(box.y);
+            MainConfiguration.guiRelated.get("XSpawnTime").set(box.x);
+            MainConfiguration.guiRelated.get("YSpawnTime").set(box.y);
          } else if (box.getContents() == 1) {
             MainConfiguration.XPowerup = box.x;
             MainConfiguration.YPowerup = box.y;
-            ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XPowerup", -1).set(box.x);
-            ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YPowerup", -1).set(box.y);
+            MainConfiguration.guiRelated.get("XPowerup").set(box.x);
+            MainConfiguration.guiRelated.get("YPowerup").set(box.y);
          } else if (box.getContents() == 2) {
             MainConfiguration.XDPSCounter = box.x;
             MainConfiguration.YDPSCounter = box.y;
-            ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "XDPSCounter", -1).set(box.x);
-            ShowSpawnTime.getConfiguration().get(Configuration.CATEGORY_CLIENT, "YDPSCounter", -1).set(box.y);
+            MainConfiguration.guiRelated.get("XDPSCounter").set(box.x);
+            MainConfiguration.guiRelated.get("YDPSCounter").set(box.y);
          } else if (ShowSpawnTime.isAutoSplitsLoaded && box.getContents() == 3) {
             ZombiesAutoSplits.XSplitter = box.x;
             ZombiesAutoSplits.YSplitter = box.y;
-            ZombiesAutoSplits.getInstance().getConfig().get(Configuration.CATEGORY_CLIENT, "XSplitter", -1).set(box.x);
-            ZombiesAutoSplits.getInstance().getConfig().get(Configuration.CATEGORY_CLIENT, "YSplitter", -1).set(box.y);
+            ZombiesAutoSplits.elements.get("XSplitter").set(box.x);
+            ZombiesAutoSplits.elements.get( "YSplitter").set(box.y);
          }
       }
-      ShowSpawnTime.getConfiguration().save();
+      this.save();
       if (ShowSpawnTime.isAutoSplitsLoaded) {
          ZombiesAutoSplits.getInstance().getConfig().save();
       }
       super.onGuiClosed();
    }
+
+   private void save() {
+      ShowSpawnTime.getConfiguration().save();
+   }
+
 }

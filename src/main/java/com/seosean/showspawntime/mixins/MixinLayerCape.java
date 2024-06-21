@@ -5,6 +5,7 @@ import com.seosean.showspawntime.features.playerinvisibility.PlayerInvisibility;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerCape;
+import net.minecraft.entity.monster.EntityIronGolem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

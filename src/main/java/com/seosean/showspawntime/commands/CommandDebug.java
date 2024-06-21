@@ -8,8 +8,12 @@ import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.GameUtils;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.BlockPos;
 
 public class CommandDebug extends CommandBase {
     public CommandDebug() {
@@ -67,6 +71,15 @@ public class CommandDebug extends CommandBase {
             }
             case "type": {
                 type = Integer.parseInt(args[1]);
+                break;
+            }
+            case "block": {
+                double x = Double.parseDouble(args[1]);
+                double y = Double.parseDouble(args[2]);
+                double z = Double.parseDouble(args[3]);
+                BlockPos blockPos = new BlockPos(x, y, z);
+                IBlockState blockState = sender.getEntityWorld().getBlockState(blockPos);
+                DebugUtils.sendMessage(blockState.getBlock().getUnlocalizedName());
                 break;
             }
         }

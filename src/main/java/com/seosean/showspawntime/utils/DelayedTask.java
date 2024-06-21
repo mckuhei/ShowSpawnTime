@@ -42,18 +42,20 @@ public abstract class DelayedTask {
     }
 
     public DelayedTask runTaskLater(int delay) {
+        this.isCancelled = false;
         this.delay = delay;
         return this;
     }
 
     public DelayedTask runTaskTimer(int delay, int ticks) {
+        this.isCancelled = false;
         this.delay = delay;
         this.ticks = ticks;
         return this;
     }
 
     public void cancel() {
-        this.ticks = 0;
         this.isCancelled = true;
+        this.ticks = 0;
     }
 }

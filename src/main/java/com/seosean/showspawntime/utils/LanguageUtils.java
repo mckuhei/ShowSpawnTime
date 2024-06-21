@@ -3,6 +3,11 @@ package com.seosean.showspawntime.utils;
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.LanguageConfiguration;
 import com.seosean.showspawntime.handler.LanguageDetector;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,8 +33,8 @@ public class LanguageUtils {
     public static void resetCache() {
         cacheSidebarContent = "";
         cacheZombiesLeftText = "";
-        cacheMapSideBarContent = "";
-        cacheMap = ZombiesMap.NULL;
+//        cacheMapSideBarContent = "";
+//        cacheMap = ZombiesMap.NULL;
     }
 
     private static String cacheSidebarContent = "";
@@ -88,62 +93,84 @@ public class LanguageUtils {
         return 0;
     }
 
-    private static String cacheMapSideBarContent = "";
-
-    private static ZombiesMap cacheMap = ZombiesMap.NULL;
+//    private static String cacheMapSideBarContent = "";
+//
+//    private static ZombiesMap cacheMap = ZombiesMap.NULL;
 
     public static ZombiesMap getMap() {
-        String mapString = ShowSpawnTime.getScoreboardManager().getContent(ShowSpawnTime.getScoreboardManager().getSize() - 2);
-        if (cacheMapSideBarContent.equals(mapString)) {
-            return cacheMap;
+        BlockPos blockPos = new BlockPos(0, 72, 12);
+        World world = Minecraft.getMinecraft().theWorld;
+        IBlockState blockState = world.getBlockState(blockPos);
+        Block block = blockState.getBlock();
+        String blockName = block.getUnlocalizedName();
+        switch (blockName) {
+            case "tile.air":
+               return ZombiesMap.THE_LAB;
+            case "tile.woolCarpet":
+                return ZombiesMap.ALIEN_ARCADIUM;
+            case "tile.stonebricksmooth":
+                return ZombiesMap.BAD_BLOOD;
+            case "tile.cloth":
+                return ZombiesMap.DEAD_END;
+            case "tile.clayHardenStained":
+                return ZombiesMap.NULL;
         }
-
-        Map<String, String> maps = new HashMap<>();
-        maps.put("zombies.map.thelab.lang", LanguageConfiguration.get("zombies.map.thelab"));
-        maps.put("zombies.map.deadend.lang", LanguageConfiguration.get("zombies.map.deadend"));
-        maps.put("zombies.map.badblood.lang", LanguageConfiguration.get("zombies.map.badblood"));
-        maps.put("zombies.map.alienarcadium.lang", LanguageConfiguration.get("zombies.map.alienarcadium"));
-        maps.put("zombies.map.thelab.origin", LanguageConfiguration.getOrigin("zombies.map.thelab"));
-        maps.put("zombies.map.deadend.origin", LanguageConfiguration.getOrigin("zombies.map.deadend"));
-        maps.put("zombies.map.badblood.origin", LanguageConfiguration.getOrigin("zombies.map.badblood"));
-        maps.put("zombies.map.alienarcadium.origin", LanguageConfiguration.getOrigin("zombies.map.alienarcadium"));
-        maps.put("zombies.map.thelab.cache", LanguageConfiguration.getCache("zombies.map.thelab"));
-        maps.put("zombies.map.deadend.cache", LanguageConfiguration.getCache("zombies.map.deadend"));
-        maps.put("zombies.map.badblood.cache", LanguageConfiguration.getCache("zombies.map.badblood"));
-        maps.put("zombies.map.alienarcadium.cache", LanguageConfiguration.getCache("zombies.map.alienarcadium"));
-        String mapName = "";
-        String matchedKey = "";
-
-        for (Map.Entry<String, String> entry : maps.entrySet()) {
-            if (entry.getValue().isEmpty()) {
-                continue;
-            }
-            Pattern pattern = Pattern.compile(entry.getValue());
-            Matcher matcher = pattern.matcher(mapString);
-
-            if (matcher.find()) {
-                mapName = matcher.group();
-                matchedKey = entry.getKey();
-                break;
-            }
-        }
-
-        if (mapName.isEmpty()) {
-            return ZombiesMap.NULL;
-        }
-
-        int lastDotIndex = matchedKey.lastIndexOf(".");
-        String result = matchedKey.substring(0, lastDotIndex);
-
-        switch (result) {
-            case "zombies.map.deadend": cacheMapSideBarContent = mapString; return cacheMap = ZombiesMap.DEAD_END;
-            case "zombies.map.badblood": cacheMapSideBarContent = mapString; return cacheMap = ZombiesMap.BAD_BLOOD;
-            case "zombies.map.alienarcadium": cacheMapSideBarContent = mapString; return cacheMap = ZombiesMap.ALIEN_ARCADIUM;
-            case "zombies.map.thelab": cacheMapSideBarContent = mapString; return cacheMap = ZombiesMap.THE_LAB;
-        }
-
-        return cacheMap = ZombiesMap.NULL;
+        return ZombiesMap.NULL;
     }
+
+//    @Deprecated
+//    public static ZombiesMap getMap() {
+//        String mapString = ShowSpawnTime.getScoreboardManager().getContent(ShowSpawnTime.getScoreboardManager().getSize() - 2);
+//        if (cacheMapSideBarContent.equals(mapString)) {
+//            return cacheMap;
+//        }
+//
+//        Map<String, String> maps = new HashMap<>();
+//        maps.put("zombies.map.thelab.lang", LanguageConfiguration.get("zombies.map.thelab"));
+//        maps.put("zombies.map.deadend.lang", LanguageConfiguration.get("zombies.map.deadend"));
+//        maps.put("zombies.map.badblood.lang", LanguageConfiguration.get("zombies.map.badblood"));
+//        maps.put("zombies.map.alienarcadium.lang", LanguageConfiguration.get("zombies.map.alienarcadium"));
+//        maps.put("zombies.map.thelab.origin", LanguageConfiguration.getOrigin("zombies.map.thelab"));
+//        maps.put("zombies.map.deadend.origin", LanguageConfiguration.getOrigin("zombies.map.deadend"));
+//        maps.put("zombies.map.badblood.origin", LanguageConfiguration.getOrigin("zombies.map.badblood"));
+//        maps.put("zombies.map.alienarcadium.origin", LanguageConfiguration.getOrigin("zombies.map.alienarcadium"));
+//        maps.put("zombies.map.thelab.cache", LanguageConfiguration.getCache("zombies.map.thelab"));
+//        maps.put("zombies.map.deadend.cache", LanguageConfiguration.getCache("zombies.map.deadend"));
+//        maps.put("zombies.map.badblood.cache", LanguageConfiguration.getCache("zombies.map.badblood"));
+//        maps.put("zombies.map.alienarcadium.cache", LanguageConfiguration.getCache("zombies.map.alienarcadium"));
+//        String mapName = "";
+//        String matchedKey = "";
+//
+//        for (Map.Entry<String, String> entry : maps.entrySet()) {
+//            if (entry.getValue().isEmpty()) {
+//                continue;
+//            }
+//            Pattern pattern = Pattern.compile(entry.getValue());
+//            Matcher matcher = pattern.matcher(mapString);
+//
+//            if (matcher.find()) {
+//                mapName = matcher.group();
+//                matchedKey = entry.getKey();
+//                break;
+//            }
+//        }
+//
+//        if (mapName.isEmpty()) {
+//            return ZombiesMap.NULL;
+//        }
+//
+//        int lastDotIndex = matchedKey.lastIndexOf(".");
+//        String result = matchedKey.substring(0, lastDotIndex);
+//
+//        switch (result) {
+//            case "zombies.map.deadend": cacheMapSideBarContent = mapString; return cacheMap = ZombiesMap.DEAD_END;
+//            case "zombies.map.badblood": cacheMapSideBarContent = mapString; return cacheMap = ZombiesMap.BAD_BLOOD;
+//            case "zombies.map.alienarcadium": cacheMapSideBarContent = mapString; return cacheMap = ZombiesMap.ALIEN_ARCADIUM;
+//            case "zombies.map.thelab": cacheMapSideBarContent = mapString; return cacheMap = ZombiesMap.THE_LAB;
+//        }
+//
+//        return cacheMap = ZombiesMap.NULL;
+//    }
 
     public static boolean equals(String string, String i18nKey) {
         string = StringUtils.trim(string);
@@ -164,6 +191,7 @@ public class LanguageUtils {
 
     public enum ZombiesMap {
         NULL(new int[][]{}, 0),
+        PRISON(new int[][]{}, 0),
         THE_LAB(new int[][]{{10,22},{10,22},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34}}, 40),
         DEAD_END(new int[][]{{10,20},{10,20},{10,20,35},{10,20,35},{10,22,37},{10,22,44},{10,25,47},{10,25,50},{10,22,38},{10,24,45},{10,25,48},{10,25,50},{10,25,50},{10,25,45},{10,25,46},{10,24,47},{10,24,47},{10,24,47},{10,24,47},{10,24,49},{10,23,44},{10,23,45},{10,23,42},{10,23,43},{10,23,43},{10,23,36},{10,24,44},{10,24,42},{10,24,42},{10,24,45}}, 30),
         BAD_BLOOD(new int[][]{{10,22},{10,22},{10,22},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,22,34},{10,24,38},{10,24,38},{10,22,34},{10,24,38},{10,22,34}}, 30),
