@@ -30,7 +30,21 @@ public class SpawnTimeRenderer extends Renderer {
 
         for (int i = 0; i < waveAmount; i++) {
             int wave = i + 1;
-            fontRenderer.drawStringWithShadow("W" + wave + " " + "00:" + spawnTimes.getWaveTime(wave), absoluteX + widthW, absoluteY + this.fontRenderer.FONT_HEIGHT * (5 - waveAmount + wave), spawnTimes.getColor(wave));
+            fontRenderer.drawStringWithShadow("W" + wave + " " + this.getTime(spawnTimes.getWaveTime(wave)), absoluteX + widthW, absoluteY + this.fontRenderer.FONT_HEIGHT * (5 - waveAmount + wave), spawnTimes.getColor(wave));
         }
+    }
+
+    private String getTime(int time) {
+        if (time <= 0) {
+            return "00:00";
+        }
+
+        int seconds = time % 60;
+        int minutes = time / 60;
+
+        String strSeconds = seconds < 10 ? "0" + seconds : String.valueOf(seconds);
+        String strMinutes = minutes < 10 ? "0" + minutes : String.valueOf(minutes);
+
+        return strMinutes.concat(":").concat(strSeconds);
     }
 }

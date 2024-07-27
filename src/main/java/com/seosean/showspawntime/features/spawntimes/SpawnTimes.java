@@ -41,13 +41,13 @@ public class SpawnTimes {
                 .getGameTick());
     }
 
-    public String getWaveTime(int wave) {
+    public int getWaveTime(int wave) {
         LanguageUtils.ZombiesMap map = LanguageUtils.getMap();
         if (map == null || !JavaUtils.isValidIndex(roundTimes, wave - 1)) {
-            return "00";
+            return 0;
         }
         int time = roundTimes [wave - 1];
-        return String.valueOf(time < 10 ? ("0" + time) : time);
+        return time;
     }
 
     public int getNextWave() {

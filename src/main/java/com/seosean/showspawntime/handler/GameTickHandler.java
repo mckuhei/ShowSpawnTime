@@ -1,6 +1,7 @@
 package com.seosean.showspawntime.handler;
 
 import com.seosean.showspawntime.ShowSpawnTime;
+import com.seosean.showspawntime.events.ZombiesTickEvent;
 import com.seosean.showspawntime.features.frcooldown.FastReviveCoolDown;
 import com.seosean.showspawntime.features.spawntimes.SpawnNotice;
 import com.seosean.showspawntime.utils.DelayedTask;
@@ -9,6 +10,8 @@ import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -83,6 +86,7 @@ public class GameTickHandler {
                     lock.lock();
                     try {
                         zGameTick += 10;
+                        MinecraftForge.EVENT_BUS.post(new ZombiesTickEvent(zGameTick));
                         if (zGameTick != 0 && zGameTick % 1000 == 0) {
                             if (zGameStarted && PlayerUtils.isInZombies()) {
                                 SpawnNotice.onSpawn(zGameTick);

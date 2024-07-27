@@ -36,7 +36,7 @@ public class SpawnNotice {
 
         int finalWaveTime = currentRoundTimes[currentRoundTimes.length - 1];
 
-        if ((MainConfiguration.PlayDEBBSound && (LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.DEAD_END) || LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.BAD_BLOOD) || LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.THE_LAB))) || (MainConfiguration.PlayAASound && LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.ALIEN_ARCADIUM))) {
+        if ((MainConfiguration.PlayDEBBSound && (LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.DEAD_END) || LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.BAD_BLOOD) || LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.THE_LAB) || LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.PRISON))) || (MainConfiguration.PlayAASound && LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.ALIEN_ARCADIUM))) {
             for (int time : currentRoundTimes) {
                 if (time * 1000 == tick) {
                     if (finalWaveTime * 1000 == tick) {

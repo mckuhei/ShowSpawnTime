@@ -37,7 +37,7 @@ public class LRQueueRenderer extends Renderer {
         }
 
         if (lrOffsetCountDown > 0) {
-            lrOffsetCountDown -=1 ;
+            lrOffsetCountDown -= 1 ;
         } else {
             lrUsings = 0;
         }

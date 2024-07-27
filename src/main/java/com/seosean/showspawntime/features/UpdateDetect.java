@@ -46,12 +46,12 @@ public class UpdateDetect {
             }
         }.runTaskLater(3 * 20);
 
-        new DelayedTask() {
-            @Override
-            public void run() {
-                DebugUtils.sendMessage(EnumChatFormatting.RED.toString() + EnumChatFormatting.BOLD + "ShowSpawnTime" + EnumChatFormatting.WHITE + ": " + EnumChatFormatting.RED + EnumChatFormatting.OBFUSCATED + "aa" + EnumChatFormatting.RESET + EnumChatFormatting.RED + "2.0.9 is a fast-patch version, I will release a version of 2.1.0 for new map the Prison as soon as possible." + EnumChatFormatting.OBFUSCATED + "aa");
-            }
-        }.runTaskLater(1 * 20);
+//        new DelayedTask() {
+//            @Override
+//            public void run() {
+//                DebugUtils.sendMessage(EnumChatFormatting.RED.toString() + EnumChatFormatting.BOLD + "ShowSpawnTime" + EnumChatFormatting.WHITE + ": " + EnumChatFormatting.RED + EnumChatFormatting.OBFUSCATED + "aa" + EnumChatFormatting.RESET + EnumChatFormatting.RED + "2.0.9 is a fast-patch version, I will release a version of 2.1.0 for new map the Prison as soon as possible." + EnumChatFormatting.OBFUSCATED + "aa");
+//            }
+//        }.runTaskLater(1 * 20);
 
         MinecraftForge.EVENT_BUS.unregister(this);
     }

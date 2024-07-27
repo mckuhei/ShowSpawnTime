@@ -89,6 +89,7 @@ public class GameUtils {
             case DEAD_END: return new int[]{5, 10, 15, 20, 25, 30};
             case BAD_BLOOD: return new int[]{10, 15, 20, 25, 30};
             case THE_LAB: return new int[]{5, 10, 15, 20, 25, 30, 35, 40};
+            case PRISON: return new int[]{10, 20, 30};
         }
         return new int[]{};
     }

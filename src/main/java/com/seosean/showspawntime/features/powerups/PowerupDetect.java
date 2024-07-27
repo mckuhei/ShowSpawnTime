@@ -33,6 +33,9 @@ public class PowerupDetect {
     public static Integer[] r2MaxRoundsTL = {2, 8, 12, 16, 21, 26, 31, 36};
     public static Integer[] r3MaxRoundsTL = {3, 6, 9, 13, 17, 22, 27, 32, 37};
 
+    public static Integer[] r2MaxRoundsPR = {2, 5, 8, 12, 16, 21, 26};
+    public static Integer[] r3MaxRoundsPR = {3, 6, 9, 13, 17, 22, 27};
+
     public static Integer[] r2MaxRoundsAA = {2, 5, 8, 12, 16, 21, 26, 31, 36, 41, 46, 51, 61, 66, 71, 76, 81, 86, 91, 96};
     public static Integer[] r3MaxRoundsAA = {3, 6, 9, 13, 17, 22, 27, 32, 37, 42, 47, 52, 62, 67, 72, 77, 82, 87, 92, 97};
 
@@ -43,8 +46,11 @@ public class PowerupDetect {
     public static Integer[] r2InsRoundsAA = {2, 5, 8, 11, 14, 17, 20, 23};
     public static Integer[] r3InsRoundsAA = {3, 6, 9, 12, 15, 18, 21};
 
-    public static Integer[] r2InsRoundsTL = {2, 8, 11, 14, 17, 20, 23};
+    public static Integer[] r2InsRoundsTL = {2, 8, 11, 14, 17, 23};
     public static Integer[] r3InsRoundsTL = {3, 6, 9, 12, 18, 21, 24};
+
+    public static Integer[] r2InsRoundsPR = {2, 5, 8, 11, 14, 17, 23};
+    public static Integer[] r3InsRoundsPR = {3, 6, 9, 12, 15, 18, 21, 24};
 
     public static Integer[] r5SSRoundsAA = {5, 15, 45, 55, 65, 75, 85, 95, 105};
     public static Integer[] r6SSRoundsAA = {6, 16, 26, 36, 46, 66, 76, 86, 96};
@@ -250,6 +256,9 @@ public class PowerupDetect {
             case ALIEN_ARCADIUM:
                 insRounds = Arrays.asList(round == 2 ? r2InsRoundsAA : r3InsRoundsAA);
                 break;
+            case PRISON:
+                insRounds = Arrays.asList(round == 2 ? r2InsRoundsPR : r3InsRoundsPR);
+                break;
         }
     }
 
@@ -267,6 +276,9 @@ public class PowerupDetect {
                 break;
             case ALIEN_ARCADIUM:
                 maxRounds = Arrays.asList(round == 2 ? r2MaxRoundsAA : r3MaxRoundsAA);
+                break;
+            case PRISON:
+                maxRounds = Arrays.asList(round == 2 ? r2MaxRoundsPR : r3MaxRoundsPR);
                 break;
         }
     }
