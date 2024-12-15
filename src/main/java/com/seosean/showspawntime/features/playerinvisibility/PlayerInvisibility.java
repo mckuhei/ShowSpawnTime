@@ -10,8 +10,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class PlayerInvisibility {
     @SubscribeEvent
     public void onRender(RenderPlayerEvent.Pre event) {
-        EntityPlayer player = event.entityPlayer;
-        if (player != Minecraft.getMinecraft().thePlayer && !player.isPlayerSleeping() && PlayerInvisibility.withinDistance(player) && player.getMaxHealth() < 100) {
+        EntityPlayer player = event.getEntityPlayer();
+        if (player != Minecraft.getMinecraft().player && !player.isPlayerSleeping() && PlayerInvisibility.withinDistance(player) && player.getMaxHealth() < 100) {
             event.setCanceled(MainConfiguration.PlayerInvisible);
         }
     }
@@ -21,13 +21,13 @@ public class PlayerInvisibility {
     }
 
     private static double getDistance(EntityPlayer other) {
-        return Minecraft.getMinecraft().thePlayer.getDistanceToEntity(other);
+        return Minecraft.getMinecraft().player.getDistance(other);
     }
 
     public static boolean isPlayerInvisible(Entity entity){
         boolean flag = !entity.isInvisible();
-        boolean flag1 = !flag && !entity.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer);
-        boolean flag2 = entity != Minecraft.getMinecraft().thePlayer && entity instanceof EntityPlayer && Minecraft.getMinecraft().thePlayer.getDistanceToEntity(entity) < 7.02F && !((EntityPlayer) entity).isPlayerSleeping() && ((EntityPlayer) entity).getMaxHealth() < 100;
+        boolean flag1 = !flag && !entity.isInvisibleToPlayer(Minecraft.getMinecraft().player);
+        boolean flag2 = entity != Minecraft.getMinecraft().player && entity instanceof EntityPlayer && Minecraft.getMinecraft().player.getDistance(entity) < 7.02F && !((EntityPlayer) entity).isPlayerSleeping() && ((EntityPlayer) entity).getMaxHealth() < 100;
         return (flag || flag1) && (flag1 || flag2);
     }
 
@@ -44,6 +44,6 @@ public class PlayerInvisibility {
     }
 
     public static float getAlpha(Entity entity){
-        return linearCrease(Minecraft.getMinecraft().thePlayer.getDistanceToEntity(entity));
+        return linearCrease(Minecraft.getMinecraft().player.getDistance(entity));
     }
 }

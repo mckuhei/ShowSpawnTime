@@ -4,17 +4,18 @@ import com.seosean.showspawntime.utils.LanguageUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundEvent;
 
 public class WeaponInfo {
     private String gunName;
-    private String sound;
+    private SoundEvent sound;
     private float pitch;
     private int gold;
     private int criticalGold;
     private Item item;
     private double damage;
     private double[] ultimatedDamage;
-    public WeaponInfo(String gunName, String sound, float pitch, int gold, int criticalGold, Item item, double damage, double... ultimatedDamage) {
+    public WeaponInfo(String gunName, SoundEvent sound, float pitch, int gold, int criticalGold, Item item, double damage, double... ultimatedDamage) {
         this.gunName = gunName;
         this.sound = sound;
         this.pitch = pitch;
@@ -25,7 +26,7 @@ public class WeaponInfo {
         this.ultimatedDamage = ultimatedDamage;
     }
 
-    public String getSound() {
+    public SoundEvent getSound() {
         return sound;
     }
 
@@ -54,7 +55,7 @@ public class WeaponInfo {
     }
 
     private static int getUltimateLevel(WeaponInfo weaponInfo) {
-        for (ItemStack itemStack : Minecraft.getMinecraft().thePlayer.inventory.mainInventory) {
+        for (ItemStack itemStack : Minecraft.getMinecraft().player.inventory.mainInventory) {
             if (itemStack != null) {
                 if (itemStack.getItem().equals(weaponInfo.getItem()) && itemStack.getDisplayName().contains(" ")) {
                     String itemName = itemStack.getDisplayName();

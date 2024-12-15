@@ -20,14 +20,14 @@ public class LRQueueRenderer extends Renderer {
     @SubscribeEvent
     public void lrCountDown(TickEvent.ClientTickEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
-        if (mc == null || mc.theWorld == null || mc.isSingleplayer()) {
+        if (mc == null || mc.world == null || mc.isSingleplayer()) {
             return;
         }
         if (event.phase!= TickEvent.Phase.START) {
             return;
         }
 
-        EntityPlayerSP p = mc.thePlayer;
+        EntityPlayerSP p = mc.player;
         if (p == null) {
             return;
         }
@@ -55,7 +55,7 @@ public class LRQueueRenderer extends Renderer {
         if (!PlayerUtils.isInZombies()) {
             return;
         }
-        String message = StringUtils.trim(event.message.getUnformattedText());
+        String message = StringUtils.trim(event.getMessage().getUnformattedText());
 
         if (message.contains(":")) {
             return;
@@ -78,7 +78,7 @@ public class LRQueueRenderer extends Renderer {
         }
 
         if (displayTime > 0) {
-            float f2 = (float) displayTime - event.partialTicks;
+            float f2 = (float) displayTime - event.getPartialTicks();
             int l1 = (int) (f2 * 255.0F / 20.0F);
 
             if (l1 > 255) {
@@ -136,33 +136,33 @@ public class LRQueueRenderer extends Renderer {
                     thirthLight = disabledColor;
                     forthLight = disabledColor;
                 }
-                minecraft.fontRendererObj.drawStringWithShadow(LRQueue1,
-                        screenWidth / 2.0F - minecraft.fontRendererObj.getStringWidth(LRQueueDummy1) / 2.0F,
+                minecraft.fontRenderer.drawStringWithShadow(LRQueue1,
+                        screenWidth / 2.0F - minecraft.fontRenderer.getStringWidth(LRQueueDummy1) / 2.0F,
                         screenHeight / 1.2F,
                         firstLight + (l1 << 24 & -firstLight));
-                minecraft.fontRendererObj.drawStringWithShadow(LRQueue2,
-                        screenWidth / 2.0F - minecraft.fontRendererObj.getStringWidth(LRQueueDummy2) / 2.0F,
+                minecraft.fontRenderer.drawStringWithShadow(LRQueue2,
+                        screenWidth / 2.0F - minecraft.fontRenderer.getStringWidth(LRQueueDummy2) / 2.0F,
                         screenHeight / 1.2F,
                         secondLight + (l1 << 24 & -secondLight));
-                minecraft.fontRendererObj.drawStringWithShadow(LRQueue3,
-                        screenWidth / 2.0F + minecraft.fontRendererObj.getStringWidth(LRQueueDummy2) / 2.0F - minecraft.fontRendererObj.getStringWidth(LRQueue1),
+                minecraft.fontRenderer.drawStringWithShadow(LRQueue3,
+                        screenWidth / 2.0F + minecraft.fontRenderer.getStringWidth(LRQueueDummy2) / 2.0F - minecraft.fontRenderer.getStringWidth(LRQueue1),
                         screenHeight / 1.2F,
                         thirthLight + (l1 << 24 & -thirthLight));
-                minecraft.fontRendererObj.drawStringWithShadow(LRQueue4,
-                        screenWidth / 2.0F + minecraft.fontRendererObj.getStringWidth(LRQueueDummy1) / 2.0F - minecraft.fontRendererObj.getStringWidth(LRQueue1),
+                minecraft.fontRenderer.drawStringWithShadow(LRQueue4,
+                        screenWidth / 2.0F + minecraft.fontRenderer.getStringWidth(LRQueueDummy1) / 2.0F - minecraft.fontRenderer.getStringWidth(LRQueue1),
                         screenHeight / 1.2F,
                         forthLight + (l1 << 24 & -forthLight));
 
-                minecraft.fontRendererObj.drawStringWithShadow(LRQueueCrossBar,
-                        screenWidth / 2.0F - minecraft.fontRendererObj.getStringWidth(LRQueueDummy3) / 2.0F,
+                minecraft.fontRenderer.drawStringWithShadow(LRQueueCrossBar,
+                        screenWidth / 2.0F - minecraft.fontRenderer.getStringWidth(LRQueueDummy3) / 2.0F,
                         screenHeight / 1.2F,
                         crossbarColor + (l1 << 24 & -crossbarColor));
-                minecraft.fontRendererObj.drawStringWithShadow(LRQueueCrossBar,
-                        screenWidth / 2.0F - minecraft.fontRendererObj.getStringWidth(LRQueueCrossBar) / 2.0F,
+                minecraft.fontRenderer.drawStringWithShadow(LRQueueCrossBar,
+                        screenWidth / 2.0F - minecraft.fontRenderer.getStringWidth(LRQueueCrossBar) / 2.0F,
                         screenHeight / 1.2F,
                         crossbarColor + (l1 << 24 & -crossbarColor));
-                minecraft.fontRendererObj.drawStringWithShadow(LRQueueCrossBar,
-                        screenWidth / 2.0F + minecraft.fontRendererObj.getStringWidth(LRQueueDummy3) / 2.0F - minecraft.fontRendererObj.getStringWidth(LRQueueCrossBar),
+                minecraft.fontRenderer.drawStringWithShadow(LRQueueCrossBar,
+                        screenWidth / 2.0F + minecraft.fontRenderer.getStringWidth(LRQueueDummy3) / 2.0F - minecraft.fontRenderer.getStringWidth(LRQueueCrossBar),
                         screenHeight / 1.2F,
                         crossbarColor + (l1 << 24 & -crossbarColor));
                 GlStateManager.disableBlend();

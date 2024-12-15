@@ -3,6 +3,8 @@ package com.seosean.showspawntime.features.frcooldown;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
+
+import net.minecraft.util.text.ChatType;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -15,7 +17,9 @@ public class FastReviveCoolDown {
             return;
         }
 
-        if (event.type != 1 && event.type != 0) {
+        ChatType type = event.getType();
+        
+        if (type != ChatType.SYSTEM && type != ChatType.CHAT) {
             return;
         }
 
@@ -23,7 +27,7 @@ public class FastReviveCoolDown {
             return;
         }
 
-        String messsage = event.message.getFormattedText();
+        String messsage = event.getMessage().getFormattedText();
 
         if (messsage.contains(":")) {
             return;

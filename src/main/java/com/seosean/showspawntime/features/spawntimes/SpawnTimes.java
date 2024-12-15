@@ -14,7 +14,7 @@ public class SpawnTimes {
 
     public SpawnTimes() {
         this.minecraft = Minecraft.getMinecraft();
-        this.fontRenderer = minecraft.fontRendererObj;
+        this.fontRenderer = minecraft.fontRenderer;
     }
 
     public Minecraft minecraft;

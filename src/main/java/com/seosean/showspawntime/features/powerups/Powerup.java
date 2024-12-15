@@ -3,7 +3,7 @@ package com.seosean.showspawntime.features.powerups;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -86,18 +86,18 @@ public class Powerup {
         return offsetTime;
     }
     public enum PowerupType {
-        NULL(EnumChatFormatting.WHITE, ""),
-        INSTA_KILL(EnumChatFormatting.RED, "INSTA KILL"),
-        MAX_AMMO(EnumChatFormatting.BLUE, "MAKS AMMO"),
-        DOUBLE_GOLD(EnumChatFormatting.GOLD, "DOUBO GOLD"),
-        CARPENTER(EnumChatFormatting.DARK_BLUE, "CARPENTER"),
-        BONUS_GOLD(EnumChatFormatting.YELLOW, "BONUS GOLD"),
-        SHOPPING_SPREE(EnumChatFormatting.DARK_PURPLE, "SHOP SPREE");
+        NULL(TextFormatting.WHITE, ""),
+        INSTA_KILL(TextFormatting.RED, "INSTA KILL"),
+        MAX_AMMO(TextFormatting.BLUE, "MAKS AMMO"),
+        DOUBLE_GOLD(TextFormatting.GOLD, "DOUBO GOLD"),
+        CARPENTER(TextFormatting.DARK_BLUE, "CARPENTER"),
+        BONUS_GOLD(TextFormatting.YELLOW, "BONUS GOLD"),
+        SHOPPING_SPREE(TextFormatting.DARK_PURPLE, "SHOP SPREE");
 
         private final String displayName;
-        private final EnumChatFormatting enumChatFormatting;
-        PowerupType(EnumChatFormatting enumChatFormatting, String displayName) {
-            this.enumChatFormatting = enumChatFormatting;
+        private final TextFormatting textFormatting;
+        PowerupType(TextFormatting TextFormatting, String displayName) {
+            this.textFormatting = TextFormatting;
             this.displayName = displayName;
         }
 
@@ -105,8 +105,8 @@ public class Powerup {
             return displayName;
         }
 
-        public EnumChatFormatting getEnumChatFormatting() {
-            return enumChatFormatting;
+        public TextFormatting getTextFormatting() {
+            return textFormatting;
         }
 
         public static PowerupType getPowerupType(String name) {

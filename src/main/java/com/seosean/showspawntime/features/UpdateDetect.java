@@ -6,11 +6,11 @@ import com.seosean.showspawntime.utils.DebugUtils;
 import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.event.ClickEvent;
-import net.minecraft.event.HoverEvent;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -33,7 +33,7 @@ public class UpdateDetect {
         }
         Minecraft mc = Minecraft.getMinecraft();
 
-        if (mc == null || mc.theWorld == null || mc.isSingleplayer() || mc.thePlayer == null) return;
+        if (mc == null || mc.world == null || mc.isSingleplayer() || mc.player == null) return;
 
         triggered = true;
         new DelayedTask() {
@@ -41,7 +41,7 @@ public class UpdateDetect {
             public void run() {
                 UpdateDetect.this.checkUpdates();
                 if (ShowSpawnTime.VERSION.contains("Pre")) {
-                    DebugUtils.sendMessage(EnumChatFormatting.GOLD.toString() + EnumChatFormatting.BOLD + "ShowSpawnTime" + EnumChatFormatting.WHITE + ": " + EnumChatFormatting.RED + EnumChatFormatting.OBFUSCATED + "aa" + EnumChatFormatting.RESET + EnumChatFormatting.RED + "You are now using an unstable pre-version build! Please update your version as fast as possible if there is a latest version released." + EnumChatFormatting.OBFUSCATED + "aa");
+                    DebugUtils.sendMessage(TextFormatting.GOLD.toString() + TextFormatting.BOLD + "ShowSpawnTime" + TextFormatting.WHITE + ": " + TextFormatting.RED + TextFormatting.OBFUSCATED + "aa" + TextFormatting.RESET + TextFormatting.RED + "You are now using an unstable pre-version build! Please update your version as fast as possible if there is a latest version released." + TextFormatting.OBFUSCATED + "aa");
                 }
             }
         }.runTaskLater(3 * 20);
@@ -49,7 +49,7 @@ public class UpdateDetect {
 //        new DelayedTask() {
 //            @Override
 //            public void run() {
-//                DebugUtils.sendMessage(EnumChatFormatting.RED.toString() + EnumChatFormatting.BOLD + "ShowSpawnTime" + EnumChatFormatting.WHITE + ": " + EnumChatFormatting.RED + EnumChatFormatting.OBFUSCATED + "aa" + EnumChatFormatting.RESET + EnumChatFormatting.RED + "2.0.9 is a fast-patch version, I will release a version of 2.1.0 for new map the Prison as soon as possible." + EnumChatFormatting.OBFUSCATED + "aa");
+//                DebugUtils.sendMessage(TextFormatting.RED.toString() + TextFormatting.BOLD + "ShowSpawnTime" + TextFormatting.WHITE + ": " + TextFormatting.RED + TextFormatting.OBFUSCATED + "aa" + TextFormatting.RESET + TextFormatting.RED + "2.0.9 is a fast-patch version, I will release a version of 2.1.0 for new map the Prison as soon as possible." + TextFormatting.OBFUSCATED + "aa");
 //            }
 //        }.runTaskLater(1 * 20);
 
@@ -98,15 +98,15 @@ public class UpdateDetect {
                         thisVersionNumbers.add(i, 0);
                     }
                     if (newestVersionNumbers.get(i) > thisVersionNumbers.get(i)) {
-                        IChatComponent newVersion = new ChatComponentText(EnumChatFormatting.AQUA+ "ShowSpawnTime: " + EnumChatFormatting.GREEN + "A new version " + newestVersion + " is available. Download it by clicking here.");
-                        IChatComponent downloadHover = new ChatComponentText(EnumChatFormatting.WHITE + "Click to Download");
+                        ITextComponent newVersion = new TextComponentString(TextFormatting.AQUA+ "ShowSpawnTime: " + TextFormatting.GREEN + "A new version " + newestVersion + " is available. Download it by clicking here.");
+                        ITextComponent downloadHover = new TextComponentString(TextFormatting.WHITE + "Click to Download");
 
-                        newVersion.setChatStyle(newVersion.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, downloadHover)).setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Seosean/ShowSpawnTime/releases")));
+                        newVersion.setStyle(newVersion.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, downloadHover)).setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Seosean/ShowSpawnTime/releases")));
                         PlayerUtils.sendMessage(newVersion);
                         status = Version.UPTODATE;
                         break;
                     } else if (newestVersionNumbers.get(i) < thisVersionNumbers.get(i)) {
-                        IChatComponent newVersion = new ChatComponentText(EnumChatFormatting.AQUA+ "ShowSpawnTime: " + EnumChatFormatting.GREEN + "You are using an advanced version, it's probably unstable and uncompleted.");
+                        ITextComponent newVersion = new TextComponentString(TextFormatting.AQUA+ "ShowSpawnTime: " + TextFormatting.GREEN + "You are using an advanced version, it's probably unstable and uncompleted.");
                         PlayerUtils.sendMessage(newVersion);
                         status = Version.ADVANCED;
                     }

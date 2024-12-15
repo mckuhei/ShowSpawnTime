@@ -47,11 +47,11 @@ public class LeftNotice {
 
     @SubscribeEvent
     public void onPlayerConnectHypixel(EntityJoinWorldEvent event) {
-        if (!event.world.isRemote) {
+        if (!event.getWorld().isRemote) {
             return;
         }
 
-        if (!event.entity.equals(Minecraft.getMinecraft().thePlayer)) {
+        if (!event.getEntity().equals(Minecraft.getMinecraft().player)) {
             return;
         }
 
@@ -67,7 +67,7 @@ public class LeftNotice {
 
     @SubscribeEvent
     public void onChatReceived(ClientChatReceivedEvent event) {
-        String message = StringUtils.trim(event.message.getUnformattedText());
+        String message = StringUtils.trim(event.getMessage().getUnformattedText());
         if (message.contains(":")) {
             return;
         }

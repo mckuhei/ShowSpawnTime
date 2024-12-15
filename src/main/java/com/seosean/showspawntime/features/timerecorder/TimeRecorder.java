@@ -5,12 +5,14 @@ import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.utils.JavaUtils;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
-import net.minecraft.event.ClickEvent;
-import net.minecraft.event.HoverEvent;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatStyle;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
+
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.text.DecimalFormat;
@@ -59,15 +61,15 @@ public class TimeRecorder {
                     split = time.split(" ");
                 }
 
-                IChatComponent crossBar = new ChatComponentText(EnumChatFormatting.GREEN.toString() + EnumChatFormatting.BOLD + "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ ");
-                IChatComponent timing = new ChatComponentText(EnumChatFormatting.YELLOW + "                     You completed " + EnumChatFormatting.RED + "Round " + (currentRound) + EnumChatFormatting.YELLOW + " in " + EnumChatFormatting.GREEN + split[1] + EnumChatFormatting.YELLOW + "!");
-                IChatComponent copy = new ChatComponentText(EnumChatFormatting.GREEN + "Copy");
-                timing.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(net.minecraft.event.HoverEvent.Action.SHOW_TEXT, copy)).setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sst copy " + "You completed Round " + (currentRound) + " in " + split[1].replace("§a", "").replace("\uD83D\uDC79", "") + "!")));
+                ITextComponent crossBar = new TextComponentString(TextFormatting.GREEN.toString() + TextFormatting.BOLD + "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ ");
+                ITextComponent timing = new TextComponentString(TextFormatting.YELLOW + "                     You completed " + TextFormatting.RED + "Round " + (currentRound) + TextFormatting.YELLOW + " in " + TextFormatting.GREEN + split[1] + TextFormatting.YELLOW + "!");
+                ITextComponent copy = new TextComponentString(TextFormatting.GREEN + "Copy");
+                timing.setStyle(new Style().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, copy)).setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sst copy " + "You completed Round " + (currentRound) + " in " + split[1].replace("§a", "").replace("\uD83D\uDC79", "") + "!")));
                 PlayerUtils.sendMessage(crossBar);
                 PlayerUtils.sendMessage(timing);
                 PlayerUtils.sendMessage(crossBar);
             } catch (Exception e) {
-                IChatComponent warning = new ChatComponentText(EnumChatFormatting.RED + "CANNOT RECORD THE TIME, PLEASE REPORT THIS TO Seosean");
+                ITextComponent warning = new TextComponentString(TextFormatting.RED + "CANNOT RECORD THE TIME, PLEASE REPORT THIS TO Seosean");
                 PlayerUtils.sendMessage(warning);
             }
         }
@@ -97,9 +99,9 @@ public class TimeRecorder {
 
                 redundantLastRoundTime = lastRoundTime / 1000.0 - timer[currentRound - 1][timer[currentRound - 1].length - 1];
 
-                IChatComponent redundantTimeTips = new ChatComponentText(EnumChatFormatting.YELLOW + "You took " + EnumChatFormatting.RED.toString() + EnumChatFormatting.BOLD + ((redundantLastRoundTime < 0) ? "--" : new DecimalFormat("#.##").format(redundantLastRoundTime)) + EnumChatFormatting.YELLOW + " seconds to clean up after the last wave.");
-                IChatComponent copy = new ChatComponentText(EnumChatFormatting.GREEN + "Copy");
-                redundantTimeTips.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(net.minecraft.event.HoverEvent.Action.SHOW_TEXT, copy)).setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sst copy " + "You took " + ((redundantLastRoundTime < 0) ? "--" : new DecimalFormat("#.##").format(redundantLastRoundTime)) + " seconds to clean up after the last wave.")));
+                ITextComponent redundantTimeTips = new TextComponentString(TextFormatting.YELLOW + "You took " + TextFormatting.RED.toString() + TextFormatting.BOLD + ((redundantLastRoundTime < 0) ? "--" : new DecimalFormat("#.##").format(redundantLastRoundTime)) + TextFormatting.YELLOW + " seconds to clean up after the last wave.");
+                ITextComponent copy = new TextComponentString(TextFormatting.GREEN + "Copy");
+                redundantTimeTips.setStyle(new Style().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, copy)).setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sst copy " + "You took " + ((redundantLastRoundTime < 0) ? "--" : new DecimalFormat("#.##").format(redundantLastRoundTime)) + " seconds to clean up after the last wave.")));
                 PlayerUtils.sendMessage(redundantTimeTips);
 
             }

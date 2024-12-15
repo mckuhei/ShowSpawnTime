@@ -4,19 +4,9 @@
   "compatibilityLevel": "JAVA_8",
   "verbose": true,
   "mixins": [
-    "MixinFontRenderer",
     "MixinGuiIngame",
-    "MixinLayerCape",
-    "MixinModelBase",
-    "MixinModelBiped",
-    "MixinModelPlayer",
     "MixinNetHandlerPlayClient",
-    "MixinRender",
-    "MixinSoundManager",
-    "MixinWorldClient",
     "MixinRendererLivingEntity"
   ],
-  "client": [
-    "MixinRender"
-  ]
+  "client": []
 }

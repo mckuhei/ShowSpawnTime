@@ -14,13 +14,13 @@ public class CountDownTimer {
     @SubscribeEvent
     public void countdown(TickEvent.ClientTickEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
-        if (mc == null || mc.theWorld == null || mc.isSingleplayer()) {
+        if (mc == null || mc.world == null || mc.isSingleplayer()) {
             return;
         }
         if (event.phase!= TickEvent.Phase.START) {
             return;
         }
-        EntityPlayerSP p = mc.thePlayer;
+        EntityPlayerSP p = mc.player;
         if (p == null) {
             return;
         }

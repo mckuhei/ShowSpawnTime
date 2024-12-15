@@ -4,7 +4,7 @@ import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
 import com.seosean.showspawntime.config.gui.ShowSpawnTimeGuiConfig;
 import com.seosean.showspawntime.utils.DelayedTask;
-import com.seosean.zombiesautosplits.ZombiesAutoSplits;
+//import com.seosean.zombiesautosplits.ZombiesAutoSplits;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -60,23 +60,23 @@ public class ConfigGui extends GuiScreen {
    @Override
    public void initGui() {
       MinecraftForge.EVENT_BUS.post(new GuiScreenEvent.InitGuiEvent.Pre(this, buttonList));
-      int widthTime = this.fontRendererObj.getStringWidth("➤ W2 00:00");
-      int widthPowerup = this.fontRendererObj.getStringWidth("-BONUS GOLD - 00:00 ");
-      int widthDPSCounter = this.fontRendererObj.getStringWidth("DPS: INSTA KILL");
+      int widthTime = this.fontRenderer.getStringWidth("➤ W2 00:00");
+      int widthPowerup = this.fontRenderer.getStringWidth("-BONUS GOLD - 00:00 ");
+      int widthDPSCounter = this.fontRenderer.getStringWidth("DPS: INSTA KILL");
       ScaledResolution sr = new ScaledResolution(this.mc);
       this.buttonList.add(new GuiButton(1, sr.getScaledWidth() / 2 - 82, sr.getScaledHeight() - 25, 80, 20, "Done"));
       this.buttonList.add(new GuiButton(2, sr.getScaledWidth() / 2 - 82 + 85, sr.getScaledHeight() - 25, 80, 20, "Reset"));
       boxes.clear();
-      HudCoordinate boxSpawnTime = new HudCoordinate(0, MainConfiguration.getXSpawnTime(), MainConfiguration.getYSpawnTime(), widthTime, this.fontRendererObj.FONT_HEIGHT * 6, this.width, this.height);
+      HudCoordinate boxSpawnTime = new HudCoordinate(0, MainConfiguration.getXSpawnTime(), MainConfiguration.getYSpawnTime(), widthTime, this.fontRenderer.FONT_HEIGHT * 7, this.width, this.height);
       boxes.add(boxSpawnTime);
-      HudCoordinate boxPowerup = new HudCoordinate(1, MainConfiguration.getXPowerup(), MainConfiguration.getYPowerup(), widthPowerup, this.fontRendererObj.FONT_HEIGHT * 6, this.width, this.height);
+      HudCoordinate boxPowerup = new HudCoordinate(1, MainConfiguration.getXPowerup(), MainConfiguration.getYPowerup(), widthPowerup, this.fontRenderer.FONT_HEIGHT * 6, this.width, this.height);
       boxes.add(boxPowerup);
-      HudCoordinate boxDPSCounter = new HudCoordinate(2, MainConfiguration.getXDPSCounter(), MainConfiguration.getYDPSCounter(), widthDPSCounter, this.fontRendererObj.FONT_HEIGHT, this.width, this.height);
+      HudCoordinate boxDPSCounter = new HudCoordinate(2, MainConfiguration.getXDPSCounter(), MainConfiguration.getYDPSCounter(), widthDPSCounter, this.fontRenderer.FONT_HEIGHT, this.width, this.height);
       boxes.add(boxDPSCounter);
       if (ShowSpawnTime.isAutoSplitsLoaded) {
-         int widthSpitsTime = this.fontRendererObj.getStringWidth("0:00:0");
-         HudCoordinate boxAutoSplits = new HudCoordinate(3, ZombiesAutoSplits.getInstance().getXSplitter(), ZombiesAutoSplits.getInstance().getYSplitter(), widthSpitsTime, this.fontRendererObj.FONT_HEIGHT, this.width, this.height);
-         boxes.add(boxAutoSplits);
+         int widthSpitsTime = this.fontRenderer.getStringWidth("0:00:0");
+//         HudCoordinate boxAutoSplits = new HudCoordinate(3, ZombiesAutoSplits.getInstance().getXSplitter(), ZombiesAutoSplits.getInstance().getYSplitter(), widthSpitsTime, this.fontRenderer.FONT_HEIGHT, this.width, this.height);
+//         boxes.add(boxAutoSplits);
       }
       MinecraftForge.EVENT_BUS.post(new GuiScreenEvent.InitGuiEvent.Post(this, buttonList));
    }
@@ -99,8 +99,8 @@ public class ConfigGui extends GuiScreen {
       for (HudCoordinate box : boxes) {
          box.draw(this);
       }
-      this.fontRendererObj.drawStringWithShadow("ShowSpawnTime", (float)sr.getScaledWidth() / 2.0F - (float)this.fontRendererObj.getStringWidth("ShowSpawnTime") / 2.0F, 10.0F, Color.WHITE.getRGB());
-      this.fontRendererObj.drawStringWithShadow("Click \"Done\" to save your current HUD position settings.", (float)sr.getScaledWidth() / 2.0F - (float)this.fontRendererObj.getStringWidth("Click \"Done\" to save your current HUD position settings.") / 2.0F, this.height/2, Color.WHITE.getRGB());
+      this.fontRenderer.drawStringWithShadow("ShowSpawnTime", (float)sr.getScaledWidth() / 2.0F - (float)this.fontRenderer.getStringWidth("ShowSpawnTime") / 2.0F, 10.0F, Color.WHITE.getRGB());
+      this.fontRenderer.drawStringWithShadow("Click \"Done\" to save your current HUD position settings.", (float)sr.getScaledWidth() / 2.0F - (float)this.fontRenderer.getStringWidth("Click \"Done\" to save your current HUD position settings.") / 2.0F, this.height/2, Color.WHITE.getRGB());
 
       super.drawScreen(mouseX, mouseY, p_drawScreen_3_);
    }
@@ -125,11 +125,11 @@ public class ConfigGui extends GuiScreen {
                   MainConfiguration.guiRelated.get("XDPSCounter").set(box.x);
                   MainConfiguration.guiRelated.get("YDPSCounter").set(box.y);
                } else if (ShowSpawnTime.isAutoSplitsLoaded && box.getContents() == 3) {
-                  ZombiesAutoSplits.XSplitter = box.x;
-                  ZombiesAutoSplits.YSplitter = box.y;
-                  ZombiesAutoSplits.elements.get("XSplitter").set(box.x);
-                  ZombiesAutoSplits.elements.get("YSplitter").set(box.y);
-                  ZombiesAutoSplits.getInstance().getConfig().save();
+//                  ZombiesAutoSplits.XSplitter = box.x;
+//                  ZombiesAutoSplits.YSplitter = box.y;
+//                  ZombiesAutoSplits.elements.get("XSplitter").set(box.x);
+//                  ZombiesAutoSplits.elements.get("YSplitter").set(box.y);
+//                  ZombiesAutoSplits.getInstance().getConfig().save();
                }
             }
             this.mc.displayGuiScreen(null);
@@ -186,16 +186,16 @@ public class ConfigGui extends GuiScreen {
                }
 
                if (ShowSpawnTime.isAutoSplitsLoaded && box.getContents() == 3) {
-                  ZombiesAutoSplits.elements.get("XSplitter").set(-1);
-                  ZombiesAutoSplits.elements.get("YSplitter").set(-1);
-                  ZombiesAutoSplits.XSplitter = -1;
-                  ZombiesAutoSplits.YSplitter = -1;
-                  new com.seosean.zombiesautosplits.hudposition.DelayedTask(() -> {
-                     box.x = ZombiesAutoSplits.getInstance().getXSplitter();
-                     box.absoluteX = (int)(ZombiesAutoSplits.getInstance().getXSplitter() * this.width);
-                     box.y = ZombiesAutoSplits.getInstance().getYSplitter();
-                     box.absoluteY = (int)(ZombiesAutoSplits.getInstance().getYSplitter() * this.height);
-                  }, 2);
+//                  ZombiesAutoSplits.elements.get("XSplitter").set(-1);
+//                  ZombiesAutoSplits.elements.get("YSplitter").set(-1);
+//                  ZombiesAutoSplits.XSplitter = -1;
+//                  ZombiesAutoSplits.YSplitter = -1;
+//                  new com.seosean.zombiesautosplits.hudposition.DelayedTask(() -> {
+//                     box.x = ZombiesAutoSplits.getInstance().getXSplitter();
+//                     box.absoluteX = (int)(ZombiesAutoSplits.getInstance().getXSplitter() * this.width);
+//                     box.y = ZombiesAutoSplits.getInstance().getYSplitter();
+//                     box.absoluteY = (int)(ZombiesAutoSplits.getInstance().getYSplitter() * this.height);
+//                  }, 2);
                }
             }
             break;
@@ -204,7 +204,7 @@ public class ConfigGui extends GuiScreen {
 
       this.save();
       if (ShowSpawnTime.isAutoSplitsLoaded) {
-         ZombiesAutoSplits.getInstance().getConfig().save();
+//         ZombiesAutoSplits.getInstance().getConfig().save();
       }
    }
 
@@ -227,15 +227,15 @@ public class ConfigGui extends GuiScreen {
             MainConfiguration.guiRelated.get("XDPSCounter").set(box.x);
             MainConfiguration.guiRelated.get("YDPSCounter").set(box.y);
          } else if (ShowSpawnTime.isAutoSplitsLoaded && box.getContents() == 3) {
-            ZombiesAutoSplits.XSplitter = box.x;
-            ZombiesAutoSplits.YSplitter = box.y;
-            ZombiesAutoSplits.elements.get("XSplitter").set(box.x);
-            ZombiesAutoSplits.elements.get( "YSplitter").set(box.y);
+//            ZombiesAutoSplits.XSplitter = box.x;
+//            ZombiesAutoSplits.YSplitter = box.y;
+//            ZombiesAutoSplits.elements.get("XSplitter").set(box.x);
+//            ZombiesAutoSplits.elements.get( "YSplitter").set(box.y);
          }
       }
       this.save();
       if (ShowSpawnTime.isAutoSplitsLoaded) {
-         ZombiesAutoSplits.getInstance().getConfig().save();
+//         ZombiesAutoSplits.getInstance().getConfig().save();
       }
       super.onGuiClosed();
    }

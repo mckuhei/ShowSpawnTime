@@ -20,7 +20,8 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.Score;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.TextFormatting;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -105,7 +106,7 @@ public abstract class MixinGuiIngame {
                         int left = LeftNotice.getLeft(ShowSpawnTime.getSpawnTimes().currentRound);
                         boolean isCleared = Integer.parseInt(amount) <= left;
                         if (LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.DEAD_END) || LanguageUtils.getMap().equals(LanguageUtils.ZombiesMap.BAD_BLOOD)) {
-                            return text.concat(EnumChatFormatting.WHITE + " | " + (isCleared ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + ((left == 0) ? "" : left));
+                            return text.concat(TextFormatting.WHITE + " | " + (isCleared ? TextFormatting.GREEN : TextFormatting.RED) + ((left == 0) ? "" : left));
                         }
                     }
                 }
@@ -134,7 +135,7 @@ public abstract class MixinGuiIngame {
                         if (entityPlayer != null) {
                             if (!entityPlayer.isInvisible()) {
                                 float health = entityPlayer.getHealth();
-                                playerHealthNoticeString = EnumChatFormatting.WHITE + "(" + showSpawnTime$getColor(entityPlayer) + (int) health + EnumChatFormatting.WHITE + ") ";
+                                playerHealthNoticeString = TextFormatting.WHITE + "(" + showSpawnTime$getColor(entityPlayer) + (int) health + TextFormatting.WHITE + ") ";
                             }
                         }
                     }
@@ -142,7 +143,7 @@ public abstract class MixinGuiIngame {
                 if (!MainConfiguration.FastReviveCoolDown.equals(FastReviveCoolDown.RenderType.OFF)) {
                     if (FastReviveCoolDown.frcdMap.containsKey(playerName)) {
                         int cooldown = FastReviveCoolDown.frcdMap.get(playerName) / 100;
-                        fastReviveCoolDownString = EnumChatFormatting.WHITE + "(" + EnumChatFormatting.LIGHT_PURPLE + (cooldown / 10.0) + "s" + EnumChatFormatting.WHITE + ") ";
+                        fastReviveCoolDownString = TextFormatting.WHITE + "(" + TextFormatting.LIGHT_PURPLE + (cooldown / 10.0) + "s" + TextFormatting.WHITE + ") ";
 
                     }
                 }
@@ -261,7 +262,7 @@ public abstract class MixinGuiIngame {
 
     @Unique
     private List<EntityPlayer> showSpawnTime$getPlayerList() {
-        return new CopyOnWriteArrayList<>(Minecraft.getMinecraft().theWorld.playerEntities);
+        return new CopyOnWriteArrayList<>(Minecraft.getMinecraft().world.playerEntities);
     }
 
 
@@ -278,13 +279,13 @@ public abstract class MixinGuiIngame {
     }
 
     @Unique
-    private EnumChatFormatting showSpawnTime$getColor(EntityPlayer entityPlayer) {
+    private TextFormatting showSpawnTime$getColor(EntityPlayer entityPlayer) {
         int currentHealth = (int)entityPlayer.getHealth();
         if (currentHealth > entityPlayer.getMaxHealth() / 2) {
-            return EnumChatFormatting.GREEN;
+            return TextFormatting.GREEN;
         } else if (currentHealth > entityPlayer.getMaxHealth() / 4) {
-            return EnumChatFormatting.YELLOW;
-        } else return EnumChatFormatting.RED;
+            return TextFormatting.YELLOW;
+        } else return TextFormatting.RED;
     }
 
 

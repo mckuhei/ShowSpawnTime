@@ -30,10 +30,10 @@ public class ScoreboardManager {
 
 
     public void updateScoreboardContent() {
-        if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().theWorld == null) {
+        if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().world == null) {
             return;
         }
-        Scoreboard scoreboard = Minecraft.getMinecraft().theWorld.getScoreboard();
+        Scoreboard scoreboard = Minecraft.getMinecraft().world.getScoreboard();
         ScoreObjective sidebarObjective = scoreboard.getObjectiveInDisplaySlot(1);
         if (sidebarObjective == null) {
             return;
@@ -91,7 +91,7 @@ public class ScoreboardManager {
     @SubscribeEvent
     public void onUpdate(TickEvent.ClientTickEvent event){
         Minecraft mc = Minecraft.getMinecraft();
-        if (mc == null || mc.theWorld == null || mc.isSingleplayer()) {
+        if (mc == null || mc.world == null || mc.isSingleplayer()) {
             return;
         }
 
@@ -99,7 +99,7 @@ public class ScoreboardManager {
             return;
         }
 
-        EntityPlayerSP p = mc.thePlayer;
+        EntityPlayerSP p = mc.player;
 
         if(p == null) {
             return;

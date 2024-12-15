@@ -10,6 +10,7 @@ import com.seosean.showspawntime.utils.PlayerUtils;
 import com.seosean.showspawntime.utils.StringUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.util.text.ChatType;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -70,8 +71,10 @@ public class PowerupDetect {
 
     @SubscribeEvent
     public void onChatReceived(ClientChatReceivedEvent event) {
-        String message = StringUtils.trim(event.message.getUnformattedText());
-        if (event.type != 1 && event.type != 0) {
+        String message = StringUtils.trim(event.getMessage().getUnformattedText());
+        ChatType type = event.getType();
+        
+        if (type != ChatType.SYSTEM && type != ChatType.CHAT) {
             return;
         }
 
@@ -188,7 +191,7 @@ public class PowerupDetect {
         Powerup.PowerupType powerupType = Powerup.PowerupType.getPowerupType(armorStandName);
 
         if (!powerupType.equals(Powerup.PowerupType.NULL)) {
-            Powerup powerup = Powerup.deserialize(powerupType, (EntityArmorStand) Minecraft.getMinecraft().theWorld.getEntityByID(entityID));
+            Powerup powerup = Powerup.deserialize(powerupType, (EntityArmorStand) Minecraft.getMinecraft().world.getEntityByID(entityID));
             if (powerup == null) {
                 return;
             }
@@ -311,11 +314,11 @@ public class PowerupDetect {
 
     @SubscribeEvent
     public void onPlayerJoin(EntityJoinWorldEvent event) {
-        if (!event.world.isRemote) {
+        if (!event.getWorld().isRemote) {
             return;
         }
 
-        if (!event.entity.equals(Minecraft.getMinecraft().thePlayer)) {
+        if (!event.getEntity().equals(Minecraft.getMinecraft().player)) {
             return;
         }
 

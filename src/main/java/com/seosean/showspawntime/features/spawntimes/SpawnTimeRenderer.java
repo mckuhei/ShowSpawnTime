@@ -15,7 +15,7 @@ public class SpawnTimeRenderer extends Renderer {
         ScaledResolution scaledResolution = new ScaledResolution(minecraft);
         int widthW = fontRenderer.getStringWidth("➤ ");
         float absoluteX = (float) MainConfiguration.getXSpawnTime() * (float)scaledResolution.getScaledWidth();
-        float absoluteY = (float)MainConfiguration.getYSpawnTime() * (float)scaledResolution.getScaledHeight();
+        float absoluteY = (float) MainConfiguration.getYSpawnTime() * (float)scaledResolution.getScaledHeight();
         spawnTimes.getCurrentWave();
         int waveAmount = spawnTimes.roundTimes.length;
 
@@ -32,6 +32,12 @@ public class SpawnTimeRenderer extends Renderer {
             int wave = i + 1;
             fontRenderer.drawStringWithShadow("W" + wave + " " + this.getTime(spawnTimes.getWaveTime(wave)), absoluteX + widthW, absoluteY + this.fontRenderer.FONT_HEIGHT * (5 - waveAmount + wave), spawnTimes.getColor(wave));
         }
+        long millis = ShowSpawnTime.getGameTickHandler().getGameTick();
+        long minutesPart = millis / 60000;
+        long secondsPart = (millis % 60000) / 1000;
+        long tenthSecondsPart = millis % 1000;
+        String time = String.format("%02d:%02d.%03d", minutesPart, secondsPart, tenthSecondsPart);
+        fontRenderer.drawStringWithShadow(time, absoluteX + widthW + (this.fontRenderer.getStringWidth("W1 00:10") - this.fontRenderer.getStringWidth("00:00.000")), absoluteY + this.fontRenderer.FONT_HEIGHT * 6, 0xFFFFFF);
     }
 
     private String getTime(int time) {
@@ -42,9 +48,6 @@ public class SpawnTimeRenderer extends Renderer {
         int seconds = time % 60;
         int minutes = time / 60;
 
-        String strSeconds = seconds < 10 ? "0" + seconds : String.valueOf(seconds);
-        String strMinutes = minutes < 10 ? "0" + minutes : String.valueOf(minutes);
-
-        return strMinutes.concat(":").concat(strSeconds);
+        return String.format("%02d:%02d", minutes, seconds);
     }
 }

@@ -8,13 +8,11 @@ import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.event.ClickEvent;
-import net.minecraft.event.HoverEvent;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatStyle;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.*;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.fml.common.FMLLog;
 
 import java.awt.*;
@@ -29,29 +27,29 @@ public class CommandCommon extends CommandBase{
     public CommandCommon() {
     }
 
-    public String getCommandName() {
+    public String getName() {
         return "sst";
     }
 
-    public String getCommandUsage(ICommandSender sender) {
+    public String getUsage(ICommandSender sender) {
         return "sst";
     }
 
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args[0].equals("debug")) {
             DebugUtils.sendMessage(LanguageConfiguration.translations.toString());
         }
         if (args[0].equals("feature")) {
             if (args.length == 2 && args[1].equals("glitch")) {
-                IChatComponent configHover = new ChatComponentText(EnumChatFormatting.WHITE.toString() + "Click to reset the config.");
-                IChatComponent configfolder = new ChatComponentText(EnumChatFormatting.GOLD.toString() + " [RESET MOD CONFIG]");
-                IChatComponent glitchTips = new ChatComponentText(EnumChatFormatting.AQUA + ">> " + EnumChatFormatting.WHITE + "If you find out certain glitches in the config screen, you reset the config though clicking: ");
-                ChatStyle configs = new ChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, configHover)).setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sst feature glitch reset"));
-                configfolder.setChatStyle(configs);
+                ITextComponent configHover = new TextComponentString(TextFormatting.WHITE.toString() + "Click to reset the config.");
+                ITextComponent configfolder = new TextComponentString(TextFormatting.GOLD.toString() + " [RESET MOD CONFIG]");
+                ITextComponent glitchTips = new TextComponentString(TextFormatting.AQUA + ">> " + TextFormatting.WHITE + "If you find out certain glitches in the config screen, you reset the config though clicking: ");
+                Style configs = new Style().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, configHover)).setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sst feature glitch reset"));
+                configfolder.setStyle(configs);
                 PlayerUtils.sendMessage(glitchTips.appendSibling(configfolder));
             } else if(args.length == 3 && args[1].equals("glitch") && args[2].equals("reset")){
 
-                IChatComponent configfolder = new ChatComponentText(EnumChatFormatting.RED.toString() + "The config file has been reset, you can now reedit with /sstconfig or /ssthud");
+                ITextComponent configfolder = new TextComponentString(TextFormatting.RED.toString() + "The config file has been reset, you can now reedit with /sstconfig or /ssthud");
                 PlayerUtils.sendMessage(configfolder);
 
                 File fileBak = new File(ShowSpawnTime.getConfiguration().getConfigFile().getAbsolutePath() + "_" +
@@ -62,11 +60,11 @@ public class CommandCommon extends CommandBase{
                 ShowSpawnTime.getMainConfiguration().ConfigLoad();
                 ShowSpawnTime.getConfiguration().load();
             } else if(args.length == 1){
-                IChatComponent commands = new ChatComponentText(EnumChatFormatting.YELLOW + "· " + EnumChatFormatting.GREEN + "/sst mode normal/hard/rip " + EnumChatFormatting.GRAY + "to correct the mode detection if you disconnect." + EnumChatFormatting.GRAY  + " (The feature about wave 3rd zombies display in sidebar.)" +
-                EnumChatFormatting.YELLOW + "\n· " + EnumChatFormatting.GREEN + "/sst ins/max/ss 2/3/5/6/7 " + EnumChatFormatting.YELLOW + "to correct the powerups pattern detection if you disconnect." + EnumChatFormatting.GRAY  + " (The feature about showing countdown of powerups.)" +
-                EnumChatFormatting.YELLOW + "\n· " + EnumChatFormatting.GREEN + "/sstconfig " + EnumChatFormatting.YELLOW + "to open config GUI." +
-                EnumChatFormatting.YELLOW + "\n· " + EnumChatFormatting.GREEN + "/ssthud " + EnumChatFormatting.YELLOW + "to open HUD GUI. "  + EnumChatFormatting.GRAY + "(You can edit the HUD of ZombiesAutoSplits by Seosean with this command as well if you installed it, and it works the same.)" +
-                EnumChatFormatting.YELLOW + "\n· " + EnumChatFormatting.GREEN + "/sst checkupdate " + EnumChatFormatting.YELLOW + "to check the latest version.");
+                ITextComponent commands = new TextComponentString(TextFormatting.YELLOW + "· " + TextFormatting.GREEN + "/sst mode normal/hard/rip " + TextFormatting.GRAY + "to correct the mode detection if you disconnect." + TextFormatting.GRAY  + " (The feature about wave 3rd zombies display in sidebar.)" +
+                TextFormatting.YELLOW + "\n· " + TextFormatting.GREEN + "/sst ins/max/ss 2/3/5/6/7 " + TextFormatting.YELLOW + "to correct the powerups pattern detection if you disconnect." + TextFormatting.GRAY  + " (The feature about showing countdown of powerups.)" +
+                TextFormatting.YELLOW + "\n· " + TextFormatting.GREEN + "/sstconfig " + TextFormatting.YELLOW + "to open config GUI." +
+                TextFormatting.YELLOW + "\n· " + TextFormatting.GREEN + "/ssthud " + TextFormatting.YELLOW + "to open HUD GUI. "  + TextFormatting.GRAY + "(You can edit the HUD of ZombiesAutoSplits by Seosean with this command as well if you installed it, and it works the same.)" +
+                TextFormatting.YELLOW + "\n· " + TextFormatting.GREEN + "/sst checkupdate " + TextFormatting.YELLOW + "to check the latest version.");
                 PlayerUtils.sendMessage(commands);
             }
         } else if (args.length > 1 && args[0].equals("copy")) {
@@ -84,49 +82,49 @@ public class CommandCommon extends CommandBase{
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(selection, null);
             String copiedText = "Copied Successfully!";
-            IChatComponent copied = new ChatComponentText(EnumChatFormatting.GREEN + copiedText);
+            ITextComponent copied = new TextComponentString(TextFormatting.GREEN + copiedText);
             PlayerUtils.sendMessage(copied);
         }else if(args.length > 1 && args[0].equals("ins")){
             if(Integer.parseInt(args[1]) == 2 || Integer.parseInt(args[1]) == 3) {
                 ShowSpawnTime.getPowerupDetect().setInstaRound(Integer.parseInt(args[1]));
-                IChatComponent pattern = new ChatComponentText(EnumChatFormatting.GREEN + "Insta Kill Pattern has been set to " + EnumChatFormatting.RED + args[1]);
+                ITextComponent pattern = new TextComponentString(TextFormatting.GREEN + "Insta Kill Pattern has been set to " + TextFormatting.RED + args[1]);
                 PlayerUtils.sendMessage(pattern);
-                IChatComponent alert = new ChatComponentText(EnumChatFormatting.GRAY + "The pattern will still be reset by mod's detection in r2/r3/r5/... .");
+                ITextComponent alert = new TextComponentString(TextFormatting.GRAY + "The pattern will still be reset by mod's detection in r2/r3/r5/... .");
                 PlayerUtils.sendMessage(alert);
             }
         }else if(args.length > 1 && args[0].equals("max")){
             if(Integer.parseInt(args[1]) == 2 || Integer.parseInt(args[1]) == 3) {
                 ShowSpawnTime.getPowerupDetect().setMaxRound(Integer.parseInt(args[1]));
-                IChatComponent pattern = new ChatComponentText(EnumChatFormatting.GREEN + "Max Ammo Pattern has been set to " + EnumChatFormatting.RED + args[1]);
+                ITextComponent pattern = new TextComponentString(TextFormatting.GREEN + "Max Ammo Pattern has been set to " + TextFormatting.RED + args[1]);
                 PlayerUtils.sendMessage(pattern);
-                IChatComponent alert = new ChatComponentText(EnumChatFormatting.GRAY + "The pattern will still be reset by mod's detection in r2/r3/r5/... .");
+                ITextComponent alert = new TextComponentString(TextFormatting.GRAY + "The pattern will still be reset by mod's detection in r2/r3/r5/... .");
                 PlayerUtils.sendMessage(alert);
             }
         }else if(args.length > 1 && args[0].equals("ss")){
             if(Integer.parseInt(args[1]) == 5 || Integer.parseInt(args[1]) == 6 || Integer.parseInt(args[1]) == 7) {
                 ShowSpawnTime.getPowerupDetect().setSSRound(Integer.parseInt(args[1]));
-                IChatComponent pattern = new ChatComponentText(EnumChatFormatting.GREEN + "Shopping Spree Pattern has been set to " + EnumChatFormatting.RED + args[1]);
+                ITextComponent pattern = new TextComponentString(TextFormatting.GREEN + "Shopping Spree Pattern has been set to " + TextFormatting.RED + args[1]);
                 PlayerUtils.sendMessage(pattern);
-                IChatComponent alert = new ChatComponentText(EnumChatFormatting.GRAY + "The pattern will still be reset by mod's detection in r2/r3/r5/... .");
+                ITextComponent alert = new TextComponentString(TextFormatting.GRAY + "The pattern will still be reset by mod's detection in r2/r3/r5/... .");
                 PlayerUtils.sendMessage(alert);
             }
         }else if(args.length > 1 && args[0].equals("mode")){
             switch (args[1]) {
                 case "normal": {
                     LeftNotice.diff = LeftNotice.Difficulty.NORMAL;
-                    IChatComponent pattern = new ChatComponentText(EnumChatFormatting.GREEN + "Game mode for wave 3rd counter has been set to " + EnumChatFormatting.RED + "Normal");
+                    ITextComponent pattern = new TextComponentString(TextFormatting.GREEN + "Game mode for wave 3rd counter has been set to " + TextFormatting.RED + "Normal");
                     PlayerUtils.sendMessage(pattern);
                     break;
                 }
                 case "hard": {
                     LeftNotice.diff = LeftNotice.Difficulty.HARD;
-                    IChatComponent pattern = new ChatComponentText(EnumChatFormatting.GREEN + "Game mode for wave 3rd counter has been set to " + EnumChatFormatting.RED + "Hard");
+                    ITextComponent pattern = new TextComponentString(TextFormatting.GREEN + "Game mode for wave 3rd counter has been set to " + TextFormatting.RED + "Hard");
                     PlayerUtils.sendMessage(pattern);
                     break;
                 }
                 case "rip": {
                     LeftNotice.diff = LeftNotice.Difficulty.RIP;
-                    IChatComponent pattern = new ChatComponentText(EnumChatFormatting.GREEN + "Game mode for wave 3rd counter has been set to " + EnumChatFormatting.RED + "RIP");
+                    ITextComponent pattern = new TextComponentString(TextFormatting.GREEN + "Game mode for wave 3rd counter has been set to " + TextFormatting.RED + "RIP");
                     PlayerUtils.sendMessage(pattern);
                     break;
                 }
@@ -134,12 +132,12 @@ public class CommandCommon extends CommandBase{
         }
     }
 
-    public boolean canCommandSenderUseCommand(ICommandSender sender) {
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
         return true;
     }
 
     @Override
-    public java.util.List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+    public java.util.List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
         java.util.List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             completions.add("mode");
@@ -164,6 +162,7 @@ public class CommandCommon extends CommandBase{
         return completions;
     }
 
+    // 为什么有反编译的代码
     // $FF: synthetic method
     CommandCommon(Object x1) {
         this();

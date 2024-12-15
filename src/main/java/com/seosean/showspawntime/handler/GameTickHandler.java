@@ -34,17 +34,17 @@ public class GameTickHandler {
 
     @SubscribeEvent
     public void onPlayerChangeWorld(EntityJoinWorldEvent event) {
-        if (!event.entity.worldObj.isRemote) {
+        if (!event.getEntity().world.isRemote) {
             return;
         }
-        if (minecraft == null || minecraft.theWorld == null || minecraft.isSingleplayer()) {
+        if (minecraft == null || minecraft.world == null || minecraft.isSingleplayer()) {
             return;
         }
-        EntityPlayerSP p = minecraft.thePlayer;
+        EntityPlayerSP p = minecraft.player;
         if (p == null) {
             return;
         }
-        Entity entity = event.entity;
+        Entity entity = event.getEntity();
 
         if (!entity.equals(p)){
             return;

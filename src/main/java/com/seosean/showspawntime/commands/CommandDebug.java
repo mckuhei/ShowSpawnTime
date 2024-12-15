@@ -9,25 +9,25 @@ import com.seosean.showspawntime.utils.GameUtils;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.BlockPos;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 
 public class CommandDebug extends CommandBase {
     public CommandDebug() {
     }
 
-    public String getCommandName() {
+    public String getName() {
         return "sstdebug";
     }
 
-    public String getCommandUsage(ICommandSender sender) {
+    public String getUsage(ICommandSender sender) {
         return "sstdebug";
     }
 
-    public void processCommand(ICommandSender sender, String[] args) {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
         String arg0 = args[0].toLowerCase();
         switch (arg0) {
             case "lang": {
@@ -86,7 +86,7 @@ public class CommandDebug extends CommandBase {
     }
 
     public static int type = 1;
-    public boolean canCommandSenderUseCommand(ICommandSender sender) {
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
         return true;
     }
 }

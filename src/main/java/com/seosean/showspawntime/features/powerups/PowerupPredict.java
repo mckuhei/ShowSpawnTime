@@ -2,9 +2,10 @@ package com.seosean.showspawntime.features.powerups;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.utils.PlayerUtils;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
+
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,8 @@ public class PowerupPredict {
         if (round <= 0) {
             return;
         }
-        IChatComponent basic = new ChatComponentText(EnumChatFormatting.GOLD + "[" + EnumChatFormatting.WHITE + "ShowSpawnTime" + EnumChatFormatting.GOLD + "] ");
-        List<IChatComponent> chatBox = new ArrayList<>();
+        ITextComponent basic = new TextComponentString(TextFormatting.GOLD + "[" + TextFormatting.WHITE + "ShowSpawnTime" + TextFormatting.GOLD + "] ");
+        List<ITextComponent> chatBox = new ArrayList<>();
         Integer[][] rounds = {{}, {}, {}}; // insRounds, maxRounds, ssRounds
 
         PowerupDetect powerUpDetect = ShowSpawnTime.getPowerupDetect();
@@ -39,34 +40,34 @@ public class PowerupPredict {
                     switch (i) {
                         case 0:
                             powerup = "Insta Kill";
-                            color = String.valueOf(EnumChatFormatting.RED);
+                            color = String.valueOf(TextFormatting.RED);
                             break;
                         case 1:
                             powerup = "Max Ammo";
-                            color = String.valueOf(EnumChatFormatting.BLUE);
+                            color = String.valueOf(TextFormatting.BLUE);
                             break;
                         case 2:
                             powerup = "Shopping Spree";
-                            color = String.valueOf(EnumChatFormatting.DARK_PURPLE);
+                            color = String.valueOf(TextFormatting.DARK_PURPLE);
                             break;
                         default:
                             powerup = "";
                             color = "";
                     }
                     String furtherPredict = "";
-                    String notice = EnumChatFormatting.WHITE + " in " + EnumChatFormatting.AQUA + noticeRound;
+                    String notice = TextFormatting.WHITE + " in " + TextFormatting.AQUA + noticeRound;
 
                     if (noticeRound == round) {
-                                notice = " " + EnumChatFormatting.GREEN + EnumChatFormatting.BOLD + "NOW";
+                                notice = " " + TextFormatting.GREEN + TextFormatting.BOLD + "NOW";
                         for (int furtherRound : roundArray) {
                             if (furtherRound > round) {
-                                furtherPredict =  EnumChatFormatting.GRAY + "(" + furtherRound + ")";
+                                furtherPredict =  TextFormatting.GRAY + "(" + furtherRound + ")";
                                 break;
                             }
                         }
 
                     }
-                    IChatComponent roundNotice = new ChatComponentText(color + powerup + notice + furtherPredict);
+                    ITextComponent roundNotice = new TextComponentString(color + powerup + notice + furtherPredict);
                     chatBox.add(roundNotice);
                     break;
                 }
@@ -80,9 +81,9 @@ public class PowerupPredict {
         for(int i = 0; i < chatBox.size() ; i++){
             basic.appendSibling(chatBox.get(i));
             if(i != chatBox.size() - 1){
-                basic.appendSibling(new ChatComponentText(EnumChatFormatting.WHITE + ", "));
+                basic.appendSibling(new TextComponentString(TextFormatting.WHITE + ", "));
             }else{
-                basic.appendSibling(new ChatComponentText(EnumChatFormatting.WHITE + "."));
+                basic.appendSibling(new TextComponentString(TextFormatting.WHITE + "."));
             }
         }
 

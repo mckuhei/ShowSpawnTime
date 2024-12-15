@@ -9,9 +9,11 @@ import com.seosean.showspawntime.utils.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -40,7 +42,6 @@ public class MainConfiguration {
         MainConfiguration.minecraft = Minecraft.getMinecraft();
         this.check();
         this.ConfigLoad();
-        cacheCriticalTextFix = CriticalTextFix;
     }
 
     public static Minecraft minecraft;
@@ -54,8 +55,8 @@ public class MainConfiguration {
     public static double HighlightDelay;
     public static boolean PlayAASound;
     public static boolean PlayDEBBSound;
-    public static String PrecededWaveSound;
-    public static String TheLastWaveSound;
+    public static SoundEvent PrecededWaveSound;
+    public static SoundEvent TheLastWaveSound;
     public static double PrecededWavePitch;
     public static double TheLastWavePitch;
     public static boolean ColorAlert;
@@ -69,13 +70,12 @@ public class MainConfiguration {
     public static boolean LightningRodQueue;
     public static boolean Wave3LeftNotice;
     public static boolean PlayerHealthNotice;
-    public static boolean CriticalTextFix;
     public static boolean DPSCounterToggle;
     public static FastReviveCoolDown.RenderType FastReviveCoolDown;
     public static String[] FastReviveCoolDownRenderType = new String[]{"OFF", "FRONT", "MID","BEHIND"};
 
     public static boolean DEBBCountDown;
-    public static String CountDownSound;
+    public static SoundEvent CountDownSound;
     public static double CountDownPitch;
     public static boolean PlayerInvisible;
 
@@ -189,8 +189,8 @@ public class MainConfiguration {
         sstRelated.put(propertyPlayDEBBSound.getName(), new ConfigElement(propertyPlayDEBBSound));
 
         commentPlaySoundPrecededWave = "The sound will be played when a wave spawns except the last wave. \nYou can search the sounds you want at https://minecraft.fandom.com/wiki/Sounds.json/Java_Edition_values_before_1.9 \nChinese wiki: https://minecraft.fandom.com/zh/wiki/Sounds.json/Java%E7%89%881.9%E5%89%8D";
-        Property propertyPrecededWave = config.get(Configuration.CATEGORY_GENERAL, "Preceded Wave Sound", "note.pling", commentPlaySoundPrecededWave);
-        PrecededWaveSound = propertyPrecededWave.getString();
+        Property propertyPrecededWave = config.get(Configuration.CATEGORY_GENERAL, "Preceded Wave Sound", "block.note.pling", commentPlaySoundPrecededWave);
+        PrecededWaveSound = SoundEvent.REGISTRY.getObject(new ResourceLocation(propertyPrecededWave.getString()));
         sstRelated.put(propertyPrecededWave.getName(), new ConfigElement(propertyPrecededWave));
 
         commentPlaySoundPrecededWavePitch = "The pitch setting of PrecededWave.";
@@ -199,8 +199,8 @@ public class MainConfiguration {
         sstRelated.put(propertyPrecededWavePitch.getName(), new ConfigElement(propertyPrecededWavePitch));
 
         commentPlaySoundLastWave = "The sound will be played when the last wave spawns.";
-        Property propertyTheLastWave = config.get(Configuration.CATEGORY_GENERAL, "Final Wave Sound", "random.orb", commentPlaySoundLastWave);
-        TheLastWaveSound = propertyTheLastWave.getString();
+        Property propertyTheLastWave = config.get(Configuration.CATEGORY_GENERAL, "Final Wave Sound", "entity.experience_orb.pickup", commentPlaySoundLastWave);
+        TheLastWaveSound = SoundEvent.REGISTRY.getObject(new ResourceLocation(propertyTheLastWave.getString()));
         sstRelated.put(propertyTheLastWave.getName(), new ConfigElement(propertyTheLastWave));
 
         commentPlaySoundLastWavePitch = "The pitch setting of TheLastWave.";
@@ -214,8 +214,8 @@ public class MainConfiguration {
         sstRelated.put(propertyDEBBCountDown.getName(), new ConfigElement(propertyDEBBCountDown));
 
         commentDEBBCountDownSound = "The sound of W3 Count Down";
-        Property propertyCountDownSound = config.get(Configuration.CATEGORY_GENERAL, "Count Down Sound", "note.pling", commentDEBBCountDownSound);
-        CountDownSound = propertyCountDownSound.getString();
+        Property propertyCountDownSound = config.get(Configuration.CATEGORY_GENERAL, "Count Down Sound", "block.note.pling", commentDEBBCountDownSound);
+        CountDownSound = SoundEvent.REGISTRY.getObject(new ResourceLocation(propertyCountDownSound.getString()));
         sstRelated.put(propertyCountDownSound.getName(), new ConfigElement(propertyCountDownSound));
 
         commentDEBBCountDownPitch = "The sound pitch of W3 Count Down";
@@ -298,31 +298,15 @@ public class MainConfiguration {
         DPSCounterToggle = propertyDPSCounterToggle.getBoolean();
         qolRelated.put(propertyDPSCounterToggle.getName(), new ConfigElement(propertyDPSCounterToggle));
 
-        commentCriticalTextFix = "Fix a bug which caused texts after full angle bracket do not render.";
-        Property propertyCriticalTextFix = config.get(Configuration.CATEGORY_GENERAL, "Critical Hit Text Fix" + EnumChatFormatting.WHITE + "(" + EnumChatFormatting.RED + "Reload Resources" + EnumChatFormatting.WHITE + ")", true, commentCriticalTextFix);
-        CriticalTextFix = propertyCriticalTextFix.getBoolean();
-        qolRelated.put(propertyCriticalTextFix.getName(), new ConfigElement(propertyCriticalTextFix));
-
         config.save();
         logger.info("Finished loading config. ");
     }
 
-    private boolean cacheCriticalTextFix;
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.modID.equals(ShowSpawnTime.MODID) && (event.configID == null || !event.configID.equals("dummyID"))) {
+        if (event.getModID().equals(ShowSpawnTime.MODID) && (event.getConfigID() == null || !event.getConfigID().equals("dummyID"))) {
             config.save();
             this.ConfigLoad();
-            if (cacheCriticalTextFix != CriticalTextFix) {
-                cacheCriticalTextFix = CriticalTextFix;
-                new DelayedTask() {
-                    @Override
-                    public void run() {
-                        Minecraft.getMinecraft().refreshResources();
-                    }
-                }.runTaskLater(1);
-
-            }
         }
     }
 
@@ -337,7 +321,7 @@ public class MainConfiguration {
         int screenWidth = new ScaledResolution(minecraft).getScaledWidth();
         if(XSpawnTime < 0){
             return 1 - (double)
-                    minecraft.fontRendererObj
+                    minecraft.fontRenderer
                             .getStringWidth("➤ W2 00:00")
                     / (double)screenWidth;
         }
@@ -347,7 +331,7 @@ public class MainConfiguration {
     public static double getYSpawnTime(){
         int screenHeight = new ScaledResolution(minecraft).getScaledHeight();
         if(YSpawnTime < 0){
-            return 1 - (double)minecraft.fontRendererObj.FONT_HEIGHT * 7 / (double)screenHeight;
+            return 1 - (double)minecraft.fontRenderer.FONT_HEIGHT * 8 / (double)screenHeight;
         }
         return YSpawnTime;
     }
@@ -362,7 +346,7 @@ public class MainConfiguration {
     public static double getYPowerup(){
         int screenHeight = new ScaledResolution(minecraft).getScaledHeight();
         if(YPowerup < 0){
-            return 0.5 - (float)minecraft.fontRendererObj.FONT_HEIGHT * 4 / (double)screenHeight;
+            return 0.5 - (float)minecraft.fontRenderer.FONT_HEIGHT * 4 / (double)screenHeight;
         }
         return YPowerup;
     }
@@ -370,7 +354,7 @@ public class MainConfiguration {
     public static double getXDPSCounter(){
         int screenWidth = new ScaledResolution(minecraft).getScaledWidth();
         if(XDPSCounter < 0){
-            return 0.75 - (double)minecraft.fontRendererObj.getStringWidth("DPS: INSTA KILL") / (double)screenWidth;
+            return 0.75 - (double)minecraft.fontRenderer.getStringWidth("DPS: INSTA KILL") / (double)screenWidth;
         }
         return XDPSCounter;
     }
@@ -378,7 +362,7 @@ public class MainConfiguration {
     public static double getYDPSCounter(){
         int screenHeight = new ScaledResolution(minecraft).getScaledHeight();
         if(YDPSCounter < 0){
-            return 1 - minecraft.fontRendererObj.FONT_HEIGHT * 3 / (double)screenHeight;
+            return 1 - minecraft.fontRenderer.FONT_HEIGHT * 3 / (double)screenHeight;
         }
         return YDPSCounter;
     }
@@ -391,11 +375,11 @@ public class MainConfiguration {
 
         if (keyTogglePlayerInvisible.isPressed()) {
             PlayerInvisible  = !PlayerInvisible;
-            IChatComponent text;
+            ITextComponent text;
             if (PlayerInvisible) {
-                text = new ChatComponentText(EnumChatFormatting.YELLOW + "Toggled Player Invisible " + EnumChatFormatting.GREEN + "ON");
+                text = new TextComponentString(TextFormatting.YELLOW + "Toggled Player Invisible " + TextFormatting.GREEN + "ON");
             } else {
-                text = new ChatComponentText(EnumChatFormatting.YELLOW + "Toggled Player Invisible " + EnumChatFormatting.RED + "OFF");
+                text = new TextComponentString(TextFormatting.YELLOW + "Toggled Player Invisible " + TextFormatting.RED + "OFF");
             }
             PlayerUtils.sendMessage(text);
         }

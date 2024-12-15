@@ -15,19 +15,14 @@ public class ShowSpawnTimeGuiFactory implements IModGuiFactory {
     public boolean hasConfigGui() {
         return true;
     }
-
-    @Override
-    public Class<? extends GuiScreen> mainConfigGuiClass() {
-        return ShowSpawnTimeGuiConfig.class;
-    }
-
+    
     @Override
     public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
         return null;
     }
 
-    @Override
-    public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
-        return null;
-    }
+	@Override
+	public GuiScreen createConfigGui(GuiScreen parentScreen) {
+		return new ShowSpawnTimeGuiConfig(parentScreen);
+	}
 }

@@ -6,7 +6,7 @@ import com.seosean.showspawntime.handler.LanguageDetector;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
@@ -98,7 +98,7 @@ public class LanguageUtils {
 //    private static ZombiesMap cacheMap = ZombiesMap.NULL;
 
     public static ZombiesMap getMap() {
-        World world = Minecraft.getMinecraft().theWorld;
+        World world = Minecraft.getMinecraft().world;
         if (world == null) {
             return ZombiesMap.NULL;
         }

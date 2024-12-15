@@ -7,20 +7,21 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
 
 public class CommandSSTHUD extends CommandBase {
     public CommandSSTHUD() {
     }
 
-    public String getCommandName() {
+    public String getName() {
         return "ssthud";
     }
 
-    public String getCommandUsage(ICommandSender sender) {
+    public String getUsage(ICommandSender sender) {
         return "ssthud";
     }
 
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         GuiScreen parentScreen = Minecraft.getMinecraft().currentScreen;
         new DelayedTask(){
             @Override
@@ -30,7 +31,7 @@ public class CommandSSTHUD extends CommandBase {
         }.runTaskLater(2);
     }
 
-    public boolean canCommandSenderUseCommand(ICommandSender sender) {
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
         return true;
     }
 

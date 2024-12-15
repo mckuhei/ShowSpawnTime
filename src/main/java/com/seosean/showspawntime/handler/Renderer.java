@@ -14,7 +14,7 @@ public class Renderer {
     public Renderer() {
         this.configuration = ShowSpawnTime.getMainConfiguration();
         this.minecraft = Minecraft.getMinecraft();
-        this.fontRenderer = minecraft.fontRendererObj;
+        this.fontRenderer = minecraft.fontRenderer;
         this.shouldRender = false;
     }
 
@@ -28,7 +28,7 @@ public class Renderer {
 
     @SubscribeEvent
     public void render(RenderGameOverlayEvent.Post event) {
-        if (event.type != RenderGameOverlayEvent.ElementType.TEXT) {
+        if (event.getType() != RenderGameOverlayEvent.ElementType.TEXT) {
             return;
         }
 

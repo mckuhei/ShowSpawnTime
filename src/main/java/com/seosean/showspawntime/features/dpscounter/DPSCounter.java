@@ -6,7 +6,11 @@ import com.seosean.showspawntime.utils.DelayedTask;
 import com.seosean.showspawntime.utils.LanguageUtils;
 import com.seosean.showspawntime.utils.PlayerUtils;
 import com.seosean.showspawntime.utils.StringUtils;
+
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.ChatType;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -20,20 +24,20 @@ public class DPSCounter {
     }
     private static final List<WeaponInfo> weaponInfos = new ArrayList<>();
 
-    private static final List<String> soundList = new ArrayList<>();
+    private static final List<SoundEvent> soundList = new ArrayList<>();
     static {
-        weaponInfos.add(new WeaponInfo("Pistol", "mob.irongolem.hit", 2.5F, 10, 15, Item.getByNameOrId("minecraft:wooden_hoe"), 6, 6));
-        weaponInfos.add(new WeaponInfo("Shotgun", "random.explode", 2.5F, 8, 12, Item.getByNameOrId("minecraft:iron_hoe"), 4.5, 4.5));
-        weaponInfos.add(new WeaponInfo("Sniper", "fireworks.blast_far", 0.5F, 30, 45, Item.getByNameOrId("minecraft:wooden_shovel"), 30, 40));
-        weaponInfos.add(new WeaponInfo("Rifle", "fireworks.largeBlast", 2.5F, 7, 10, Item.getByNameOrId("minecraft:stone_hoe"), 6, 8));
-        weaponInfos.add(new WeaponInfo("ZombieZapper", "fire.ignite", 0.5F, 15, 20, Item.getByNameOrId("minecraft:diamond_pickaxe"), 12, 18));
-        weaponInfos.add(new WeaponInfo("ElderGun", "ambient.weather.thunder", 2.0F, 20, 30, Item.getByNameOrId("minecraft:shears"), 15, 20));
-        weaponInfos.add(new WeaponInfo("FlameThrower", "fire.fire", 2.0F, 4, 6, Item.getByNameOrId("minecraft:golden_hoe"), 2, 2));
-        weaponInfos.add(new WeaponInfo("BlowDart", "random.bow", 0.5F, 20, 30, Item.getByNameOrId("minecraft:iron_shovel"), 10, 10));
-        weaponInfos.add(new WeaponInfo("ZombieSoaker", "mob.slime.attack", 2.0F, 5, 10, Item.getByNameOrId("minecraft:diamond_hoe"), 5, 8));
-        weaponInfos.add(new WeaponInfo("RainbowRifle", "fireworks.largeBlast", 2.5F, 5, 7, Item.getByNameOrId("minecraft:golden_shovel"), 5, 6, 6.5, 7));
-        weaponInfos.add(new WeaponInfo("DoubleBarrelShotgun", "fireworks.largeBlast", 0.8F, 8, 12, Item.getByNameOrId("minecraft:flint_and_steel"), 7, 7, 8, 8));
-        weaponInfos.add(new WeaponInfo("GoldDigger", "dig.stone", 2.0F, 10, 15, Item.getByNameOrId("minecraft:golden_pickaxe"), 6, 8, 10, 12, 15, 20));
+        weaponInfos.add(new WeaponInfo("Pistol", SoundEvents.ENTITY_IRONGOLEM_HURT, 2.5F, 10, 15, Item.getByNameOrId("minecraft:wooden_hoe"), 6, 6));
+        weaponInfos.add(new WeaponInfo("Shotgun", SoundEvents.ENTITY_GENERIC_EXPLODE, 2.5F, 8, 12, Item.getByNameOrId("minecraft:iron_hoe"), 4.5, 4.5));
+        weaponInfos.add(new WeaponInfo("Sniper", SoundEvents.ENTITY_FIREWORK_BLAST_FAR, 0.5F, 30, 45, Item.getByNameOrId("minecraft:wooden_shovel"), 30, 40));
+        weaponInfos.add(new WeaponInfo("Rifle", SoundEvents.ENTITY_FIREWORK_LARGE_BLAST, 2.5F, 7, 10, Item.getByNameOrId("minecraft:stone_hoe"), 6, 8));
+        weaponInfos.add(new WeaponInfo("ZombieZapper", SoundEvents.ITEM_FLINTANDSTEEL_USE, 0.5F, 15, 20, Item.getByNameOrId("minecraft:diamond_pickaxe"), 12, 18));
+        weaponInfos.add(new WeaponInfo("ElderGun", SoundEvents.ENTITY_LIGHTNING_THUNDER, 2.0F, 20, 30, Item.getByNameOrId("minecraft:shears"), 15, 20));
+        weaponInfos.add(new WeaponInfo("FlameThrower", SoundEvents.BLOCK_FIRE_AMBIENT /* fire.fire */, 2.0F, 4, 6, Item.getByNameOrId("minecraft:golden_hoe"), 2, 2));
+        weaponInfos.add(new WeaponInfo("BlowDart", SoundEvents.ENTITY_ARROW_SHOOT, 0.5F, 20, 30, Item.getByNameOrId("minecraft:iron_shovel"), 10, 10));
+        weaponInfos.add(new WeaponInfo("ZombieSoaker", SoundEvents.ENTITY_SLIME_ATTACK, 2.0F, 5, 10, Item.getByNameOrId("minecraft:diamond_hoe"), 5, 8));
+        weaponInfos.add(new WeaponInfo("RainbowRifle", SoundEvents.ENTITY_FIREWORK_LARGE_BLAST, 2.5F, 5, 7, Item.getByNameOrId("minecraft:golden_shovel"), 5, 6, 6.5, 7));
+        weaponInfos.add(new WeaponInfo("DoubleBarrelShotgun", SoundEvents.ENTITY_FIREWORK_LARGE_BLAST, 0.8F, 8, 12, Item.getByNameOrId("minecraft:flint_and_steel"), 7, 7, 8, 8));
+        weaponInfos.add(new WeaponInfo("GoldDigger", SoundEvents.BLOCK_STONE_BREAK, 2.0F, 10, 15, Item.getByNameOrId("minecraft:golden_pickaxe"), 6, 8, 10, 12, 15, 20));
 
         for (WeaponInfo weaponInfo : weaponInfos) {
             soundList.add(weaponInfo.getSound());
@@ -54,9 +58,9 @@ public class DPSCounter {
     public static WeaponInfo cacheReadyWeapon;
     public static WeaponInfo readyWeapon;
 
-    public static void detectWeaponBehavior(String sound, float pitch) {
+    public static void detectWeaponBehavior(SoundEvent soundIn, float pitch) {
         double epsilon = 0.1;
-        if (sound.equals("random.successful_hit") && (Math.abs(1.5F - pitch) < epsilon || Math.abs(2.0F - pitch) < epsilon)) {
+        if (soundIn == SoundEvents.ENTITY_ARROW_HIT_PLAYER && (Math.abs(1.5F - pitch) < epsilon || Math.abs(2.0F - pitch) < epsilon)) {
             if (readyWeapon == null && cacheReadyWeapon != null) {
                 readyWeapon = cacheReadyWeapon;
             }
@@ -65,11 +69,11 @@ public class DPSCounter {
                 cacheReadyWeapon = readyWeapon;
             }
             readyWeapon = null;
-        } else if (soundList.contains(sound)) {
+        } else if (soundList.contains(soundIn)) {
             List<WeaponInfo> probableWeaponInfos = new ArrayList<>();
 
             for (WeaponInfo weaponInfo : weaponInfos) {
-                if (weaponInfo.getSound().equalsIgnoreCase(sound) && Math.abs(weaponInfo.getPitch() - pitch) < epsilon) {
+                if (weaponInfo.getSound() == soundIn && Math.abs(weaponInfo.getPitch() - pitch) < epsilon) {
                     probableWeaponInfos.add(weaponInfo);
                 }
             }
@@ -85,13 +89,15 @@ public class DPSCounter {
             return;
         }
 
-        if (event.type != 1 && event.type != 0) {
+        ChatType type = event.getType();
+        
+        if (type != ChatType.SYSTEM && type != ChatType.CHAT) {
             return;
         }
         if (!PlayerUtils.isInZombies()) {
             return;
         }
-        String messsage = StringUtils.trim(event.message.getUnformattedText());
+        String messsage = StringUtils.trim(event.getMessage().getUnformattedText());
         if (messsage.contains(":")) {
             return;
         }

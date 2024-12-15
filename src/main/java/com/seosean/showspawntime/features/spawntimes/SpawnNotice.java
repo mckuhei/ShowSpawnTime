@@ -29,7 +29,7 @@ public class SpawnNotice {
                 return;
             }
         }
-        EntityPlayerSP player = minecraft.thePlayer;
+        EntityPlayerSP player = minecraft.player;
         if (player == null) {
             return;
         }
@@ -62,6 +62,6 @@ public class SpawnNotice {
 
     @SubscribeEvent
     public void onSoundPlay(NoticeSoundEvent event) {
-        Minecraft.getMinecraft().thePlayer.playSound(event.getSound(), 1.0F, event.getPitch());
+        Minecraft.getMinecraft().player.playSound(event.getSound(), 1.0F, event.getPitch());
     }
 }
