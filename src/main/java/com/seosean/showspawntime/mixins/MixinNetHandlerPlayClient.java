@@ -56,7 +56,7 @@ public class MixinNetHandlerPlayClient {
                     for (DataEntry<?> watchableObject : new ArrayList<>(list)) {
                         if (watchableObject != null) {
                         	DataParameter<?> key = watchableObject.getKey();
-                            if (key.getSerializer() == DataSerializers.STRING && key.getId() == 3) {
+                            if (key.getSerializer() == DataSerializers.STRING && key.getId() == 2) {
                                 if (watchableObject.getValue() instanceof String) {
                                     String armorstandName = StringUtils.trim((String) watchableObject.getValue());
                                     ShowSpawnTime.getPowerupDetect().detectArmorstand(armorstandName, packetIn.getEntityId());
