@@ -2,7 +2,10 @@ package com.seosean.showspawntime.features.spawntimes;
 
 import com.seosean.showspawntime.ShowSpawnTime;
 import com.seosean.showspawntime.config.MainConfiguration;
+import com.seosean.showspawntime.handler.GameTickHandler;
 import com.seosean.showspawntime.handler.Renderer;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
@@ -32,12 +35,13 @@ public class SpawnTimeRenderer extends Renderer {
             int wave = i + 1;
             fontRenderer.drawStringWithShadow("W" + wave + " " + this.getTime(spawnTimes.getWaveTime(wave)), absoluteX + widthW, absoluteY + this.fontRenderer.FONT_HEIGHT * (5 - waveAmount + wave), spawnTimes.getColor(wave));
         }
-        long millis = ShowSpawnTime.getGameTickHandler().getGameTick();
+        GameTickHandler gameTickHandler = ShowSpawnTime.getGameTickHandler();
+        long millis = gameTickHandler.getGameTick() == 0 ? 0L : Minecraft.getSystemTime() - gameTickHandler.getStartTime();
         long minutesPart = millis / 60000;
         long secondsPart = (millis % 60000) / 1000;
         long tenthSecondsPart = millis % 1000;
-        String time = String.format("%02d:%02d.%03d", minutesPart, secondsPart, tenthSecondsPart);
-        fontRenderer.drawStringWithShadow(time, absoluteX + widthW + (this.fontRenderer.getStringWidth("W1 00:10") - this.fontRenderer.getStringWidth("00:00.000")), absoluteY + this.fontRenderer.FONT_HEIGHT * 6, 0xFFFFFF);
+        String time = String.format("%02d:%02d.%d", minutesPart, secondsPart, tenthSecondsPart / 100);
+        fontRenderer.drawStringWithShadow(time, absoluteX + widthW + (this.fontRenderer.getStringWidth("W1 00:10") - this.fontRenderer.getStringWidth("00:00.0")), absoluteY + this.fontRenderer.FONT_HEIGHT * 6, 0xFFFFFF);
     }
 
     private String getTime(int time) {

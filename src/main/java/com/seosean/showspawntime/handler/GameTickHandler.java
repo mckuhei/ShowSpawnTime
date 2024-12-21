@@ -77,8 +77,11 @@ public class GameTickHandler {
     private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
     private Future<?> future = null;
+    
+    private long startTime = 0L;
 
     public void startOrSplit() {
+    	startTime = Minecraft.getSystemTime();
         lock.lock();
         try {
             if (future == null) {
@@ -120,4 +123,8 @@ public class GameTickHandler {
     public void setGameStarted(boolean flag) {
         this.zGameStarted = flag;
     }
+
+	public long getStartTime() {
+		return startTime;
+	}
 }

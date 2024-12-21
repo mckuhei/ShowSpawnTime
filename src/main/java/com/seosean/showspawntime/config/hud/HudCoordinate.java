@@ -49,7 +49,7 @@ public class HudCoordinate {
             this.fontRenderer.drawStringWithShadow("W1 00:10", absoluteX + widthDirector, absoluteY + this.fontRenderer.FONT_HEIGHT * 3, 0xFFFF00);
             this.fontRenderer.drawStringWithShadow("W2 00:20", absoluteX + widthDirector, absoluteY + this.fontRenderer.FONT_HEIGHT * 4, 0x808080);
             this.fontRenderer.drawStringWithShadow("W3 00:30", absoluteX + widthDirector, absoluteY + this.fontRenderer.FONT_HEIGHT * 5, 0x808080);
-            this.fontRenderer.drawStringWithShadow("00:00.000", absoluteX + widthDirector + (this.fontRenderer.getStringWidth("W1 00:10") - this.fontRenderer.getStringWidth("00:00.000")), absoluteY + this.fontRenderer.FONT_HEIGHT * 6, 0xFFFFFF);
+            this.fontRenderer.drawStringWithShadow("00:00.0", absoluteX + widthDirector + (this.fontRenderer.getStringWidth("W1 00:10") - this.fontRenderer.getStringWidth("00:00.0")), absoluteY + this.fontRenderer.FONT_HEIGHT * 6, 0xFFFFFF);
         } else if (contents == 1) {
             Gui.drawRect(absoluteX, absoluteY, absoluteX + width  + this.fontRenderer.getStringWidth(" "), absoluteY + height, color);
             this.fontRenderer.drawStringWithShadow(" BONUS GOLD - 00:00", absoluteX, absoluteY, 0xFFFF00);
